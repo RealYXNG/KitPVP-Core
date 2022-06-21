@@ -124,6 +124,7 @@ class ParadoxHandler implements Listener{
 							}
 
 							Provider::getCustomPlayer($owningEntity)->removeCooldown("pearl-" . $child->getId());
+							Provider::getCustomPlayer($owningEntity)->getSBCooldown()->removeCooldown("pearl-" . $child->getId());
 							unset($array[$child->getId()]);
 						}
 

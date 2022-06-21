@@ -24,16 +24,11 @@ class AbilitiesTask extends Task{
 			}
 		}
 
-		foreach(EggedHandler::$players as $key => $value){
-			if(time() > $value){
-				unset(EggedHandler::$players[$key]);
-			}
-		}
-
 		foreach(EggedHandler::$cobwebs as $key => $value){
 			$keyArray = unserialize($key);
 			if(time() > $value){
-				Main::getInstance()->getServer()->getWorldManager()->getWorldByName($keyArray[3])->setBlockAt($keyArray[0], $keyArray[1], $keyArray[2], BlockFactory::getInstance()->get(0, 0));
+				Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->setBlockAt($keyArray[0], $keyArray[1], $keyArray[2], BlockFactory::getInstance()->get(0, 0));
+				unset(EggedHandler::$players[$key]);
 			}
 		}
 	}

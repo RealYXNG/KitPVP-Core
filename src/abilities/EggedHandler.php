@@ -21,6 +21,7 @@ use pocketmine\player\Player;
 use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\util\CooldownUtil;
 use Crayder\Core\managers\EffectsManager;
+use pocketmine\plugins\Core\src\util\world\WorldUtil;
 
 class EggedHandler implements Listener{
 
@@ -100,10 +101,10 @@ class EggedHandler implements Listener{
 
 					for ($newX = $x - 1; $newX <= $x + 1; $newX++) {
 						for ($newZ = $z - 1; $newZ <= $z + 1; $newZ++) {
-							$effBlock = $entity->getWorld()->getBlock(new Vector3($newX, $entity->getWorld()->getHighestBlockAt($newX, $newZ) + 1, $newZ));
+							$effBlock = $entity->getWorld()->getBlock(new Vector3($newX, WorldUtil::getHighestY($newX, $newZ), $newZ));
 							$entity->getWorld()->setBlock($effBlock->getPosition()->asVector3(), BlockFactory::getInstance()->get(30, 0));
 
-							$key = serialize([$effBlock->getPosition()->getX(), $effBlock->getPosition()->getY(), $effBlock->getPosition()->getZ(), $effBlock->getPosition()->getWorld()->getDisplayName()]);
+							$key = serialize([$effBlock->getPosition()->getX(), $effBlock->getPosition()->getY(), $effBlock->getPosition()->getZ()]);
 							self::$cobwebs[$key] = time() + (Provider::getCustomPlayer($owningEntity)->checkCooldown("egged") - time()) - 1;
 						}
 					}
