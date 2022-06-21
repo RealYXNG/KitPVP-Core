@@ -36,9 +36,6 @@ class SBCooldown
 	{
 		$arrayDiff = array_diff([2, 3, 4], array_values($this->pearls));
 		sort($arrayDiff);
-
-		Main::getInstance()->getLogger()->info("Returning Position " . $arrayDiff[0] . " for Pearl ID " . $pearlID);
-
 		return $arrayDiff[0];
 	}
 
