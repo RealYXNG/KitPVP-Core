@@ -24,30 +24,34 @@ class KothListener implements Listener{
 		$block = $loc->getWorld()->getBlock(new Vector3((int) $loc->getX(), (int) $loc->getY(), (int) $loc->getZ()));
 
 		if(KothManager::isKothGoingOn()){
-			if(KothManager::isCapturing($event->getPlayer())){
-				if(!KothManager::isInArena($block->getPosition())){
+			if(KothManager::isPlayerInArena($event->getPlayer())){
+				if(!KothManager::isPosInArena($block->getPosition())){
 					$player->sendActionBarMessage("§cYou are leaving the KoTH Arena");
-					KothManager::removeCapturing($player);
+					KothManager::removePlayerInArena($player);
 				}
 			}else{
-				if(KothManager::isInArena($block->getPosition())){
-					$player->sendActionBarMessage("§4You are now capturing §cKOTH");
-					KothManager::setCapturing($player);
+				if(KothManager::isPosInArena($block->getPosition())){
+					if(KothManager::getPlayersInArena() == 0){
+						$player->sendActionBarMessage("§4You are now capturing §cKOTH");
+					} else {
+						$player->sendActionBarMessage("§4You are now entering the KoTH Arena");
+					}
+					KothManager::setPlayerInArena($player);
 				}
 			}
 		}
 	}
 
 	public function onPlayerQuit(PlayerQuitEvent $event){
-		if(KothManager::isCapturing($event->getPlayer())){
-			KothManager::removeCapturing($event->getPlayer());
+		if(KothManager::isPlayerInArena($event->getPlayer())){
+			KothManager::removePlayerInArena($event->getPlayer());
 		}
 	}
 
 	public function onBlockBreak(BlockBreakEvent $event){
 		$block = $event->getBlock();
 
-		if(KothManager::isInArena($block->getPosition())){
+		if(KothManager::isPosInArena($block->getPosition())){
 			$event->cancel();
 		}
 	}
@@ -55,7 +59,7 @@ class KothListener implements Listener{
 	public function onBlockPlace(BlockPlaceEvent $event){
 		$block = $event->getBlock();
 
-		if(KothManager::isInArena($block->getPosition())){
+		if(KothManager::isPosInArena($block->getPosition())){
 			$event->cancel();
 		}
 	}

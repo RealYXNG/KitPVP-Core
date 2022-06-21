@@ -20,7 +20,7 @@ use pocketmine\world\Position;
 class KothManager{
 
 	/*
-	 * List of Players currently in Koth
+	 * List of Players currently in Koth Arenas
 	 */
 	public static array $players = [];
 
@@ -42,22 +42,26 @@ class KothManager{
 		self::$kothDetails[0] = false;
 	}
 
-	public static function isCapturing(Player $player) : bool{
+	public static function isPlayerInArena(Player $player) : bool{
 		return isset(self::$players[serialize($player->getUniqueId())]);
 	}
 
-	public static function setCapturing(Player $player) : void{
+	public static function setPlayerInArena(Player $player) : void{
 		self::$players[serialize($player->getUniqueId())] = time();
 	}
 
-	public static function removeCapturing(Player $player) : void{
+	public static function removePlayerInArena(Player $player) : void{
 		unset(self::$players[serialize($player->getUniqueId())]);
+	}
+
+	public static function getPlayersInArena() :int {
+		return count(self::$players);
 	}
 
 	/*
 	 * Koth Area Manager
 	 */
-	public static function isInArena(Position $pos) : bool{
+	public static function isPosInArena(Position $pos) : bool{
 		foreach(self::$koths as $koth){
 			if($koth->checkPoint($pos->getX(), $pos->getZ())){
 				return true;

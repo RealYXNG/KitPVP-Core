@@ -108,7 +108,7 @@ class KothCmd extends Command{
 				$loc = $sender->getLocation();
 				$block = $loc->getWorld()->getBlock(new Vector3((int) $loc->getX(), (int) $loc->getY(), (int) $loc->getZ()));
 
-				if(KothManager::isInArena($block->getPosition())) {
+				if(KothManager::isPosInArena($block->getPosition())) {
 					$count = KothManager::removeArena($block->getPosition());
 					$sender->sendMessage("§7[§c!§7] §a" . $count . " KoTH Arena has been successfully deleted!");
 					return;
