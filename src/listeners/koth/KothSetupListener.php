@@ -12,7 +12,7 @@ use pocketmine\player\Player;
 use Crayder\Core\configs\KothConfig;
 use Crayder\Core\koth\KothArena;
 use Crayder\Core\koth\KothManager;
-use pocketmine\plugins\Core\src\util\world\WorldUtil;
+use Crayder\Core\util\world\WorldUtil;
 use pocketmine\world\Position;
 
 class KothSetupListener implements Listener{

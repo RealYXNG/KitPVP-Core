@@ -1,6 +1,6 @@
 <?php
 
-namespace pocketmine\plugins\Core\src\util\world;
+namespace Crayder\Core\util\world;
 
 use Crayder\Core\Main;
 

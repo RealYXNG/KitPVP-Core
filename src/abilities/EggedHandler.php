@@ -21,7 +21,7 @@ use pocketmine\player\Player;
 use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\util\CooldownUtil;
 use Crayder\Core\managers\EffectsManager;
-use pocketmine\plugins\Core\src\util\world\WorldUtil;
+use Crayder\Core\util\world\WorldUtil;
 
 class EggedHandler implements Listener{
 
