@@ -2,6 +2,7 @@
 
 namespace Crayder\Core\listeners\koth;
 
+use Crayder\Core\Provider;
 use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -51,7 +52,7 @@ class KothListener implements Listener{
 	public function onBlockBreak(BlockBreakEvent $event){
 		$block = $event->getBlock();
 
-		if(KothManager::isPosInArena($block->getPosition())){
+		if(KothManager::isPosInArena($block->getPosition()) && !Provider::getCustomPlayer($event->getPlayer())->getKothData()->isBypassing()){
 			$event->cancel();
 		}
 	}
@@ -59,7 +60,7 @@ class KothListener implements Listener{
 	public function onBlockPlace(BlockPlaceEvent $event){
 		$block = $event->getBlock();
 
-		if(KothManager::isPosInArena($block->getPosition())){
+		if(KothManager::isPosInArena($block->getPosition()) && !Provider::getCustomPlayer($event->getPlayer())->getKothData()->isBypassing()){
 			$event->cancel();
 		}
 	}

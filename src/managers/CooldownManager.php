@@ -11,18 +11,14 @@ class CooldownManager{
 	public static function showCooldown(string $type, Player $player) : void{
 		$customPlayer = Provider::getCustomPlayer($player);
 
-		if($customPlayer->checkCooldown($type) != null){
-			if(CooldownUtil::check($player)) {
-				if(CooldownUtil::getExpiry($player) == $customPlayer->getAllCooldowns()[$type]) {
-					return;
-				}
+		if(CooldownUtil::check($player)) {
+			$player->getXpManager()->setXpProgress(0);
+			$player->getXpManager()->setXpLevel(0);
 
-				$player->getXpManager()->setXpProgress(0);
-				$player->getXpManager()->setXpLevel(0);
+			CooldownUtil::remove($player);
+		}
 
-				CooldownUtil::remove($player);
-			}
-
+		if(self::checkCooldown($type, $player)){
 			$player->sendActionBarMessage("§cThis Ability is currently on Cool-Down!");
 
 			$remaining = $customPlayer->getAllCooldowns()[$type] - time();
@@ -40,7 +36,6 @@ class CooldownManager{
 		if($customPlayer->checkCooldown($type) != null){
 			return true;
 		}
-
 		return false;
 	}
 

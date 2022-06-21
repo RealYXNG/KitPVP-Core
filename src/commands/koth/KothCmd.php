@@ -2,6 +2,7 @@
 
 namespace Crayder\Core\commands\koth;
 
+use Crayder\Core\Provider;
 use Crayder\Core\util\TimeUtil;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -19,7 +20,7 @@ class KothCmd extends Command{
 	public function execute(CommandSender $sender, string $commandLabel, array $args){
 		if($sender instanceof Player){
 			if(!isset($args[0])) {
-				$sender->sendMessage("§7[§c!§7] §cUSAGE: /Koth <Start | End | Info | Schedule | Setup | Delete>");
+				$sender->sendMessage("§7[§c!§7] §cUSAGE: /Koth <Start | End | Info | Schedule | Setup | Delete | Bypass>");
 				return;
 			}
 
@@ -117,8 +118,18 @@ class KothCmd extends Command{
 				$sender->sendMessage("§7[§c!§7] §cYou must stand in a KoTH Arena to delete it.");
 			}
 
+			else if($arg == "bypass") {
+				if(Provider::getCustomPlayer($sender)->getKothData()->isBypassing()) {
+					$sender->sendMessage("§7[§c!§7] §cYou have Disabled KoTH Bypass Mode!");
+				} else {
+					$sender->sendMessage("§7[§a!§7] §aYou have Enabled KoTH Bypass Mode!");
+				}
+
+				Provider::getCustomPlayer($sender)->getKothData()->toggleBypass();
+			}
+
 			else{
-				$sender->sendMessage("§7[§c!§7] §cUSAGE: /Koth <Start | End | Info | Schedule | Setup | Delete>");
+				$sender->sendMessage("§7[§c!§7] §cUSAGE: /Koth <Start | End | Info | Schedule | Setup | Delete | Bypass>");
 			}
 		}
 	}

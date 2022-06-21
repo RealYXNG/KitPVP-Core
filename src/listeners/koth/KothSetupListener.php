@@ -25,7 +25,7 @@ class KothSetupListener implements Listener{
 	public static function setupMode(Player $player){
 		self::$players[(String) $player->getUniqueId()] = [1];
 
-		$player->sendActionBarMessage("§6Please select the §cFirst Position");
+		$player->sendActionBarMessage("§6Please break the §cFirst Position");
 	}
 
 	public function onPositionSelect(BlockBreakEvent $event) {
@@ -37,7 +37,7 @@ class KothSetupListener implements Listener{
 				case 1:
 					self::$players[$event->getPlayer()->getUniqueId()->toString()] = [2, $event->getBlock()->getPosition()];
 
-					$event->getPlayer()->sendActionBarMessage("§6Please select the §cSecond Position");
+					$event->getPlayer()->sendActionBarMessage("§6Please break the §cSecond Position");
 					break;
 				case 2:
 					$pos1 = $data[1];
@@ -45,11 +45,13 @@ class KothSetupListener implements Listener{
 
 					if($pos1 == $pos2) {
 						$event->getPlayer()->sendMessage("§7[§c!§7] §cYou need to select two distinct positions to create the KOTH Arena!");
+						unset(self::$players[$event->getPlayer()->getUniqueId()->toString()]);
 						return;
 					}
 
 					if($this->findDist($pos1, $pos2) < 5) {
 						$event->getPlayer()->sendMessage("§7[§c!§7] §cThe sides of the KOTH Arena should be greater than or equal to 5");
+						unset(self::$players[$event->getPlayer()->getUniqueId()->toString()]);
 						return;
 					}
 

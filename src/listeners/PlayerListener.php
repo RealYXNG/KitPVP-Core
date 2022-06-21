@@ -178,12 +178,29 @@ class PlayerListener implements Listener{
 	}
 
 	public static function onPlayerChangeHeldItem(PlayerItemHeldEvent $event) {
-		$keys = ["ghost", "egged", "ninja", "trickster", "vampire", "ironingot", "netherstar"];
-		$item = $event->getItem();
+		$item = $event->getPlayer()->getInventory()->getItem($event->getSlot());
 
-		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getTag("ability-item"), $keys)) {
+		if($item->getId() == 0) {
+			return;
+		}
+
+		/*
+		 * Kits Ability Cooldown
+		 */
+		$keys = ["ghost", "egged", "ninja", "trickster", "vampire"];
+
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)) {
 			$value = $item->getCustomBlockData()->getTag("ability-item");
+			CooldownManager::showCooldown($value, $event->getPlayer());
+		}
 
+		/*
+		 * Class Ability Cooldown
+		 */
+		$keys = ["medic-ironingot", "medic-netherstar"];
+
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)) {
+			$value = $item->getCustomBlockData()->getTag("class-ability");
 			CooldownManager::showCooldown($value, $event->getPlayer());
 		}
 	}

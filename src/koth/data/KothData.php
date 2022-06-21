@@ -2,9 +2,11 @@
 
 namespace Crayder\Core\koth\data;
 
-class KothScore{
+class KothData{
 
 	private int $kothPoints = 0;
+
+	private bool $bypass = false;
 
 	/**
 	 * @return int
@@ -22,6 +24,18 @@ class KothScore{
 
 	public function resetKothPoints() : void{
 		$this->kothPoints = 0;
+	}
+
+	public function isBypassing() :bool{
+		return $this->bypass;
+	}
+
+	public function toggleBypass() :void{
+		if($this->bypass){
+			$this->bypass = false;
+		} else {
+			$this->bypass = true;
+		}
 	}
 
 }

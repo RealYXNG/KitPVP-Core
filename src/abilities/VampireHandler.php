@@ -7,7 +7,6 @@ use Crayder\Core\configs\SkillsConfig;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
 use Crayder\StaffSys\SPlayerProvider;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
@@ -90,6 +89,10 @@ class VampireHandler implements Listener{
 			}
 
 			CooldownUtil::setCooldown($player, "vampire", AbilitiesConfig::$bats_cooldown * $multiplier);
+
+			if($multiplier != 1) {
+				$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
+			}
 		}
 	}
 

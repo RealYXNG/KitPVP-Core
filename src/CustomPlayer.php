@@ -15,7 +15,7 @@ use Crayder\Core\util\CoreUtil;
 use Crayder\Core\classes\MedicClass;
 use Crayder\Core\classes\ParadoxClass;
 use Crayder\Core\scoreboard\types\ScoreboardTypes;
-use Crayder\Core\koth\data\KothScore;
+use Crayder\Core\koth\data\KothData;
 use Crayder\Core\koth\KothManager;
 use Crayder\Core\cooldown\SBCooldown;
 use Crayder\Core\skills\data\SkillsManager;
@@ -93,9 +93,9 @@ final class CustomPlayer{
 	private bool $scoreboardToggle;
 
 	/*
-	 * KothScore
+	 * KothData
 	 */
-	private KothScore $kothScore;
+	private KothData $kothData;
 
 	/*
 	 * Skills Manager
@@ -122,7 +122,7 @@ final class CustomPlayer{
 
 		$this->scoreboardToggle = true;
 
-		$this->kothScore = new KothScore();
+		$this->kothData = new KothData();
 
 		$this->SBCooldown = new SBCooldown($this->entryManager);
 	}
@@ -331,7 +331,7 @@ final class CustomPlayer{
 		if(KothManager::isKothGoingOn()){
 			$entry = new ScoreboardEntry(7, " §4KoTH Event §7(§2Running§7)");
 			$entry1 = new ScoreboardEntry(8, " §cEnds In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
-			$entry2 = new ScoreboardEntry(9, " §cKoTH Points: §e" . $this->getKothScore()->getKothPoints());
+			$entry2 = new ScoreboardEntry(9, " §cKoTH Points: §e" . $this->getKothData()->getKothPoints());
 
 			$scoreboard->addEntry($entry);
 			$scoreboard->addEntry($entry1);
@@ -392,10 +392,10 @@ final class CustomPlayer{
 	}
 
 	/**
-	 * @return KothScore
+	 * @return KothData
 	 */
-	public function getKothScore() : KothScore{
-		return $this->kothScore;
+	public function getKothData() : KothData{
+		return $this->kothData;
 	}
 
 	/**
