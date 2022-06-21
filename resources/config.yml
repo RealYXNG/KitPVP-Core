@@ -1,0 +1,11 @@
+database:
+  type: "sqlite"
+
+  sqlite:
+    file: "data.sqlite"
+
+  worker-limit: 1
+
+
+general:
+  prefix: "§cINFO §7» §r"

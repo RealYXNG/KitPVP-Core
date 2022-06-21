@@ -1,0 +1,99 @@
+configuration:
+
+  damage_multiplier:
+    name: "§9§lDamage Multiplier"
+    description:
+      - "This is a Progressive Skill as it increases the amount of Damage you give to other Players"
+      - "This Skill cannot be used with §cDamage Decrease"
+    levels:
+      1:
+        multiplier: 0.1
+        cost: 10
+      2:
+        multiplier: 0.2
+        cost: 20
+
+  damage_decrease:
+    name: "§c§lDamage Decrease"
+    description:
+      - "This is a Progressive Skill that reduces the incoming damage from other Players"
+      - "This Skill cannot be used with §cDamage Multiplier"
+    levels:
+      1:
+        multiplier: 0.1
+        cost: 10
+      2:
+        multiplier: 0.2
+        cost: 20
+
+  coin_multiplier:
+    name: "§e§lCoin Multiplier"
+    description:
+      - "This is a Skill that multiplies the number of Coins you receive"
+    levels:
+      1:
+        multiplier: 0.1
+        cost: 10
+      2:
+        multiplier: 0.2
+        cost: 20
+
+  cooldown_shorten:
+    name: "§3§lCooldown Shorten"
+    description:
+      - "This is a Progressive Skill that reduces your overall cooldown period"
+    levels:
+      1:
+        multiplier: 0.8
+        cost: 10
+      2:
+        multiplier: 0.7
+        cost: 20
+
+  dodge:
+    name: "§9§lDodger"
+    description:
+      - "This is a Progressive Skill that enables chance for you to dodge your enemies' abilities"
+    levels:
+      1:
+        chance: 10
+        cost: 10
+      2:
+        chance: 20
+        cost: 20
+
+  speed_multiplier:
+    name: "§c§lSpeed Multiplier"
+    description:
+      - "This is a Progressive Skill that gives you more speed as you Level up!"
+    levels:
+      1:
+        multiplier: 0.1
+        cost: 10
+      2:
+        multiplier: 0.2
+        cost: 20
+
+  jump_increase:
+    name: "§5§lJump Increase"
+    description:
+      - "This is a Progressive Skill that enables the chance for you to jump higher!"
+    levels:
+      1:
+        multiplier: 0.1
+        cost: 10
+      2:
+        multiplier: 0.2
+        cost: 20
+
+  xp_multiplier:
+    name: "§b§lXP Multiplier"
+    description:
+      - "This is a Progressive Skill that enables you to receive a multiplied XP depending on your Skill Level"
+    levels:
+      1:
+        multiplier: 0.1
+        cost: 10
+      2:
+        multiplier: 0.2
+        cost: 20

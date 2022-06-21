@@ -1,0 +1,69 @@
+# UI - Classes
+
+ui:
+  tank: []
+  assassin: []
+  medic: []
+  paradox: []
+
+# Classes
+
+classes:
+  tank:
+    movement-multiplier: 0.75
+    damage-intake: 0.2
+    damage-outtake: 0.25
+
+  assassin:
+    damage-intake: 0.2
+    damage-outtake: 0.25
+
+    on_kill:
+      time: 5
+      effects:
+        regeneration:
+          id: 10
+          level: 3
+    on_hit:
+      movement-multiplier: 1.25
+      time: 5
+      cooldown: 45
+
+  medic:
+    movement-multiplier: 1.145
+    items:
+      nether_star:
+        item: [399, 0, 1]
+        name: "§r§bNether Star"
+        lore: []
+        cooldown: 60
+      iron_ingot:
+        item: [265, 0, 1]
+        name: "§r§bIron Ingot"
+        lore: []
+        cooldown: 60
+
+    on_kill:
+      time: 5
+      effects:
+        regeneration:
+          id: 10
+          level: 2
+
+  paradox:
+    movement-multiplier: 1.25
+    damage-intake: 0.30
+
+    items:
+      ender_pearls:
+        item: [368, 0, 3]
+        name: "§r§bEnder Pearl"
+        lore:
+          - "§r§cClass Item - Ender Pearl"
+
+    on_kill:
+      time: 5
+      effects:
+        regeneration:
+          id: 10
+          level: 3

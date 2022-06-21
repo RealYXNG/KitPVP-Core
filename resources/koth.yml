@@ -1,0 +1,28 @@
+configuration:
+
+  # KoTH Event should start every how many hours
+  repeat: 1
+
+  # Duration in minutes
+  duration: 10
+
+rewards:
+
+  # When configuring rewards, make sure that All Items should start with the block item1, item2, item3, etc.
+  # For commands it should start with command1, command2, command3, etc.
+  # Here are some Default Configuration
+
+  item1:
+    name: "§cSpecial Reward"
+    lore: ["§r§cSpecial Reward"]
+    item: [35, 14, 2]
+    chance: [0, 50]
+    enchantments: []
+
+  command1:
+    cmd: "say Command 1 Works"
+    chance: [50, 85]
+
+  command2:
+    cmd: "say Command 2 Works"
+    chance: [85, 100]

@@ -1,0 +1,27 @@
+titles:
+  2:
+    message: ""
+    title: "§c§lDOUBLE KILL"
+    subtitle: "§fWoo!"
+    popup: ""
+  3:
+    message: ""
+    title: "§b§lTRIPLE KILL"
+    subtitle: "§fWoo!"
+    popup: ""
+  4:
+    message: ""
+    title: "§6§lQUAD KILL"
+    subtitle: ""
+    popup: ""
+  5:
+    message: ""
+    title: "§5§lPENTA KILL"
+    subtitle: ""
+    popup: ""
+  6:
+    message: ""
+    title: "§c§lHEXA KILL"
+    subtitle: ""
+    popup: ""
+

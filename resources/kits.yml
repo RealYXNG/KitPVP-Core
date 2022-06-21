@@ -1,0 +1,249 @@
+# Kit General Information
+
+general:
+  ghost:
+    name: "§l§fGhost"
+    lore: [ ]
+
+  archer:
+    name: "§l§cArcher"
+    lore: [ ]
+
+  ninja:
+    name: "§l§9Ninja"
+    lore: [ ]
+
+  trickster:
+    name: "§l§dTrickster"
+    lore: [ ]
+
+  egged:
+    name: "§l§eEgged"
+    lore: [ ]
+
+  vampire:
+    name: "§l§4Vampire"
+    lore: [ ]
+
+# Kit UI
+
+ui:
+  ghost:
+    title: "§8[ §l§fGhost §8]"
+    content:
+      - ""
+  archer:
+    title: "§8[ §l§cArcher §8]"
+    content:
+      - ""
+  ninja:
+    title: "§8[ §l§9Ninja §8]"
+    content:
+      - ""
+  trickster:
+    title: "§8[ §l§dTrickster §8]"
+    content:
+      - ""
+  egged:
+    title: "§8[ §l§eEgged §8]"
+    content:
+      - ""
+  vampire:
+    title: "§8[ §l§4Vampire §8]"
+    content:
+      - ""
+
+# Kit Contents
+
+content:
+  ghost:
+    chain_helmet:
+      item: [ 302, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§fGhost §r§fHelmet"
+      lore: [ ]
+
+    iron_chestplate:
+      item: [ 307, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§fGhost §r§fChestplate"
+      lore: [ ]
+
+    chain_leggings:
+      item: [ 304, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§fGhost §r§fLeggings"
+      lore: [ ]
+
+    chain_boots:
+      item: [ 305, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§fGhost §r§fBoots"
+      lore: [ ]
+
+    diamond_sword:
+      item: [ 276, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§fGhost §r§fSword"
+      lore: [ ]
+
+  archer:
+    leather_cap:
+      item: [ 298, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§cArcher §r§fCap"
+      lore: [ ]
+
+    leather_tunic:
+      item: [ 299, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§cArcher §r§fTunic"
+      lore: [ ]
+
+    leather_pants:
+      item: [ 300, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§cArcher §r§fPants"
+      lore: [ ]
+
+    leather_boots:
+      item: [ 301, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§cArcher §r§fBoots"
+      lore: [ ]
+
+    bow:
+      item: [ 261, 0, 1 ]
+      enchantments: [ 51 ]
+      name: "§l§cArcher §r§fBow"
+      lore: [ ]
+
+    arrow:
+      item: [ 262, 0, 1 ]
+      enchantments: [ ]
+      name: ""
+      lore: [ ]
+
+  ninja:
+    chain_helmet:
+      item: [ 302, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§9Ninja §r§fHelmet"
+      lore: [ ]
+
+    chain_chestplate:
+      item: [ 303, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§9Ninja §r§fChestplate"
+      lore: [ ]
+
+    chain_leggings:
+      item: [ 304, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§9Ninja §r§fLeggings"
+      lore: [ ]
+
+    chain_boots:
+      item: [ 305, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§9Ninja §r§fBoots"
+      lore: [ ]
+
+    diamond_sword:
+      item: [ 276, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§9Ninja §r§fSword"
+      lore: [ ]
+
+  trickster:
+    gold_helmet:
+      item: [ 314, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§dTrickster §r§fHelmet"
+      lore: [ ]
+
+    chain_chestplate:
+      item: [ 304, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§dTrickster §r§fChestplate"
+      lore: [ ]
+
+    chain_leggings:
+      item: [ 303, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§dTrickster §r§fLeggings"
+      lore: [ ]
+
+    diamond_boots:
+      item: [ 313, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§dTrickster §r§fBoots"
+      lore: [ ]
+
+    diamond_sword:
+      item: [ 276, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§dTrickster §r§fSword"
+      lore: [ ]
+
+  egged:
+    gold_helmet:
+      item: [ 314, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§eEgged §r§fHelmet"
+      lore: [ ]
+
+    iron_chestplate:
+      item: [ 307, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§eEgged §r§fChestplate"
+      lore: [ ]
+
+    gold_leggings:
+      item: [ 316, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§eEgged §r§fLeggings"
+      lore: [ ]
+
+    gold_boots:
+      item: [ 317, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§eEgged §r§fBoots"
+      lore: [ ]
+
+    diamond_sword:
+      item: [ 276, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§eEgged §r§fSword"
+      lore: [ ]
+
+  vampire:
+    chain_helmet:
+      item: [ 302, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§4Vampire §r§fHelmet"
+      lore: [ ]
+
+    gold_chestplate:
+      item: [ 315, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§4Vampire §r§fChestplate"
+      lore: [ ]
+
+    iron_leggings:
+      item: [ 308, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§4Vampire §r§fLeggings"
+      lore: [ ]
+
+    chain_boots:
+      item: [ 305, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§4Vampire §r§fBoots"
+      lore: [ ]
+
+    diamond_sword:
+      item: [ 276, 0, 1 ]
+      enchantments: [ ]
+      name: "§l§4Vampire §r§fSword"
+      lore: [ ]

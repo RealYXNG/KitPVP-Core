@@ -1,0 +1,141 @@
+# Kit Abilities
+
+ghost:
+  invis_item:
+    item: [370, 0, 1]
+    name: "§l§fGhost §r§fAbility"
+    lore:
+      - "Cooldown 2m, Effect; Resistance 3, Speed 3 and Strength 1 for 10s"
+      - "Full invisibility hiding your armor but NOT your weapon in hand. (10s)"
+      - ""
+    cooldown: 120
+    effects:
+      resistance:
+        id: 11
+        level: 3
+      speed:
+        id: 1
+        level: 3
+      strength:
+        id: 5
+        level: 1
+    time: 10
+
+  effects:
+    speed:
+      id: 1
+      level: 2
+    resistance:
+      id: 11
+      level: 2
+
+archer:
+  damage: 0.1
+  time: 5
+
+  effects:
+    speed:
+      id: 1
+      level: 3
+    resistance:
+      id: 11
+      level: 2
+    regeneration:
+      id: 10
+      level: 2
+
+ninja:
+  backstab:
+    item: [283, 0, 1]
+    name: "§l§9Backstab §r§fAbility"
+    lore:
+      - "If you hit a player in the back it will deal 3 hearts of damage"
+      - "Cooldown 20s, Effects other player with Slowness II (5s)"
+      - ""
+    cooldown: 20
+    damage: 6.0
+    effects:
+      slowness:
+        id: 2
+        level: 2
+
+  effects:
+    speed:
+      id: 1
+      level: 3
+    resistance:
+      id: 11
+      level: 2
+    regeneration:
+      id: 10
+      level: 2
+
+trickster:
+  ability:
+    item: [286, 0, 1]
+    name: "§l§dTrickster §r§fAbility"
+    lore:
+      - "When you hit a player with the §l§dTrickster Ability"
+      - "it will select a piece of armor to remove from the player"
+      - "When you successfully remove a players armor, your speed will decrease (5s)"
+      - "Cooldown, 2m"
+    chances:
+      helmet: [35, 65]
+      chestplate: [85, 100]
+      leggings: [65, 85]
+      boots: [0, 35]
+    effects:
+      speed:
+        id: 1
+        level: 1
+        time: 5
+
+  effects:
+    speed:
+      id: 1
+      level: 2
+
+    regeneration:
+      id: 10
+      level: 2
+
+egged:
+  egg_bomb:
+    item: [ 344, 0, 1 ]
+    name: "§l§eEgged §r§fAbility"
+    lore:
+      - "When you hit a player with the §l§eEgged Ability"
+      - "it will generate 3 x 3 cobwebs"
+    effects:
+      strength:
+        id: 5
+        level: 1
+
+  effects:
+    regeneration:
+      id: 10
+      level: 2
+    speed:
+      id: 1
+      level: 1
+
+vampire:
+  bats:
+    item: [383, 65, 1]
+    name: "§l§4Bats §r§fAbility"
+    lore:
+      - "When you hit a player with the §l§4Bats Ability"
+      - "it will select a piece of armor to remove from the player"
+      - "When you successfully remove a players armor, your speed will decrease (5s)"
+      - "Cooldown, 2m"
+    damage: 14
+    cooldown: 120
+    range: 3.0
+
+  effects:
+    speed:
+      id: 1
+      level: 2
+    resistance:
+      id: 11
+      level: 2

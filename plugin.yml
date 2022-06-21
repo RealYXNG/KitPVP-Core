@@ -1,0 +1,7 @@
+---
+name: Core
+version: 2.0.2
+main: Crayder\Core\Main
+api: 4.5.1
+src-namespace-prefix: Crayder\Core
+...
