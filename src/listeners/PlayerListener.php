@@ -2,6 +2,7 @@
 
 namespace Crayder\Core\listeners;
 
+use Crayder\Core\classes\ParadoxClass;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\kits\KitFactory;
@@ -17,7 +18,6 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
-use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -78,18 +78,26 @@ class PlayerListener implements Listener{
 	}
 
 	public function onPlayerDeath(PlayerDeathEvent $event){
-		if(CooldownUtil::check($event->getPlayer())){
-			CooldownUtil::remove($event->getPlayer());
+		$player = $event->getPlayer();
+
+		if(CooldownUtil::check($player)){
+			CooldownUtil::remove($player);
 		}
 
 		$event->setXpDropAmount(0);
 
 		$keys = ["ghost", "archer", "ninja", "egged", "vampire", "trickster", "ironingot", "netherstar"];
 
-		foreach(Provider::getCustomPlayer($event->getPlayer())->getAllCooldowns() as $key => $expiry){
+		foreach(Provider::getCustomPlayer($player)->getAllCooldowns() as $key => $expiry){
 			if(in_array($key, $keys) || str_starts_with($key, "pearl-")){
-				Provider::getCustomPlayer($event->getPlayer())->removeCooldown($key);
+				Provider::getCustomPlayer($player)->removeCooldown($key);
+				Provider::getCustomPlayer($player)->getSBCooldown()->removeCooldown($key);
 			}
+		}
+
+		$class = Provider::getCustomPlayer($player)->getClass();
+		if($class instanceof ParadoxClass) {
+			$player->getInventory()->setItem(8, $class::$ender_pearls);
 		}
 	}
 
