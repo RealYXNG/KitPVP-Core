@@ -14,16 +14,12 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\player\Player;
 use Crayder\Core\configs\AbilitiesConfig;
+use Crayder\Core\tasks\delayed\ArcherTask;
 
 class ArcherHandler implements Listener{
 
-	public static array $arrows;
-	public static array $players;
-
-	public function __construct() {
-		self::$arrows = array();
-		self::$players = array();
-	}
+	public static array $arrows = [];
+	public static array $players = [];
 
 	public function onBowShoot(EntityShootBowEvent $event) {
 		$entity = $event->getEntity();
@@ -79,8 +75,10 @@ class ArcherHandler implements Listener{
 					$entity->setNameTag("§6" . $nameTag);
 					$entity->setNameTagAlwaysVisible();
 
-					$time = time() + AbilitiesConfig::$archer_time;
-					self::$players[(String) $entity->getUniqueId()] = $time;
+					$time = AbilitiesConfig::$archer_time;
+
+					$taskHandler = Main::getInstance()->getScheduler()->scheduleDelayedTask(new ArcherTask($entity), 20 * $time);
+					self::$players[$entity->getUniqueId()->toString()] = $taskHandler;
 				}
 			}
 		}
@@ -99,7 +97,10 @@ class ArcherHandler implements Listener{
 	}
 
 	public function onQuit(PlayerQuitEvent $event) {
-		if(isset(self::$players[$event->getPlayer()->getUniqueId()->toString()])) {
+		if(array_key_exists((String) $event->getPlayer()->getUniqueId(), self::$players)) {
+			$taskHandler = self::$players[$event->getPlayer()->getUniqueId()->toString()];
+			$taskHandler->cancel();
+
 			unset(self::$players[$event->getPlayer()->getUniqueId()->toString()]);
 		}
 	}

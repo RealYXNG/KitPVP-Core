@@ -1,6 +1,6 @@
 <?php
 
-namespace pocketmine\plugins\Core\src\util\inventory;
+namespace Crayder\Core\util\inventory;
 
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;

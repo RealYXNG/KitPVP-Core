@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Crayder\Core;
 
+use Crayder\Core\abilities\ArcherHandler;
 use Crayder\Core\abilities\EggedHandler;
 use Crayder\Core\commands\InfoCommand;
 use Crayder\Core\commands\scoreboard\ScoreboardCmd;
@@ -177,11 +178,17 @@ class Main extends PluginBase {
 
 				CooldownUtil::remove($player);
 			}
+
+			if(isset(ArcherHandler::$players[$player->getUniqueId()->toString()])) {
+				$taskHandler = ArcherHandler::$players[$player->getUniqueId()->toString()];
+				$taskHandler->cancel();
+
+				unset(ArcherHandler::$players[$player->getUniqueId()->toString()]);
+			}
 		}
 
-		foreach(EggedHandler::$cobwebs as $key => $value){
-			$keyArray = unserialize($key);
-			Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->setBlockAt($keyArray[0], $keyArray[1], $keyArray[2], BlockFactory::getInstance()->get(0, 0));
+		foreach(EggedHandler::$cobwebs as $taskHandler){
+			$taskHandler->run();
 		}
 
 		KothDAO::save();

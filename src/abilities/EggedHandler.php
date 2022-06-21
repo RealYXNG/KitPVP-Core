@@ -5,6 +5,7 @@ namespace Crayder\Core\abilities;
 use Crayder\Core\configs\AbilitiesConfig;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Main;
 use Crayder\Core\managers\AbilityManager;
 use Crayder\Core\managers\CooldownManager;
 use Crayder\Core\Provider;
@@ -22,6 +23,7 @@ use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\util\CooldownUtil;
 use Crayder\Core\managers\EffectsManager;
 use Crayder\Core\util\world\WorldUtil;
+use Crayder\Core\tasks\delayed\CobwebTask;
 
 class EggedHandler implements Listener{
 
@@ -104,8 +106,10 @@ class EggedHandler implements Listener{
 							$effBlock = $entity->getWorld()->getBlock(new Vector3($newX, WorldUtil::getHighestY($newX, $newZ), $newZ));
 							$entity->getWorld()->setBlock($effBlock->getPosition()->asVector3(), BlockFactory::getInstance()->get(30, 0));
 
-							$key = serialize([$effBlock->getPosition()->getX(), $effBlock->getPosition()->getY(), $effBlock->getPosition()->getZ()]);
-							self::$cobwebs[$key] = time() + (Provider::getCustomPlayer($owningEntity)->checkCooldown("egged") - time()) - 1;
+							$time = (Provider::getCustomPlayer($owningEntity)->checkCooldown("egged") - time()) - 1;
+							$taskHandler = Main::getInstance()->getScheduler()->scheduleDelayedTask(new CobwebTask($effBlock->getPosition()->getX(), $effBlock->getPosition()->getY(), $effBlock->getPosition()->getZ()), 20 * $time);
+
+							array_push(self::$cobwebs, $taskHandler);
 						}
 					}
 

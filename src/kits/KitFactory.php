@@ -18,7 +18,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
 use Crayder\Core\configs\KitsConfig;
 use Crayder\Core\managers\EffectsManager;
-use pocketmine\plugins\Core\src\util\inventory\InventoryUtil;
+use Crayder\Core\util\inventory\InventoryUtil;
 
 class KitFactory{
 
