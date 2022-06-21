@@ -11,13 +11,6 @@ class CooldownManager{
 	public static function showCooldown(string $type, Player $player) : void{
 		$customPlayer = Provider::getCustomPlayer($player);
 
-		if(CooldownUtil::check($player)) {
-			$player->getXpManager()->setXpProgress(0);
-			$player->getXpManager()->setXpLevel(0);
-
-			CooldownUtil::remove($player);
-		}
-
 		if(self::checkCooldown($type, $player)){
 			$player->sendActionBarMessage("§cThis Ability is currently on Cool-Down!");
 

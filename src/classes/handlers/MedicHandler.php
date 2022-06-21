@@ -18,7 +18,7 @@ class MedicHandler implements Listener{
 	public function onUseIronIngot(PlayerItemUseEvent $event) {
 		$item = $event->getItem();
 
-		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "medic-ironingot") {
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "ironingot") {
 			$player = $event->getPlayer();
 
 			if(CooldownManager::checkCooldown("ironingot", $player) != null) {
@@ -66,7 +66,7 @@ class MedicHandler implements Listener{
 	public function onUseNetherStar(PlayerItemUseEvent $event) {
 		$item = $event->getItem();
 
-		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "medic-netherstar") {
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "netherstar") {
 			$player = $event->getPlayer();
 
 			if(CooldownManager::checkCooldown("netherstar", $player) != null) {

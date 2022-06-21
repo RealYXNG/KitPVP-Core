@@ -29,7 +29,7 @@ class MedicClass extends BaseClass{
 		$netherstar->setLore($netherstarConfig["lore"]);
 
 		$tag = new CompoundTag();
-		$tag->setString("class-ability", "medic-netherstar");
+		$tag->setString("class-ability", "netherstar");
 
 		$netherstar->setCustomBlockData($tag);
 
@@ -41,7 +41,7 @@ class MedicClass extends BaseClass{
 		$ironingot->setLore($ironIngotConfig["lore"]);
 
 		$tag = new CompoundTag();
-		$tag->setString("class-ability", "medic-ironingot");
+		$tag->setString("class-ability", "ironingot");
 
 		$ironingot->setCustomBlockData($tag);
 

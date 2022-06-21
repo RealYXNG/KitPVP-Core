@@ -17,6 +17,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
+use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -177,30 +178,34 @@ class PlayerListener implements Listener{
 		}
 	}
 
-	public static function onPlayerChangeHeldItem(PlayerItemHeldEvent $event) {
-		$item = $event->getPlayer()->getInventory()->getItem($event->getSlot());
+	public function onPlayerChangeHeldItem(PlayerItemHeldEvent $event) {
+		$item = $event->getItem();
+		$player = $event->getPlayer();
 
-		if($item->getId() == 0) {
-			return;
+		if(CooldownUtil::check($player)) {
+			$player->getXpManager()->setXpProgress(0);
+			$player->getXpManager()->setXpLevel(0);
+
+			CooldownUtil::remove($player);
 		}
 
 		/*
-		 * Kits Ability Cooldown
+		 * Kits Ability Items
 		 */
 		$keys = ["ghost", "egged", "ninja", "trickster", "vampire"];
 
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)) {
-			$value = $item->getCustomBlockData()->getTag("ability-item");
+			$value = $item->getCustomBlockData()->getString("ability-item");
 			CooldownManager::showCooldown($value, $event->getPlayer());
 		}
 
 		/*
-		 * Class Ability Cooldown
+		 * Class Ability Items
 		 */
-		$keys = ["medic-ironingot", "medic-netherstar"];
+		$keys = ["ironingot", "netherstar"];
 
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)) {
-			$value = $item->getCustomBlockData()->getTag("class-ability");
+			$value = $item->getCustomBlockData()->getString("class-ability");
 			CooldownManager::showCooldown($value, $event->getPlayer());
 		}
 	}
