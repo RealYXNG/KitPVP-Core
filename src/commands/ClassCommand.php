@@ -18,9 +18,13 @@ class ClassCommand extends Command{
 	public function execute(CommandSender $sender, string $commandLabel, array $args){
 		if($sender instanceof Player) {
 
-			if(Provider::getCustomPlayer($sender)->checkCooldown("assassin-duration") != null || Provider::getCustomPlayer($sender)->checkCooldown("assassin-cooldown") != null || Provider::getCustomPlayer($sender)->checkCooldown("tank-movement") != null || Provider::getCustomPlayer($sender)->checkCooldown("netherstar") != null || Provider::getCustomPlayer($sender)->checkCooldown("ironingot") != null) {
-				$sender->sendMessage("§7[§c!§7] §cYou cannot select a class while being on a Class Ability Cooldown!");
-				return;
+			$keys = ["assassin-duration", "assassin-cooldown", "tank-movement", "netherstar", "ironingot"];
+
+			foreach(Provider::getCustomPlayer($sender)->getAllCooldowns() as $cooldown => $expiry) {
+				if(in_array($cooldown, $keys) || str_starts_with($cooldown, "pearl-")){
+					$sender->sendMessage("§7[§c!§7] §cYou cannot select a class while being on a Class Ability Cooldown!");
+					return;
+				}
 			}
 
 			if(SPlayerManager::isInStaffMode($sender)) {

@@ -8,13 +8,13 @@ use Crayder\Core\util\CooldownUtil;
 
 class CooldownManager{
 
-	public static function checkCooldown(string $type, Player $player) : bool{
+	public static function showCooldown(string $type, Player $player) : void{
 		$customPlayer = Provider::getCustomPlayer($player);
 
 		if($customPlayer->checkCooldown($type) != null){
 			if(CooldownUtil::check($player)) {
 				if(CooldownUtil::getExpiry($player) == $customPlayer->getAllCooldowns()[$type]) {
-					return true;
+					return;
 				}
 
 				$player->getXpManager()->setXpProgress(0);
@@ -31,6 +31,13 @@ class CooldownManager{
 			$player->getXpManager()->setXpLevel($remaining);
 
 			CooldownUtil::add($player, $remaining + time(), $remaining);
+		}
+	}
+
+	public static function checkCooldown(string $type, Player $player) :bool{
+		$customPlayer = Provider::getCustomPlayer($player);
+
+		if($customPlayer->checkCooldown($type) != null){
 			return true;
 		}
 

@@ -5,6 +5,7 @@ namespace Crayder\Core\listeners;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\kits\KitFactory;
+use Crayder\Core\managers\CooldownManager;
 use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\util\CoreUtil;
 use dktapps\pmforms\FormIcon;
@@ -15,6 +16,7 @@ use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
+use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
@@ -173,7 +175,17 @@ class PlayerListener implements Listener{
 				}
 			}
 		}
+	}
 
+	public static function onPlayerChangeHeldItem(PlayerItemHeldEvent $event) {
+		$keys = ["ghost", "egged", "ninja", "trickster", "vampire", "ironingot", "netherstar"];
+		$item = $event->getItem();
+
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getTag("ability-item"), $keys)) {
+			$value = $item->getCustomBlockData()->getTag("ability-item");
+
+			CooldownManager::showCooldown($value, $event->getPlayer());
+		}
 	}
 
 }
