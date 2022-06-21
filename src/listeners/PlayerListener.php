@@ -83,12 +83,12 @@ class PlayerListener implements Listener{
 
 		$event->setXpDropAmount(0);
 
-		foreach(["ghost", "archer", "ninja", "egged", "vampire", "trickster"] as $kit){
-			if(Provider::getCustomPlayer($event->getPlayer())->checkCooldown($kit) != null){
-				Provider::getCustomPlayer($event->getPlayer())->removeCooldown($kit);
-			}
+		$keys = ["ghost", "archer", "ninja", "egged", "vampire", "trickster", "ironingot", "netherstar"];
 
-			Provider::getCustomPlayer($event->getPlayer())->getSBCooldown()->removeCooldown($kit);
+		foreach(Provider::getCustomPlayer($event->getPlayer())->getAllCooldowns() as $key => $expiry){
+			if(in_array($key, $keys) || str_starts_with($key, "pearl-")){
+				Provider::getCustomPlayer($event->getPlayer())->removeCooldown($key);
+			}
 		}
 	}
 
