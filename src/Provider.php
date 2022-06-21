@@ -28,7 +28,7 @@ class Provider{
 
 		if($customPlayer != null) {
 			$customPlayer->save();
-			unset($customPlayer);
+			unset(self::$customPlayers[(string) $player->getUniqueId()]);
 		}
 	}
 

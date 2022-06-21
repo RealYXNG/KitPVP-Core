@@ -190,13 +190,6 @@ class PlayerListener implements Listener{
 		$item = $event->getItem();
 		$player = $event->getPlayer();
 
-		if(CooldownUtil::check($player)) {
-			$player->getXpManager()->setXpProgress(0);
-			$player->getXpManager()->setXpLevel(0);
-
-			CooldownUtil::remove($player);
-		}
-
 		/*
 		 * Kits Ability Items
 		 */
@@ -204,6 +197,14 @@ class PlayerListener implements Listener{
 
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)) {
 			$value = $item->getCustomBlockData()->getString("ability-item");
+
+			if(CooldownUtil::check($player) && (CooldownUtil::getExpiry($player) != Provider::getCustomPlayer($player)->checkCooldown($value))){
+				$player->getXpManager()->setXpProgress(0);
+				$player->getXpManager()->setXpLevel(0);
+
+				CooldownUtil::remove($player);
+			}
+
 			CooldownManager::showCooldown($value, $event->getPlayer());
 		}
 
@@ -214,6 +215,14 @@ class PlayerListener implements Listener{
 
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)) {
 			$value = $item->getCustomBlockData()->getString("class-ability");
+
+			if(CooldownUtil::check($player) && (CooldownUtil::getExpiry($player) != Provider::getCustomPlayer($player)->checkCooldown($value))){
+				$player->getXpManager()->setXpProgress(0);
+				$player->getXpManager()->setXpLevel(0);
+
+				CooldownUtil::remove($player);
+			}
+
 			CooldownManager::showCooldown($value, $event->getPlayer());
 		}
 	}
