@@ -6,11 +6,19 @@ use pocketmine\entity\Entity;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\player\Player;
 
 class Hologram extends Entity{
 
-	public function __construct(Location $location, ?CompoundTag $nbt = null){
+	public function __construct(Location $location, ?CompoundTag $nbt = null, string $nametag = null){
 		parent::__construct($location, $nbt);
+
+		if($nametag != null) {
+			$this->setNameTag($nametag);
+		}
+
+		$this->spawnToAll();
+		$this->setNameTagAlwaysVisible();
 	}
 
 	protected function getInitialSizeInfo() : EntitySizeInfo{
@@ -21,12 +29,20 @@ class Hologram extends Entity{
 		return "";
 	}
 
-	public function addEntry(HologramEntry $entry) {
+	public function addEntry(HologramEntry $entry) :void{
 		$this->__setEntry($entry->getPosition(), $entry->getValue());
 	}
 
+	public function addViewer(Player $player) :void{
+		$this->spawnTo($player);
+	}
+
+	public function removeViewer(Player $player) :void{
+		$player->despawnFrom($player);
+	}
+
 	/*
-	 * Magic Functions
+	 * Magic Functions for Entry
 	 */
 
 	public function __setEntry(int $position, string $value) :void{
