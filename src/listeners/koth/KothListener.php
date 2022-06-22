@@ -9,7 +9,6 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\math\Vector3;
 use Crayder\Core\koth\KothManager;
 
 class KothListener implements Listener{
@@ -21,8 +20,7 @@ class KothListener implements Listener{
 			return;
 		}
 
-		$loc = $event->getTo();
-		$block = $loc->getWorld()->getBlock(new Vector3((int) $loc->getX(), (int) $loc->getY(), (int) $loc->getZ()));
+		$block = $player->getWorld()->getBlock($player->getPosition()->asVector3()->subtract(0, -0.5, 0));
 
 		if(KothManager::isKothGoingOn()){
 			if(KothManager::isPlayerInArena($event->getPlayer())){

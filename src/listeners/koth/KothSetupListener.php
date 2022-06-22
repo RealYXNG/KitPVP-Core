@@ -78,11 +78,11 @@ class KothSetupListener implements Listener{
 		$z4 = $z1;
 
 		$y1 = $loc1->getY();
-		$y2 = $loc1->getY();
+		$y2 = $loc2->getY();
 		$y3 = WorldUtil::getHighestY($x3, $z3, $starting) - 1;
 		$y4 = WorldUtil::getHighestY($x4, $z4, $starting) - 1;
 
-		$player->sendMessage("§7[§6!§7] §6KoTH Arena has been successfully created!");
+		$player->sendMessage("§7[§6!§7] §6KoTH Arena has been successfully created! ((" . $x1 . ", " . $z1 . ") (" . $x2 . ", " . $z2 . ")");
 
 		if($x1 < $x2){
 			$i = $x1;

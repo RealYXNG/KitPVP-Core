@@ -2,6 +2,8 @@
 
 namespace Crayder\Core\koth;
 
+use Crayder\Core\Main;
+
 class KothArena{
 
 	private int $x1;
@@ -20,21 +22,17 @@ class KothArena{
 	}
 
 	public function checkPoint($x, $z) : bool{
-		if($this->x1 < $this->x2) {
-			$minX = $this->x1;
-			$maxX = $this->x2;
-		} else {
-			$minX = $this->x2;
-			$maxX = $this->x1;
-		}
+		$array = [$this->x1, $this->x2];
+		sort($array);
 
-		if($this->z1 < $this->z2) {
-			$minZ = $this->z1;
-			$maxZ = $this->z2;
-		} else {
-			$minZ = $this->z2;
-			$maxZ = $this->z1;
-		}
+		$minX = $array[0];
+		$maxX = $array[1];
+
+		$array = [$this->z1, $this->z2];
+		sort($array);
+
+		$minZ = $array[0];
+		$maxZ = $array[1];
 
 		if ($this->checkBetween($z, $minZ, $maxZ) && $this->checkBetween($x, $minX, $maxX)){
 			return true;
@@ -44,7 +42,8 @@ class KothArena{
 	}
 
 	private function checkBetween($value, $min, $max) :bool{
-		return ($value >= $min && $value <= $max);
+		$result = ($value >= $min && $value <= $max);
+		return $result;
 	}
 
 	/**
