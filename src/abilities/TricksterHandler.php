@@ -12,31 +12,32 @@ use pocketmine\player\Player;
 use Crayder\Core\configs\AbilitiesConfig;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\managers\EffectsManager;
+use Crayder\Core\util\ChanceUtil;
 
-class TricksterHandler implements Listener {
+class TricksterHandler implements Listener{
 
 	/*
 	 * Trickster - Golden Axe Ability
 	 */
-	public function onTricksterUseAbility(EntityDamageByEntityEvent $event) {
+	public function onTricksterUseAbility(EntityDamageByEntityEvent $event){
 		$damager = $event->getDamager();
 		$entity = $event->getEntity();
 
-		if($damager instanceof Player && $entity instanceof Player) {
+		if($damager instanceof Player && $entity instanceof Player){
 			$item = $damager->getInventory()->getItemInHand();
-			if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && $item->getCustomBlockData()->getString("ability-item") == "trickster") {
+			if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && $item->getCustomBlockData()->getString("ability-item") == "trickster"){
 
-				if(CooldownManager::checkCooldown("trickster", $damager)) {
+				if(CooldownManager::checkCooldown("trickster", $damager)){
 					return;
 				}
 
 				$level = Provider::getCustomPlayer($entity)->getSkillsManager()->getLevel("dodge");
 
-				if($level != 0) {
+				if($level != 0){
 					$chance = SkillsConfig::$dodge["levels"][$level]["chance"];
 
 					$rnd = rand(1, 100);
-					if($rnd < $chance) {
+					if($rnd < $chance){
 						$entity->sendMessage("§7[§c!§7] §cYou have successfully dodged the Trickster Ability tried by " . $damager->getName());
 						$damager->sendMessage("§7[§c!§7] §cYour ability failed as " . $entity->getName() . " have successfully dodged your ability!");
 						return;
@@ -44,139 +45,79 @@ class TricksterHandler implements Listener {
 				}
 
 				$chances = AbilitiesConfig::$trickster_chances;
+				$events = [];
 
-				$helmetChance = $chances["helmet"];
-				$chestplateChance = $chances["chestplate"];
-				$leggingsChance = $chances["leggings"];
-				$bootsChance = $chances["boots"];
+				if(count($entity->getArmorInventory()->getContents()) == 0) {
+					return;
+				}
 
-				if($entity->getArmorInventory()->getHelmet()->getId() != 0 && self::chance($helmetChance)) {
-					$event->cancel();
+				if($entity->getArmorInventory()->getHelmet()->getId() != 0){
+					$events["helmet"] = $chances["helmet"];
+				}
+
+				if($entity->getArmorInventory()->getChestplate()->getId() != 0){
+					$events["chestplate"] = $chances["chestplate"];
+				}
+
+				if($entity->getArmorInventory()->getLeggings()->getId() != 0){
+					$events["leggings"] = $chances["leggings"];
+				}
+
+				if($entity->getArmorInventory()->getBoots()->getId() != 0){
+					$events["boots"] = $chances["boots"];
+				}
+
+				$result = ChanceUtil::getEvent($events);
+
+				if($result == "helmet"){
 					$entity->getInventory()->addItem($entity->getArmorInventory()->getHelmet());
-					$entity->getArmorInventory()->remove($entity->getArmorInventory()->getHelmet());
-
-					$damager->sendTitle("§6§lTrickster", "§cAbility Activated!");
-					$damager->sendMessage("§7[§c!§7] §cYou have removed §e" . $entity->getName() . "'s §cHelmet!");
-
-					$entity->sendMessage("§7[§c!§7] §cYour helmet has been removed by §e" . $damager->getName());
-
-					$effects = AbilitiesConfig::$tricksterAbility_effects;
-					foreach($effects as $effect) {
-						EffectsManager::giveEffect($damager, ConfigVars::$effects[$effect["id"]], 5, $effect["level"]);
-					}
-
-					$level = Provider::getCustomPlayer($damager)->getSkillsManager()->getLevel("cooldown_shorten");
-
-					if($level != 0) {
-						$multiplier = SkillsConfig::$cooldown_shorten["levels"][$level]["multiplier"];
-					} else {
-						$multiplier = 1;
-					}
-					
-					CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier);
-
-					if($multiplier != 1) {
-						$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
-					}
-				}
-
-				else if($entity->getArmorInventory()->getBoots()->getId() != 0 && self::chance($bootsChance)) {
-					$event->cancel();
-					$entity->getInventory()->addItem($entity->getArmorInventory()->getBoots());
-					$entity->getArmorInventory()->remove($entity->getArmorInventory()->getBoots());
-
-					$damager->sendTitle("§6§lTrickster", "§cAbility Activated!");
-					$damager->sendMessage("§7[§c!§7] §cYou have removed §e" . $entity->getName() . "'s §cBoots!");
-
-					$entity->sendMessage("§7[§c!§7] §cYour boots has been removed by §e" . $damager->getName());
-
-					$effects = AbilitiesConfig::$tricksterAbility_effects;
-					foreach($effects as $effect) {
-						EffectsManager::giveEffect($damager, ConfigVars::$effects[$effect["id"]], 5, $effect["level"]);
-					}
-
-					$level = Provider::getCustomPlayer($damager)->getSkillsManager()->getLevel("cooldown_shorten");
-
-					if($level != 0) {
-						$multiplier = SkillsConfig::$cooldown_shorten["levels"][$level]["multiplier"];
-					} else {
-						$multiplier = 1;
-					}
-					
-					CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier);
-
-					if($multiplier != 1) {
-						$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
-					}
-				}
-
-				else if($entity->getArmorInventory()->getLeggings()->getId() != 0 && self::chance($leggingsChance)) {
-					$event->cancel();
-					$entity->getInventory()->addItem($entity->getArmorInventory()->getLeggings());
-					$entity->getArmorInventory()->remove($entity->getArmorInventory()->getLeggings());
-
-					$damager->sendTitle("§6§lTrickster", "§cAbility Activated!");
-					$damager->sendMessage("§7[§c!§7] §cYou have removed §e" . $entity->getName() . "'s §cLeggings!");
-
-					$entity->sendMessage("§7[§c!§7] §cYour leggings has been removed by §e" . $damager->getName());
-
-					$effects = AbilitiesConfig::$tricksterAbility_effects;
-					foreach($effects as $effect) {
-						EffectsManager::giveEffect($damager, ConfigVars::$effects[$effect["id"]], 5, $effect["level"]);
-					}
-
-					$level = Provider::getCustomPlayer($damager)->getSkillsManager()->getLevel("cooldown_shorten");
-
-					if($level != 0) {
-						$multiplier = SkillsConfig::$cooldown_shorten["levels"][$level]["multiplier"];
-					} else {
-						$multiplier = 1;
-					}
-					
-					CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier);
-
-					if($multiplier != 1) {
-						$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
-					}
-				}
-
-				else if($entity->getArmorInventory()->getChestplate()->getId() != 0 && self::chance($chestplateChance)) {
-					$event->cancel();
+					$entity->getArmorInventory()->removeItem($entity->getArmorInventory()->getHelmet());
+				}else if($result == "chestplate"){
 					$entity->getInventory()->addItem($entity->getArmorInventory()->getChestplate());
-					$entity->getArmorInventory()->remove($entity->getArmorInventory()->getChestplate());
+					$entity->getArmorInventory()->removeItem($entity->getArmorInventory()->getChestplate());
+				}else if($result == "leggings"){
+					$entity->getInventory()->addItem($entity->getArmorInventory()->getLeggings());
+					$entity->getArmorInventory()->removeItem($entity->getArmorInventory()->getLeggings());
+				}else if($result == "boots"){
+					$entity->getInventory()->addItem($entity->getArmorInventory()->getBoots());
+					$entity->getArmorInventory()->removeItem($entity->getArmorInventory()->getBoots());
+				}
 
-					$damager->sendTitle("§6§lTrickster", "§cAbility Activated!");
-					$damager->sendMessage("§7[§c!§7] §cYou have removed §e" . $entity->getName() . "'s §cChestplate!!");
+				$itemName = [
+					"helmet" => "Helmet",
+					"chestplate" => "Chestplate",
+					"leggings" => "Leggings",
+					"boots" => "Boots"
+				];
 
-					$entity->sendMessage("§7[§c!§7] §cYour chestplate has been removed by §e" . $damager->getName());
+				$event->cancel();
 
-					$effects = AbilitiesConfig::$tricksterAbility_effects;
-					foreach($effects as $effect) {
-						EffectsManager::giveEffect($damager, ConfigVars::$effects[$effect["id"]], 5, $effect["level"]);
-					}
+				$damager->sendTitle("§6§lTrickster", "§cAbility Activated!");
+				$damager->sendMessage("§7[§c!§7] §cYou have removed §e" . $entity->getName() . "'s §c" . $itemName[$result]);
 
-					$level = Provider::getCustomPlayer($damager)->getSkillsManager()->getLevel("cooldown_shorten");
+				$entity->sendMessage("§7[§c!§7] §cYour " . $itemName[$result] . " has been removed by §e" . $damager->getName());
 
-					if($level != 0) {
-						$multiplier = SkillsConfig::$cooldown_shorten["levels"][$level]["multiplier"];
-					} else {
-						$multiplier = 1;
-					}
-					
-					CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier);
+				$effects = AbilitiesConfig::$tricksterAbility_effects;
+				foreach($effects as $effect){
+					EffectsManager::giveEffect($damager, ConfigVars::$effects[$effect["id"]], 5, $effect["level"]);
+				}
 
-					if($multiplier != 1) {
-						$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
-					}
+				$level = Provider::getCustomPlayer($damager)->getSkillsManager()->getLevel("cooldown_shorten");
+
+				if($level != 0){
+					$multiplier = SkillsConfig::$cooldown_shorten["levels"][$level]["multiplier"];
+				}else{
+					$multiplier = 1;
+				}
+
+				CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier);
+
+				if($multiplier != 1){
+					$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
 				}
 
 			}
 		}
-	}
-
-	private static function chance(array $chances) :bool{
-		$rnd = rand(1, 100);
-		return $rnd > $chances[0] && $rnd <= $chances[1];
 	}
 
 }

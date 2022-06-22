@@ -80,10 +80,10 @@ trickster:
       - "When you successfully remove a players armor, your speed will decrease (5s)"
       - "Cooldown, 2m"
     chances:
-      helmet: [35, 65]
-      chestplate: [85, 100]
-      leggings: [65, 85]
-      boots: [0, 35]
+      helmet: 30
+      chestplate: 15
+      leggings: 20
+      boots: 35
     effects:
       speed:
         id: 1
