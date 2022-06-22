@@ -2,7 +2,10 @@
 
 namespace Crayder\Core\listeners\koth;
 
+use Crayder\Core\holograms\Hologram;
+use Crayder\Core\holograms\HologramManager;
 use pocketmine\block\BlockFactory;
+use pocketmine\entity\Location;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -133,7 +136,13 @@ class KothSetupListener implements Listener{
 		$loc1->getWorld()->setBlock(new Vector3($x3, $y3, $z3), BlockFactory::getInstance()->get(35, 14));
 		$loc1->getWorld()->setBlock(new Vector3($x4, $y4, $z4), BlockFactory::getInstance()->get(35, 14));
 
-		$arena = new KothArena($x1, $z1, $x2, $z2);
+		$centreX = ($x1 + $x2) / 2;
+		$centreY = $y1 + 5;
+		$centreZ = ($z1 + $z2) / 2;
+
+		$hologram = HologramManager::createHologram(new Location($centreX, $centreY, $centreZ, $loc1->getWorld(), 0, 0));
+
+		$arena = new KothArena($x1, $z1, $x2, $z2, $hologram);
 		KothManager::addArena($arena);
 
 		$arenaNotSetup = (KothManager::$kothDetails[1] == -1);

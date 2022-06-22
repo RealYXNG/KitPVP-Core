@@ -3,6 +3,7 @@
 namespace Crayder\Core\koth;
 
 use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\holograms\HologramEntry;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
 use Crayder\Core\scoreboard\ScoreboardEntry;
@@ -106,6 +107,8 @@ class KothManager{
 			$player->sendMessage("§cPlayer with §4Highest KoTH Points §cwill win the §4§lKoTH!");
 			$player->sendMessage("§8----------------------------------");
 
+			self::createKothHologram();
+
 			if(!SPlayerManager::isInStaffMode($player)){
 				$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();
 
@@ -138,6 +141,21 @@ class KothManager{
 				$scoreboard->addEntry($entry4);
 			}
 		}
+	}
+
+	public static function createKothHologram() :void{
+		$arena = KothManager::$koths[0];
+
+		$hologram = $arena->getHologram();
+		$hologram->reset();
+
+		$testEntry0 = new HologramEntry(0, "KoTH Test Entry 0", $hologram);
+		$testEntry1 = new HologramEntry(1, "Entry 1", $hologram);
+
+		$hologram->addEntry($testEntry0);
+		$hologram->addEntry($testEntry1);
+
+		$hologram->spawnToAll();
 	}
 
 	public static function endKoth() : void{

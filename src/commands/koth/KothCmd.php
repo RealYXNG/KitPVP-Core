@@ -94,7 +94,7 @@ class KothCmd extends Command{
 				}
 
 				if(!is_numeric($args[1])) {
-					$sender->sendMessage("§7[§c!§7] The value must be an integer and greater than 0");
+					$sender->sendMessage("§7[§c!§7] §cThe value must be an integer and greater than 0");
 					return;
 				}
 
@@ -102,7 +102,11 @@ class KothCmd extends Command{
 			}
 
 			else if($arg == "setup"){
-				KothSetupListener::setupMode($sender);
+				if(count(KothManager::$koths) == 0){
+					KothSetupListener::setupMode($sender);
+				} else {
+					$sender->sendMessage("§7[§c!§7] §cYou cannot set-up more than one KoTH Arena at the moment!");
+				}
 			}
 
 			else if($arg == "delete") {

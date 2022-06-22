@@ -3,35 +3,26 @@
 namespace Crayder\Core\holograms;
 
 use pocketmine\entity\Location;
-use pocketmine\world\Position;
 
 class HologramManager{
 
 	public static array $holograms = [];
 
-	public static function createHologram(Position $pos) :Hologram{
-		$hologram = new Hologram(new Location($pos->getX(), $pos->getY(), $pos->getZ(), $pos->getWorld(), 0, 0));
-		self::$holograms[serialize([$pos])] = $hologram;
+	public static function createHologram(Location $loc) :Hologram{
+		$hologram = new Hologram($loc);
+		self::$holograms[serialize([$loc])] = $hologram;
 
 		return $hologram;
 	}
 
-	public static function removeHologram(Position $pos) :void{
-		if(self::exists($pos)){
-			unset(self::$holograms[serialize([$pos])]);
-		}
+	public static function removeHologram(Hologram $hologram) :void{
+		$hologram->despawnFromAll();
+
+		unset(self::$holograms[array_search($hologram, self::$holograms)]);
 	}
 
-	public static function exists(Position $pos) :bool{
-		return isset(self::$holograms[serialize([$pos])]);
-	}
-
-	public static function getHologram(Position $pos) :Hologram|null{
-		if(self::exists($pos)){
-			return self::$holograms[serialize([$pos])];
-		}
-
-		return null;
+	public static function exists(Hologram $hologram) :bool{
+		return isset(self::$holograms[array_search($hologram, self::$holograms)]);
 	}
 
 	/**

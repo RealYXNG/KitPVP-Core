@@ -2,7 +2,7 @@
 
 namespace Crayder\Core\koth;
 
-use Crayder\Core\Main;
+use Crayder\Core\holograms\Hologram;
 
 class KothArena{
 
@@ -14,11 +14,15 @@ class KothArena{
 
 	private int $z2;
 
-	public function __construct(int $x1, int $z1, int $x2, int $z2){
+	private Hologram $hologram;
+
+	public function __construct(int $x1, int $z1, int $x2, int $z2, Hologram $hologram){
 		$this->x1 = $x1;
 		$this->z1 = $z1;
 		$this->x2 = $x2;
 		$this->z2 = $z2;
+
+		$this->hologram = $hologram;
 	}
 
 	public function checkPoint($x, $z) : bool{
@@ -72,6 +76,13 @@ class KothArena{
 	 */
 	public function getZ2() : int{
 		return $this->z2;
+	}
+
+	/**
+	 * @return Hologram
+	 */
+	public function getHologram() : Hologram{
+		return $this->hologram;
 	}
 
 }

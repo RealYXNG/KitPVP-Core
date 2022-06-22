@@ -17,16 +17,8 @@ class Hologram extends Entity{
 			$this->setNameTag($nametag);
 		}
 
-		$this->spawnToAll();
+		$this->setScale(0.00001);
 		$this->setNameTagAlwaysVisible();
-	}
-
-	protected function getInitialSizeInfo() : EntitySizeInfo{
-		return $this->getInitialSizeInfo();
-	}
-
-	public static function getNetworkTypeId() : string{
-		return "";
 	}
 
 	public function addEntry(HologramEntry $entry) :void{
@@ -39,6 +31,10 @@ class Hologram extends Entity{
 
 	public function removeViewer(Player $player) :void{
 		$player->despawnFrom($player);
+	}
+
+	public function reset() :void{
+		$this->setNameTag("");
 	}
 
 	/*
@@ -91,4 +87,11 @@ class Hologram extends Entity{
 		return explode("\n", $this->getNameTag());
 	}
 
+	protected function getInitialSizeInfo() : EntitySizeInfo{
+		// TODO: Implement getInitialSizeInfo() method.
+	}
+
+	public static function getNetworkTypeId() : string{
+		// TODO: Implement getNetworkTypeId() method.
+	}
 }
