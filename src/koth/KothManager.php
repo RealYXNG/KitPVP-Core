@@ -7,6 +7,7 @@ use Crayder\Core\holograms\HologramEntry;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
 use Crayder\Core\scoreboard\ScoreboardEntry;
+use Crayder\Core\util\ChanceUtil;
 use Crayder\Core\util\TimeUtil;
 use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\console\ConsoleCommandSender;
@@ -56,11 +57,11 @@ class KothManager{
 		unset(self::$players[serialize($player->getUniqueId())]);
 	}
 
-	public static function getPlayersInArena() :int {
+	public static function getPlayersInArena() : int{
 		return count(self::$players);
 	}
 
-	public static function getPlayerCapturing() :Player{
+	public static function getPlayerCapturing() : Player{
 		return Main::getInstance()->getServer()->getPlayerByUUID(unserialize(array_keys(self::$players)[0]));
 	}
 
@@ -148,7 +149,7 @@ class KothManager{
 		}
 	}
 
-	public static function kothScheduledHologram() :void{
+	public static function kothScheduledHologram() : void{
 		$arena = KothManager::$koths[0];
 
 		$hologram = $arena->getHologram();
@@ -167,7 +168,7 @@ class KothManager{
 		$hologram->spawnToAll();
 	}
 
-	public static function kothStartHologram() :void{
+	public static function kothStartHologram() : void{
 		$arena = KothManager::$koths[0];
 
 		$hologram = $arena->getHologram();
@@ -262,30 +263,33 @@ class KothManager{
 		$rewards = KothConfig::$rewards;
 
 		// Item - 0, Command - 1
-		$rnd = rand(1, 100);
+		$events = [];
 
 		foreach($rewards as $name => $data){
-			$type = str_starts_with($name, "item") ? 0 : 1;
+			$events[$name] = $data["chance"];
+		}
 
-			if(self::chance($rnd, $data["chance"])){
-				switch($type){
-					case 0:
-						$item = ItemFactory::getInstance()->get($data["item"][0], $data["item"][1], $data["item"][2]);
-						$item->setCustomName("§r" . $data["name"]);
-						$item->setLore($data["lore"]);
+		$name = ChanceUtil::getEvent($events);
+		$data = $rewards[$name];
 
-						foreach($data["enchantments"] as $enchantment){
-							$item->addEnchantment(new EnchantmentInstance(ConfigVars::$enchantments[$enchantment]));
-						}
+		$type = str_starts_with($name, "item") ? 0 : 1;
 
-						$winner->getInventory()->addItem($item);
-						$winner->sendMessage("§7You have been given a " . $data["name"]);
-						break;
-					case 1:
-						Main::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(Main::getInstance()->getServer(), Main::getInstance()->getServer()->getLanguage()), $data["cmd"]);
-						break;
+		switch($type){
+			case 0:
+				$item = ItemFactory::getInstance()->get($data["item"][0], $data["item"][1], $data["item"][2]);
+				$item->setCustomName("§r" . $data["name"]);
+				$item->setLore($data["lore"]);
+
+				foreach($data["enchantments"] as $enchantment){
+					$item->addEnchantment(new EnchantmentInstance(ConfigVars::$enchantments[$enchantment]));
 				}
-			}
+
+				$winner->getInventory()->addItem($item);
+				$winner->sendMessage("§7You have been given a " . $data["name"]);
+				break;
+			case 1:
+				Main::getInstance()->getServer()->dispatchCommand(new ConsoleCommandSender(Main::getInstance()->getServer(), Main::getInstance()->getServer()->getLanguage()), $data["cmd"]);
+				break;
 		}
 	}
 
@@ -320,10 +324,6 @@ class KothManager{
 		}
 
 		return $winner;
-	}
-
-	private static function chance($rnd, array $chances) : bool{
-		return $rnd > $chances[0] && $rnd <= $chances[1];
 	}
 
 }
