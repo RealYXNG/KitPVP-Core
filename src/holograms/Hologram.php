@@ -21,6 +21,14 @@ class Hologram extends Entity{
 		return "";
 	}
 
+	public function addEntry(HologramEntry $entry) {
+		$this->__setEntry($entry->getPosition(), $entry->getValue());
+	}
+
+	public function removeEntry(HologramEntry $entry) {
+		$this->__removeEntry($entry->getPosition());
+	}
+
 	/*
 	 * Magic Functions
 	 */
@@ -61,6 +69,10 @@ class Hologram extends Entity{
 
 	public function __setEntries(array $entries) :void{
 		$this->setNameTag(implode("\n", $entries));
+	}
+
+	public function __getNextPosition() :int{
+		return count($this->__getEntries());
 	}
 
 	public function __getEntries() :array{

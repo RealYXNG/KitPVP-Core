@@ -15,8 +15,6 @@ class HologramEntry{
 
 		$this->position = $position;
 		$this->value = $value;
-
-		$this->__create();
 	}
 
 	public function setPosition(int $position) :void{
@@ -29,15 +27,16 @@ class HologramEntry{
 		$this->hologram->__setEntry($this->position, $value);
 	}
 
-	public function remove() :void{
-		$this->hologram->__removeEntry($this->position);
+	public function getPosition() :int{
+		return $this->position;
 	}
 
-	/*
-	 * Magic Functions
-	 */
-	private function __create() {
-		$this->hologram->__setEntry($this->position, $this->value);
+	public function getValue() :string{
+		return $this->value;
+	}
+
+	public function remove() :void{
+		$this->hologram->__removeEntry($this->position);
 	}
 
 }
