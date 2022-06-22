@@ -31,12 +31,12 @@ class HologramEntry{
 		return $this->position;
 	}
 
-	public function getValue() :string{
-		return $this->value;
-	}
-
 	public function remove() :void{
 		$this->hologram->__removeEntry($this->position);
+	}
+
+	public function getValue() :string{
+		return $this->value;
 	}
 
 }
