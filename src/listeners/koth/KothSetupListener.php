@@ -140,9 +140,9 @@ class KothSetupListener implements Listener{
 		$centreY = $y1 + 5;
 		$centreZ = ($z1 + $z2) / 2;
 
-		$hologram = HologramManager::createHologram(new Location($centreX, $centreY, $centreZ, $loc1->getWorld(), 0, 0));
+		$hologram = new Hologram(new Location($centreX, $centreY, $centreZ, $loc1->getWorld(), 0, 0));
 
-		$arena = new KothArena($x1, $z1, $x2, $z2, $hologram);
+		$arena = new KothArena($x1, $z1, $x2, $z2, $centreY, $hologram);
 		KothManager::addArena($arena);
 
 		$arenaNotSetup = (KothManager::$kothDetails[1] == -1);

@@ -3,6 +3,9 @@
 namespace Crayder\Core\koth;
 
 use Crayder\Core\holograms\Hologram;
+use Crayder\Core\Main;
+use pocketmine\entity\Location;
+use Crayder\Core\koth\data\KothHologramData;
 
 class KothArena{
 
@@ -14,15 +17,30 @@ class KothArena{
 
 	private int $z2;
 
+	private int $centreY;
+
 	private Hologram $hologram;
 
-	public function __construct(int $x1, int $z1, int $x2, int $z2, Hologram $hologram){
+	private KothHologramData $kothHologramData;
+
+	public function __construct(int $x1, int $z1, int $x2, int $z2, int $centreY, Hologram $hologram = null){
 		$this->x1 = $x1;
 		$this->z1 = $z1;
 		$this->x2 = $x2;
 		$this->z2 = $z2;
 
-		$this->hologram = $hologram;
+		$this->centreY = $centreY;
+
+		if($hologram != null){
+			$this->hologram = $hologram;
+		} else {
+			$centreX = ($x1 + $x2) / 2;
+			$centreZ = ($z1 + $z2) / 2;
+
+			$this->hologram = new Hologram(new Location($centreX, $centreY, $centreZ, Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), 0, 0));
+		}
+
+		$this->kothHologramData = new KothHologramData();
 	}
 
 	public function checkPoint($x, $z) : bool{
@@ -76,6 +94,20 @@ class KothArena{
 	 */
 	public function getZ2() : int{
 		return $this->z2;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCentreY() : int{
+		return $this->centreY;
+	}
+
+	/**
+	 * @return KothHologramData
+	 */
+	public function getKothHologramData() : KothHologramData{
+		return $this->kothHologramData;
 	}
 
 	/**

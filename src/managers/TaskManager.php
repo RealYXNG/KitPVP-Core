@@ -6,6 +6,7 @@ use Crayder\Core\Main;
 use Crayder\Core\tasks\CooldownTask;
 use Crayder\Core\tasks\KothTask;
 use Crayder\Core\tasks\SBCooldownTask;
+use Crayder\Core\tasks\KothHologramTask;
 
 class TaskManager{
 
@@ -16,6 +17,7 @@ class TaskManager{
 		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new CooldownTask(), 20);
 		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new SBCooldownTask(), 20);
 		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new KothTask(), 20);
+		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new KothHologramTask(), 20);
 	}
 
 }

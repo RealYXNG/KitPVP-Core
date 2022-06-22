@@ -16,6 +16,7 @@ use pocketmine\player\Player;
 use Crayder\Core\configs\KothConfig;
 use Crayder\Core\util\ParticleUtil;
 use Crayder\Core\util\SoundUtil;
+use Crayder\Core\tasks\KothHologramTask;
 use pocketmine\world\Position;
 
 class KothManager{
@@ -57,6 +58,10 @@ class KothManager{
 
 	public static function getPlayersInArena() :int {
 		return count(self::$players);
+	}
+
+	public static function getPlayerCapturing() :Player{
+		return Main::getInstance()->getServer()->getPlayerByUUID(unserialize(array_keys(self::$players)[0]));
 	}
 
 	/*
@@ -107,7 +112,7 @@ class KothManager{
 			$player->sendMessage("§cPlayer with §4Highest KoTH Points §cwill win the §4§lKoTH!");
 			$player->sendMessage("§8----------------------------------");
 
-			self::createKothHologram();
+			self::kothStartHologram();
 
 			if(!SPlayerManager::isInStaffMode($player)){
 				$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();
@@ -143,17 +148,45 @@ class KothManager{
 		}
 	}
 
-	public static function createKothHologram() :void{
+	public static function kothScheduledHologram() :void{
 		$arena = KothManager::$koths[0];
 
 		$hologram = $arena->getHologram();
 		$hologram->reset();
 
-		$testEntry0 = new HologramEntry(0, "KoTH Test Entry 0", $hologram);
-		$testEntry1 = new HologramEntry(1, "Entry 1", $hologram);
+		$header = new HologramEntry(0, "§4§lKoTH Event", $hologram);
+		$starts = new HologramEntry(2, "§cStarts In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()), $hologram);
 
-		$hologram->addEntry($testEntry0);
-		$hologram->addEntry($testEntry1);
+		$hologram->addEntry($header);
+		$hologram->addEntry(new HologramEntry(1, " ", $hologram));
+		$hologram->addEntry($starts);
+
+		$entryManager = $arena->getKothHologramData();
+		$entryManager->addEntry("starts", $starts);
+
+		$hologram->spawnToAll();
+	}
+
+	public static function kothStartHologram() :void{
+		$arena = KothManager::$koths[0];
+
+		$hologram = $arena->getHologram();
+		$hologram->reset();
+
+		$header = new HologramEntry(0, "§4§lKoTH Event", $hologram);
+		$ends = new HologramEntry(2, "§cEnds In: §e" . TimeUtil::formatMS(self::$kothDetails[1] - time()), $hologram);
+		$capturing = new HologramEntry(3, "§cCapturing: §7No one", $hologram);
+
+		$hologram->addEntry($header);
+		$hologram->addEntry(new HologramEntry(1, " ", $hologram));
+		$hologram->addEntry($ends);
+		$hologram->addEntry($capturing);
+
+		$entryManager = $arena->getKothHologramData();
+		$entryManager->reset();
+
+		$entryManager->addEntry("ends", $ends);
+		$entryManager->addEntry("capturing", $capturing);
 
 		$hologram->spawnToAll();
 	}
@@ -163,6 +196,14 @@ class KothManager{
 		self::$kothDetails[1] = time() + KothConfig::$repeat * 60 * 60;
 
 		$winner = self::getWinner();
+
+		$arena = KothManager::$koths[0];
+
+		$hologram = $arena->getHologram();
+		$hologram->reset();
+
+		$entryManager = $arena->getKothHologramData();
+		$entryManager->reset();
 
 		foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
 			$player->sendMessage("§8----------------------------------");

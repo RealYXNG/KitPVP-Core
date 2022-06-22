@@ -16,6 +16,8 @@ class KothTask extends Task{
 
 		if(isset(KothManager::$kothDetails[1])){
 			if((KothManager::getTimestamp() - time()) == 20 && !KothManager::isKothGoingOn()){
+				KothManager::kothScheduledHologram();
+
 				foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
 					if(!SPlayerManager::isInStaffMode($player)){
 						$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();

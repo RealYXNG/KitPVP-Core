@@ -69,23 +69,26 @@ WHERE uuid = :uuid;
 -- #}
 -- #{ koths
 -- #    { init
-CREATE TABLE IF NOT EXISTS KOTHS(x1 int, z1 int, x2 int, z2 int);
+CREATE TABLE IF NOT EXISTS KOTHS(x1 int, z1 int, x2 int, z2 int, centreY int);
 -- #    }
 -- #    { add
 -- # 	  :x1 int
 -- # 	  :z1 int
 -- # 	  :x2 int
 -- # 	  :z2 int
+-- # 	  :centreY int
 INSERT INTO KOTHS(
     x1,
     z1,
     x2,
-    z2
+    z2,
+    centreY
 ) VALUES (
              :x1,
              :z1,
              :x2,
-             :z2
+             :z2,
+             :centreY
          );
 -- #    }
 -- #    { delete

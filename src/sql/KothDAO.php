@@ -14,7 +14,7 @@ class KothDAO{
 
 		Main::getDatabase()->executeSelect("koths.select", [], function(array $rows) : void{
 			foreach($rows as $row){
-				$arena = new KothArena($row["x1"], $row["z1"], $row["x2"], $row["z2"]);
+				$arena = new KothArena($row["x1"], $row["z1"], $row["x2"], $row["z2"], $row["centreY"]);
 				KothManager::addArena($arena);
 			}
 
@@ -36,7 +36,7 @@ class KothDAO{
 		$koths = KothManager::$koths;
 
 		foreach($koths as $koth){
-			Main::getDatabase()->executeInsert("koths.add", ["x1" => $koth->getX1(), "z1" => $koth->getZ1(), "x2" => $koth->getX2(), "z2" => $koth->getZ2()]);
+			Main::getDatabase()->executeInsert("koths.add", ["x1" => $koth->getX1(), "z1" => $koth->getZ1(), "x2" => $koth->getX2(), "z2" => $koth->getZ2(), "centreY" => $koth->getCentreY()]);
 		}
 
 		Main::getInstance()->getLogger()->info("Saved " . count($koths) . " KoTHs!");
