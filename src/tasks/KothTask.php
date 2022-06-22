@@ -56,9 +56,9 @@ class KothTask extends Task{
 					$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
 
 					if($entryManager->get("koth_points") != null){
-						Provider::getCustomPlayer($player)->getKothScore()->addKothPoints(1);
+						Provider::getCustomPlayer($player)->getKothData()->addKothPoints(1);
 
-						$entryManager->get("koth_points")->setValue(" §cKoTH Points: §e" . Provider::getCustomPlayer($player)->getKothScore()->getKothPoints());
+						$entryManager->get("koth_points")->setValue(" §cKoTH Points: §e" . Provider::getCustomPlayer($player)->getKothData()->getKothPoints());
 
 						$player->sendActionBarMessage("§7[§4KoTH§7] §cYou have gained §6+1 KoTH Point");
 					}

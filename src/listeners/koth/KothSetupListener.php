@@ -64,6 +64,7 @@ class KothSetupListener implements Listener{
 	}
 
 	private static function createKoth(Player $player, Position $loc1, Position $loc2) :void{
+		$starting = $player->getPosition()->getY();
 		$x1 = $loc1->getX();
 		$z1 = $loc1->getZ();
 
@@ -78,8 +79,8 @@ class KothSetupListener implements Listener{
 
 		$y1 = $loc1->getY();
 		$y2 = $loc1->getY();
-		$y3 = WorldUtil::getHighestY($x3, $z3) - 1;
-		$y4 = WorldUtil::getHighestY($x4, $z4) - 1;
+		$y3 = WorldUtil::getHighestY($x3, $z3, $starting) - 1;
+		$y4 = WorldUtil::getHighestY($x4, $z4, $starting) - 1;
 
 		$player->sendMessage("§7[§6!§7] §6KoTH Arena has been successfully created!");
 
@@ -93,12 +94,12 @@ class KothSetupListener implements Listener{
 
 		while($i < $max) {
 			$newX = $i;
-			$newY = WorldUtil::getHighestY($i, $z1) - 1;
+			$newY = WorldUtil::getHighestY($i, $z1, $starting) - 1;
 			$newZ = $z1;
 
 			$loc1->getWorld()->setBlock(new Vector3($newX, $newY, $newZ), BlockFactory::getInstance()->get(35, 14));
 
-			$newY = WorldUtil::getHighestY($i, $z2) - 1;
+			$newY = WorldUtil::getHighestY($i, $z2, $starting) - 1;
 			$newZ = $z2;
 
 			$loc2->getWorld()->setBlock(new Vector3($newX, $newY, $newZ), BlockFactory::getInstance()->get(35, 14));
@@ -115,12 +116,12 @@ class KothSetupListener implements Listener{
 
 		while($i < $max) {
 			$newX = $x1;
-			$newY = WorldUtil::getHighestY($x1, $i) - 1;
+			$newY = WorldUtil::getHighestY($x1, $i, $starting) - 1;
 			$newZ = $i;
 
 			$loc1->getWorld()->setBlock(new Vector3($newX, $newY, $newZ), BlockFactory::getInstance()->get(35, 14));
 
-			$newY = WorldUtil::getHighestY($x2, $i) - 1;
+			$newY = WorldUtil::getHighestY($x2, $i, $starting) - 1;
 			$newX = $x2;
 
 			$loc2->getWorld()->setBlock(new Vector3($newX, $newY, $newZ), BlockFactory::getInstance()->get(35, 14));

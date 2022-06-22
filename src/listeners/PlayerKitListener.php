@@ -3,7 +3,7 @@
 namespace Crayder\Core\listeners;
 
 use Crayder\Core\Main;
-use Crayder\Core\tasks\EffectsTask;
+use Crayder\Core\tasks\delayed\EffectsTask;
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;

@@ -103,7 +103,9 @@ class EggedHandler implements Listener{
 
 					for ($newX = $x - 1; $newX <= $x + 1; $newX++) {
 						for ($newZ = $z - 1; $newZ <= $z + 1; $newZ++) {
-							$effBlock = $entity->getWorld()->getBlock(new Vector3($newX, WorldUtil::getHighestY($newX, $newZ), $newZ));
+							$newY = WorldUtil::getHighestY($newX, $newZ, $owningEntity->getPosition()->getY());
+
+							$effBlock = $entity->getWorld()->getBlock(new Vector3($newX, $newY, $newZ));
 							$entity->getWorld()->setBlock($effBlock->getPosition()->asVector3(), BlockFactory::getInstance()->get(30, 0));
 
 							$time = (Provider::getCustomPlayer($owningEntity)->checkCooldown("egged") - time()) - 1;

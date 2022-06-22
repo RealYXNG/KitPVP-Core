@@ -14,6 +14,7 @@ use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
@@ -224,6 +225,14 @@ class PlayerListener implements Listener{
 			}
 
 			CooldownManager::showCooldown($value, $event->getPlayer());
+		}
+	}
+
+	public function onFallDamage(EntityDamageEvent $event) {
+		$entity = $event->getEntity();
+
+		if($event->getCause() == 4 && $entity instanceof Player) {
+			$event->cancel();
 		}
 	}
 

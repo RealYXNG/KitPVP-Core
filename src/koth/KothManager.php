@@ -152,7 +152,7 @@ class KothManager{
 			$player->sendMessage("§6" . (($winner == null) ? "No One" : $winner->getName()) . " §chas won the KoTH Event!");
 			$player->sendMessage("§8----------------------------------");
 
-			Provider::getCustomPlayer($player)->getKothScore()->resetKothPoints();
+			Provider::getCustomPlayer($player)->getKothData()->resetKothPoints();
 
 			if(!SPlayerManager::isInStaffMode($player)){
 				$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
@@ -235,7 +235,7 @@ class KothManager{
 		$winner = null;
 
 		foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
-			$kothPoints = Provider::getCustomPlayer($player)->getKothScore()->getKothPoints();
+			$kothPoints = Provider::getCustomPlayer($player)->getKothData()->getKothPoints();
 
 			if($kothPoints > $highestScore){
 				$highestScore = $kothPoints;
@@ -248,7 +248,7 @@ class KothManager{
 			$count = 0;
 
 			foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
-				$kothPoints = Provider::getCustomPlayer($player)->getKothScore()->getKothPoints();
+				$kothPoints = Provider::getCustomPlayer($player)->getKothData()->getKothPoints();
 
 				if($kothPoints == $highestScore){
 					$count++;

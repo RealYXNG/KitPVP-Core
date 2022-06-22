@@ -7,19 +7,19 @@ use Crayder\Core\configs\SkillsConfig;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
 use Crayder\StaffSys\SPlayerProvider;
-use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
+use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\math\Vector3;
-use pocketmine\player\Player;
 use Crayder\Core\configs\AbilitiesConfig;
 use Crayder\Core\managers\CooldownManager;
 use Crayder\Core\util\CooldownUtil;
+use Crayder\Core\tasks\repeating\VampireTask;
 use pocketmine\world\sound\GhastShootSound;
 
 class VampireHandler implements Listener{
 
-	private static array $players;
+	public static array $players;
 
 	public function __construct(){
 		self::$players = [];
@@ -43,7 +43,7 @@ class VampireHandler implements Listener{
 			}
 
 			foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $entity){
-				if($entity->getName() == $player->getName()) {
+				if($entity->getName() == $player->getName()){
 					continue;
 				}
 
@@ -58,11 +58,11 @@ class VampireHandler implements Listener{
 				if($distance < AbilitiesConfig::$bats_block_range){
 					$level = Provider::getCustomPlayer($entity)->getSkillsManager()->getLevel("dodge");
 
-					if($level != 0) {
+					if($level != 0){
 						$chance = SkillsConfig::$dodge["levels"][$level]["chance"];
 
 						$rnd = rand(1, 100);
-						if($rnd < $chance) {
+						if($rnd < $chance){
 							$entity->sendMessage("§7[§c!§7] §cYou have successfully dodged the Bats Ability tried by " . $player->getName());
 							$player->sendMessage("§7[§c!§7] §cYour ability on " . $entity->getName() . " failed as they have successfully dodged your ability!");
 							continue;
@@ -74,7 +74,7 @@ class VampireHandler implements Listener{
 					$motFlat = $player->getDirectionPlane()->normalize()->multiply(10 * 4.75 / 20);
 					$entity->setMotion(new Vector3($motFlat->getX(), 2.85, $motFlat->getY()));
 
-					array_push(self::$players, $entity->getUniqueId());
+					Main::getInstance()->getScheduler()->scheduleRepeatingTask(new VampireTask($entity), 1);
 
 					$entity->getWorld()->addSound($entity->getPosition(), new GhastShootSound());
 				}
@@ -82,34 +82,31 @@ class VampireHandler implements Listener{
 
 			$level = Provider::getCustomPlayer($event->getPlayer())->getSkillsManager()->getLevel("cooldown_shorten");
 
-			if($level != 0) {
+			if($level != 0){
 				$multiplier = SkillsConfig::$cooldown_shorten["levels"][$level]["multiplier"];
-			} else {
+			}else{
 				$multiplier = 1;
 			}
 
 			CooldownUtil::setCooldown($player, "vampire", AbilitiesConfig::$bats_cooldown * $multiplier);
 
-			if($multiplier != 1) {
+			if($multiplier != 1){
 				$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
 			}
 		}
 	}
 
-	public function onEntityDamage(EntityDamageEvent $event){
-		$entity = $event->getEntity();
-		if($entity instanceof Player && $event->getCause() == 4){
-			if(in_array($entity->getUniqueId(), self::$players) && !isset(ParadoxHandler::$players[$entity->getUniqueId()->toString()])){
-				$event->cancel();
+	public function onHitGround(PlayerMoveEvent $event){
+		$player = $event->getPlayer();
 
-				if($entity->getHealth() < AbilitiesConfig::$bats_damage) {
-					$entity->kill();
-				} else {
-					$entity->setHealth($entity->getHealth() - AbilitiesConfig::$bats_damage);
-				}
-
-				unset(self::$players[array_search($entity->getUniqueId(), self::$players)]);
+		if($player->isOnGround() && in_array($player->getUniqueId(), self::$players) && !in_array($player->getUniqueId(), ParadoxHandler::$players)){
+			if($player->getHealth() < AbilitiesConfig::$bats_damage){
+				$player->kill();
+			}else{
+				$player->setHealth($player->getHealth() - AbilitiesConfig::$bats_damage);
 			}
+
+			unset(self::$players[array_search($player->getUniqueId(), self::$players)]);
 		}
 	}
 

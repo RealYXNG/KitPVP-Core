@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core\tasks;
+namespace Crayder\Core\tasks\delayed;
 
 use Crayder\Core\managers\EffectsManager;
 use pocketmine\player\Player;

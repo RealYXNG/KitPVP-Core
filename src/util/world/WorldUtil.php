@@ -7,8 +7,8 @@ use Crayder\Core\Main;
 class WorldUtil
 {
 
-	public static function getHighestY(int $x, int $z) :int{
-		$int = 0;
+	public static function getHighestY(int $x, int $z, int $start) {
+		$int = $start - 1;
 
 		while($int < 255) {
 			$int++;
@@ -16,16 +16,18 @@ class WorldUtil
 			$block = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getBlockAt($x, $int, $z);
 			if($block->getId() == 0) {
 
-				$block2 = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getBlockAt($x, $int - 1, $z);
-				if($block2->getId() == 31) {
+				$blockBelow = Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getBlockAt($x, $int - 1, $z);
+				if($blockBelow->getId() == 31) {
 					return ($int - 1);
+				}
+
+				if($blockBelow->getId() == 0) {
+					return self::getHighestY($x, $z, ($int - 1));
 				}
 
 				return $int;
 			}
 		}
-
-		return 0;
 	}
 
 }
