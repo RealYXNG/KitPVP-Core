@@ -16,13 +16,13 @@ rewards:
     name: "§cSpecial Reward"
     lore: ["§r§cSpecial Reward"]
     item: [35, 14, 2]
-    chance: [0, 50]
+    chance: 50
     enchantments: []
 
   command1:
     cmd: "say Command 1 Works"
-    chance: [50, 85]
+    chance: 35
 
   command2:
     cmd: "say Command 2 Works"
-    chance: [85, 100]
+    chance: 15
