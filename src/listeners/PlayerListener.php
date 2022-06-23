@@ -211,6 +211,10 @@ class PlayerListener implements Listener{
 
 				CooldownManager::showCooldown($value, $event->getPlayer());
 			}
+
+			if(!CooldownUtil::check($player)) {
+				CooldownManager::showCooldown($value, $event->getPlayer());
+			}
 		}
 
 		/*
