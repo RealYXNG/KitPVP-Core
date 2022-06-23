@@ -9,6 +9,8 @@ use Crayder\Core\abilities\EggedHandler;
 use Crayder\Core\commands\InfoCommand;
 use Crayder\Core\commands\scoreboard\ScoreboardCmd;
 use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\entities\BatEntity;
+use Crayder\Core\holograms\Hologram;
 use Crayder\Core\listeners\PlayerClassListener;
 use Crayder\Core\classes\TankClass;
 use Crayder\Core\configs\ConfigVars;
@@ -16,6 +18,9 @@ use Crayder\Core\listeners\PlayerKitListener;
 use Crayder\Core\listeners\PlayerSkillsListener;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\block\BlockFactory;
+use pocketmine\entity\EntityDataHelper as Helper;
+use pocketmine\entity\EntityFactory;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use Crayder\Core\commands\SayCommand;
 use Crayder\Core\configs\AbilitiesConfig;
@@ -47,6 +52,7 @@ use Crayder\Core\commands\skills\SkillsCmd;
 use Crayder\Core\commands\tokens\MyTokensCmd;
 use Crayder\Core\commands\tokens\TokensCmd;
 use Crayder\Core\util\SkillsUtil;
+use pocketmine\world\World;
 use poggit\libasynql\libasynql;
 
 class Main extends PluginBase {
@@ -90,6 +96,14 @@ class Main extends PluginBase {
 
 		// Register Custom Items
 		CustomItemUtil::registerCustomItems();
+
+		EntityFactory::getInstance()->register(BatEntity::class, function(World $world, CompoundTag $nbt) : BatEntity{
+			return new BatEntity(null, null, Helper::parseLocation($nbt, $world), $nbt);
+		}, ['Bat']);
+
+		EntityFactory::getInstance()->register(Hologram::class, function(World $world, CompoundTag $nbt) : Hologram{
+			return new Hologram(Helper::parseLocation($nbt, $world), $nbt);
+		}, ['Hologram']);
 	}
 
 	private function registerCommands() :void{

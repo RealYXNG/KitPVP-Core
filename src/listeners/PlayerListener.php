@@ -204,9 +204,9 @@ class PlayerListener implements Listener{
 				$player->getXpManager()->setXpLevel(0);
 
 				CooldownUtil::remove($player);
-			}
 
-			CooldownManager::showCooldown($value, $event->getPlayer());
+				CooldownManager::showCooldown($value, $event->getPlayer());
+			}
 		}
 
 		/*
@@ -222,9 +222,9 @@ class PlayerListener implements Listener{
 				$player->getXpManager()->setXpLevel(0);
 
 				CooldownUtil::remove($player);
-			}
 
-			CooldownManager::showCooldown($value, $event->getPlayer());
+				CooldownManager::showCooldown($value, $event->getPlayer());
+			}
 		}
 	}
 

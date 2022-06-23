@@ -2,11 +2,12 @@
 
 namespace Crayder\Core\abilities;
 
-use Crayder\Core\classes\handlers\ParadoxHandler;
 use Crayder\Core\configs\SkillsConfig;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
+use Crayder\Core\util\ParticleUtil;
 use Crayder\StaffSys\SPlayerProvider;
+use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerMoveEvent;
@@ -15,6 +16,7 @@ use Crayder\Core\configs\AbilitiesConfig;
 use Crayder\Core\managers\CooldownManager;
 use Crayder\Core\util\CooldownUtil;
 use Crayder\Core\tasks\repeating\VampireTask;
+use pocketmine\player\Player;
 use pocketmine\world\sound\GhastShootSound;
 
 class VampireHandler implements Listener{
@@ -75,6 +77,7 @@ class VampireHandler implements Listener{
 					$entity->setMotion(new Vector3($motFlat->getX(), 2.85, $motFlat->getY()));
 
 					Main::getInstance()->getScheduler()->scheduleRepeatingTask(new VampireTask($entity), 1);
+					ParticleUtil::flame($entity->getLocation());
 
 					$entity->getWorld()->addSound($entity->getPosition(), new GhastShootSound());
 				}
@@ -99,14 +102,39 @@ class VampireHandler implements Listener{
 	public function onHitGround(PlayerMoveEvent $event){
 		$player = $event->getPlayer();
 
-		if($player->isOnGround() && in_array($player->getUniqueId(), self::$players) && !in_array($player->getUniqueId(), ParadoxHandler::$players)){
+		if(!$player->isOnGround() && isset(self::$players[$player->getUniqueId()->toString()])) {
+			ParticleUtil::flame($player->getLocation());
+		}
+
+		if($player->isOnGround() && isset(self::$players[$player->getUniqueId()->toString()])){
 			if($player->getHealth() < AbilitiesConfig::$bats_damage){
 				$player->kill();
 			}else{
 				$player->setHealth($player->getHealth() - AbilitiesConfig::$bats_damage);
 			}
 
-			unset(self::$players[array_search($player->getUniqueId(), self::$players)]);
+			foreach(self::$players[$player->getUniqueId()->toString()] as $batEntity){
+				$batEntity->despawnFromAll();
+				$batEntity->kill();
+			}
+
+			unset(self::$players[$player->getUniqueId()->toString()]);
+		}
+	}
+
+	public function onPearlTeleport(EntityTeleportEvent $event) {
+		$entity = $event->getEntity();
+
+		if($entity instanceof Player) {
+			// Assume the cause is ender pearl
+			if(isset(self::$players[$entity->getUniqueId()->toString()])) {
+				foreach(self::$players[$entity->getUniqueId()->toString()] as $batEntity){
+					$batEntity->despawnFromAll();
+					$batEntity->kill();
+				}
+
+				unset(self::$players[$entity->getUniqueId()->toString()]);
+			}
 		}
 	}
 

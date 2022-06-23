@@ -31,7 +31,6 @@ class ParadoxHandler implements Listener{
 		$item = $event->getItem();
 
 		if($item instanceof EnderPearl){
-
 			if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "paradox"){
 				array_push(self::$players, $event->getPlayer()->getUniqueId());
 			}
@@ -56,7 +55,7 @@ class ParadoxHandler implements Listener{
 
 				if(in_array($owningEntity->getUniqueId(), self::$players)){
 
-					$entity->setMotion(new Vector3($entity->getMotion()->x * 3.0, $entity->getMotion()->y * 3.0, $entity->getMotion()->z * 3.0));
+					$entity->setMotion(new Vector3($entity->getMotion()->x * 2.75, $entity->getMotion()->y * 1.5, $entity->getMotion()->z * 2.75));
 
 					if(isset(self::$pearls[(string) $owningEntity->getUniqueId()])){
 						$array = self::$pearls[(string) $owningEntity->getUniqueId()];
@@ -149,7 +148,7 @@ class ParadoxHandler implements Listener{
 				foreach($array as $pearl => $expiry){
 					if($event->getType() == "pearl-" . $pearl){
 						unset($array[$pearl]);
-						self::$players[$event->getPlayer()->getUniqueId()->toString()] = $array;
+						self::$pearls[$event->getPlayer()->getUniqueId()->toString()] = $array;
 					}
 				}
 			}

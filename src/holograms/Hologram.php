@@ -3,14 +3,11 @@
 namespace Crayder\Core\holograms;
 
 use pocketmine\entity\Entity;
-use pocketmine\entity\EntityFactory;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\Location;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\player\Player;
-use pocketmine\world\World;
-use pocketmine\entity\EntityDataHelper as Helper;
 
 class Hologram extends Entity{
 
@@ -23,10 +20,6 @@ class Hologram extends Entity{
 
 		$this->setScale(0.00001);
 		$this->setNameTagAlwaysVisible();
-
-		EntityFactory::getInstance()->register(Hologram::class, function(World $world, CompoundTag $nbt) : Hologram{
-			return new Hologram(Helper::parseLocation($nbt, $world), $nbt);
-		}, ['Human']);
 	}
 
 	public function addEntry(HologramEntry $entry) :void{
@@ -100,6 +93,6 @@ class Hologram extends Entity{
 	}
 
 	public static function getNetworkTypeId() : string{
-		return EntityIds::PLAYER;
+		return EntityIds::BAT;
 	}
 }
