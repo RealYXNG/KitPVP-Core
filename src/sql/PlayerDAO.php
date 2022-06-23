@@ -27,8 +27,23 @@ class PlayerDAO {
 
 	public static function update(Player $player, int $readRules, int $class, int $kit, int $onlineTime, string $cooldowns, int $tokens, string $skills, int $skill_resets) : void{
 		$uuid = (String) $player->getUniqueId();
+		$last_logged = time();
 
-		Main::getDatabase()->executeInsert("players.update", ["uuid" => $uuid, "rules" => $readRules, "class" => $class, "kit" => $kit, "online_time" => $onlineTime, "last_logged" => time(), "cooldowns" => $cooldowns, "tokens" => $tokens, "skills" => $skills, "skill_resets" => $skill_resets]);
+		$sql = "UPDATE PLAYERS SET rules = :rules, class = :class, kit = :kit, cooldowns = :cooldowns, online_time = :online_time, last_logged = :last_logged, tokens = :tokens, skills = :skills, skill_resets = :skill_resets where uuid = :uuid;";
+		$stmt = Main::$db->prepare($sql);
+
+		$stmt->bindValue(':rules', $readRules);
+		$stmt->bindValue(':class', $class);
+		$stmt->bindValue(':kit', $kit);
+		$stmt->bindValue(':cooldowns', $cooldowns);
+		$stmt->bindValue(':online_time', $onlineTime);
+		$stmt->bindValue(':last_logged', $last_logged);
+		$stmt->bindValue(':tokens', $tokens);
+		$stmt->bindValue(':skills', $skills);
+		$stmt->bindValue(':skill_resets', $skill_resets);
+		$stmt->bindValue(':uuid', $uuid);
+
+		$stmt->execute();
 	}
 
 }

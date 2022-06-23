@@ -53,6 +53,7 @@ use Crayder\Core\commands\skills\SkillsCmd;
 use Crayder\Core\commands\tokens\MyTokensCmd;
 use Crayder\Core\commands\tokens\TokensCmd;
 use Crayder\Core\util\SkillsUtil;
+use pocketmine\plugins\Core\src\sql\DBConnection;
 use pocketmine\world\World;
 use poggit\libasynql\libasynql;
 
@@ -61,6 +62,8 @@ class Main extends PluginBase {
 	private static Main $instance;
 	private static $database;
 	public static String $prefix;
+
+	public static $db;
 
 	public function onEnable() : void{
 		self::$instance = $this;
@@ -116,6 +119,14 @@ class Main extends PluginBase {
 			if($entity instanceof Hologram) {
 				$entity->reset();
 			}
+		}
+
+		self::$db = new DBConnection();
+
+		if(!self::$db) {
+			self::$db->lastErrorMsg();
+		} else{
+			$this->getLogger()->info("SQLITE Database Hooked");
 		}
 	}
 

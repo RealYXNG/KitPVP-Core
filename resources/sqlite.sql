@@ -38,19 +38,6 @@ INSERT INTO PLAYERS(
              :skill_resets
          );
 -- #    }
--- #    { update
--- # 	  :uuid string
--- #      :rules int
--- #      :class int
--- #      :kit int
--- #      :online_time int
--- #      :last_logged int
--- #      :cooldowns string
--- #      :tokens int
--- #      :skills string
--- #      :skill_resets int
-UPDATE PLAYERS SET rules = :rules, class = :class, kit = :kit, cooldowns = :cooldowns, online_time = :online_time, last_logged = :last_logged, tokens = :tokens, skills = :skills, skill_resets = :skill_resets where uuid = :uuid;
--- #    }
 -- #    { update_lastlogged
 -- # 	  :uuid string
 -- #      :last_logged int
@@ -90,9 +77,6 @@ INSERT INTO KOTHS(
              :z2,
              :centreY
          );
--- #    }
--- #    { delete
-DELETE FROM KOTHS;
 -- #    }
 -- #    { select
 SELECT * FROM KOTHS;

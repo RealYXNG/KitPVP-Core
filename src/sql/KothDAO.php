@@ -20,12 +20,9 @@ class KothDAO{
 
 			Main::getInstance()->getLogger()->info("Loaded " . count($rows) . " KoTHs!");
 
-			// Remove koths from SQLite and store it in memory
-			Main::getDatabase()->executeInsert("koths.delete", []);
-
-			if(count(KothManager::$koths) == 0) {
+			if(count(KothManager::$koths) == 0){
 				KothManager::$kothDetails[1] = -1;
-			} else {
+			}else{
 				KothManager::$kothDetails[1] = time() + KothConfig::$repeat * 60 * 60;
 			}
 		});
@@ -35,8 +32,28 @@ class KothDAO{
 		// Reload the koths into the memory
 		$koths = KothManager::$koths;
 
+		$sql = <<<EOF
+DELETE FROM KOTHS;
+EOF;
+		Main::$db->query($sql);
+
 		foreach($koths as $koth){
-			Main::getDatabase()->executeInsert("koths.add", ["x1" => $koth->getX1(), "z1" => $koth->getZ1(), "x2" => $koth->getX2(), "z2" => $koth->getZ2(), "centreY" => $koth->getCentreY()]);
+			$x1 = $koth->getX1();
+			$z1 = $koth->getZ1();
+			$x2 = $koth->getX2();
+			$z2= $koth->getZ2();
+			$centreY = $koth->getCentreY();
+
+			$sql = "INSERT INTO KOTHS(x1, z1, x2, z2, centreY) VALUES(:x1, :z2, :x2, :z2, :centreY);";
+
+			$stmt = Main::$db->prepare($sql);
+			$stmt->bindValue(":x1", $x1);
+			$stmt->bindValue(":z1", $z1);
+			$stmt->bindValue(":x2", $x2);
+			$stmt->bindValue(":z2", $z2);
+			$stmt->bindValue(":centreY", $centreY);
+
+			$stmt->execute();
 		}
 
 		Main::getInstance()->getLogger()->info("Saved " . count($koths) . " KoTHs!");
