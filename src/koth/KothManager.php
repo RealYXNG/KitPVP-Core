@@ -152,8 +152,9 @@ class KothManager{
 	public static function kothScheduledHologram() : void{
 		$arena = KothManager::$koths[0];
 
+		$arena->resetHologramData();
+
 		$hologram = $arena->getHologram();
-		$hologram->reset();
 
 		$header = new HologramEntry(0, "§4§lKoTH Event", $hologram);
 		$starts = new HologramEntry(2, "§cStarts In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()), $hologram);
@@ -171,8 +172,9 @@ class KothManager{
 	public static function kothStartHologram() : void{
 		$arena = KothManager::$koths[0];
 
+		$arena->resetHologramData();
+
 		$hologram = $arena->getHologram();
-		$hologram->reset();
 
 		$header = new HologramEntry(0, "§4§lKoTH Event", $hologram);
 		$ends = new HologramEntry(2, "§cEnds In: §e" . TimeUtil::formatMS(self::$kothDetails[1] - time()), $hologram);
@@ -200,8 +202,7 @@ class KothManager{
 
 		$arena = KothManager::$koths[0];
 
-		$hologram = $arena->getHologram();
-		$hologram->reset();
+		$arena->resetHologramData();
 
 		$entryManager = $arena->getKothHologramData();
 		$entryManager->reset();

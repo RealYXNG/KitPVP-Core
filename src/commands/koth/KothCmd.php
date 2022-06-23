@@ -110,6 +110,12 @@ class KothCmd extends Command{
 			}
 
 			else if($arg == "delete") {
+
+				if(KothManager::isKothGoingOn()) {
+					$sender->sendMessage("§7[§c!§7] §cYou cannot delete a KoTH Arena when a KoTH Event is going on!");
+					return;
+				}
+
 				$loc = $sender->getLocation();
 				$block = $loc->getWorld()->getBlock(new Vector3((int) $loc->getX(), (int) $loc->getY(), (int) $loc->getZ()));
 

@@ -18,6 +18,7 @@ use Crayder\Core\listeners\PlayerKitListener;
 use Crayder\Core\listeners\PlayerSkillsListener;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\block\BlockFactory;
+use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\EntityDataHelper as Helper;
 use pocketmine\entity\EntityFactory;
 use pocketmine\nbt\tag\CompoundTag;
@@ -99,11 +100,23 @@ class Main extends PluginBase {
 
 		EntityFactory::getInstance()->register(BatEntity::class, function(World $world, CompoundTag $nbt) : BatEntity{
 			return new BatEntity(null, null, Helper::parseLocation($nbt, $world), $nbt);
-		}, ['Bat']);
+		}, ['Bat', 'minecraft:bat'], EntityLegacyIds::BAT);
 
 		EntityFactory::getInstance()->register(Hologram::class, function(World $world, CompoundTag $nbt) : Hologram{
 			return new Hologram(Helper::parseLocation($nbt, $world), $nbt);
-		}, ['Hologram']);
+		}, ['Hologram', 'minecraft:hologram'], EntityLegacyIds::BAT);
+
+		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity) {
+			if($entity instanceof BatEntity || $entity instanceof Hologram) {
+				$entity->flagForDespawn();
+				$entity->despawnFromAll();
+				$entity->kill();
+			}
+
+			if($entity instanceof Hologram) {
+				$entity->reset();
+			}
+		}
 	}
 
 	private function registerCommands() :void{
@@ -198,6 +211,18 @@ class Main extends PluginBase {
 				$taskHandler->cancel();
 
 				unset(ArcherHandler::$players[$player->getUniqueId()->toString()]);
+			}
+		}
+
+		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity) {
+			if($entity instanceof BatEntity || $entity instanceof Hologram) {
+				$entity->flagForDespawn();
+				$entity->despawnFromAll();
+				$entity->kill();
+			}
+
+			if($entity instanceof Hologram) {
+				$entity->reset();
 			}
 		}
 

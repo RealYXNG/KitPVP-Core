@@ -15,26 +15,32 @@ class KothTask extends Task{
 	public function onRun() : void{
 
 		if(isset(KothManager::$kothDetails[1])){
-			if((KothManager::getTimestamp() - time()) == 20 && !KothManager::isKothGoingOn()){
-				KothManager::kothScheduledHologram();
+			$arenaNotSetup = (count(KothManager::$koths) == 0);
 
-				foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
-					if(!SPlayerManager::isInStaffMode($player)){
-						$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();
+			if($arenaNotSetup){
+				KothManager::$kothDetails[1] = -1;
+			}else{
+				if((KothManager::getTimestamp() - time()) == 20 && !KothManager::isKothGoingOn()){
+					KothManager::kothScheduledHologram();
 
-						$entry = new ScoreboardEntry(7, " §4KoTH Event §7(§6Scheduled§7)");
-						$entry1 = new ScoreboardEntry(8, " §cStarts In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
+					foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
+						if(!SPlayerManager::isInStaffMode($player)){
+							$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();
 
-						$scoreboard->addEntry($entry);
-						$scoreboard->addEntry($entry1);
+							$entry = new ScoreboardEntry(7, " §4KoTH Event §7(§6Scheduled§7)");
+							$entry1 = new ScoreboardEntry(8, " §cStarts In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
 
-						$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
-						$entryManager->add("koth", $entry);
-						$entryManager->add("koth_starts", $entry1);
+							$scoreboard->addEntry($entry);
+							$scoreboard->addEntry($entry1);
 
-						$entry4 = new ScoreboardEntry(6, "    ");
-						Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
-						$scoreboard->addEntry($entry4);
+							$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
+							$entryManager->add("koth", $entry);
+							$entryManager->add("koth_starts", $entry1);
+
+							$entry4 = new ScoreboardEntry(6, "    ");
+							Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
+							$scoreboard->addEntry($entry4);
+						}
 					}
 				}
 			}

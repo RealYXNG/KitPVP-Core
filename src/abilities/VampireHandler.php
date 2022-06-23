@@ -114,8 +114,7 @@ class VampireHandler implements Listener{
 			}
 
 			foreach(self::$players[$player->getUniqueId()->toString()] as $batEntity){
-				$batEntity->despawnFromAll();
-				$batEntity->kill();
+				$batEntity->flagForDespawn();
 			}
 
 			unset(self::$players[$player->getUniqueId()->toString()]);

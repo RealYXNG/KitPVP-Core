@@ -8,7 +8,7 @@ use Crayder\Core\koth\KothArena;
 use Crayder\Core\koth\KothManager;
 
 class KothDAO{
-	
+
 	public static function load(){
 		Main::getDatabase()->executeInsert("koths.init", []);
 

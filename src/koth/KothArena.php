@@ -34,10 +34,7 @@ class KothArena{
 		if($hologram != null){
 			$this->hologram = $hologram;
 		} else {
-			$centreX = ($x1 + $x2) / 2;
-			$centreZ = ($z1 + $z2) / 2;
-
-			$this->hologram = new Hologram(new Location($centreX, $centreY, $centreZ, Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), 0, 0));
+			$this->createHologramEntity();
 		}
 
 		$this->kothHologramData = new KothHologramData();
@@ -61,6 +58,13 @@ class KothArena{
 		}
 
 		return false;
+	}
+
+	private function createHologramEntity() :void{
+		$centreX = ($this->x1 + $this->x2) / 2;
+		$centreZ = ($this->z1 + $this->z2) / 2;
+
+		$this->hologram = new Hologram(new Location($centreX, $this->centreY, $centreZ, Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld(), 0, 0));
 	}
 
 	private function checkBetween($value, $min, $max) :bool{
@@ -115,6 +119,12 @@ class KothArena{
 	 */
 	public function getHologram() : Hologram{
 		return $this->hologram;
+	}
+
+	public function resetHologramData() :void{
+		$this->hologram->flagForDespawn();
+
+		$this->createHologramEntity();
 	}
 
 }
