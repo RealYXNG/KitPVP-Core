@@ -2,8 +2,11 @@
 
 namespace Crayder\Core\commands\koth;
 
+use Crayder\Core\Main;
 use Crayder\Core\Provider;
+use Crayder\Core\scoreboard\ScoreboardEntry;
 use Crayder\Core\util\TimeUtil;
+use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\math\Vector3;
@@ -120,8 +123,24 @@ class KothCmd extends Command{
 				$block = $loc->getWorld()->getBlock(new Vector3((int) $loc->getX(), (int) $loc->getY(), (int) $loc->getZ()));
 
 				if(KothManager::isPosInArena($block->getPosition())) {
-					$count = KothManager::removeArena($block->getPosition());
-					$sender->sendMessage("§7[§c!§7] §a" . $count . " KoTH Arena has been successfully deleted!");
+					$arena = KothManager::$koths[0];
+					$arena->resetHologramData();
+
+					KothManager::removeArena($block->getPosition());
+					$sender->sendMessage("§7[§c!§7] §aThe KoTH Arena has been successfully deleted!");
+
+					foreach(Main::getInstance()->getServer()->getOnlinePlayers() as $player){
+						if(!SPlayerManager::isInStaffMode($player)){
+							$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
+							$entryManager->get("koth")->clear();
+							$entryManager->get("koth_starts")->clear();
+						}
+
+						if(Provider::getCustomPlayer($player)->getEntryManager()->get("kothspacing") != null){
+							Provider::getCustomPlayer($player)->getScoreboard()->removeEntry(Provider::getCustomPlayer($player)->getEntryManager()->get("kothspacing"));
+							Provider::getCustomPlayer($player)->getEntryManager()->remove("kothspacing");
+						}
+					}
 					return;
 				}
 

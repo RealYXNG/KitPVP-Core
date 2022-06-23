@@ -123,6 +123,7 @@ class KothArena{
 
 	public function resetHologramData() :void{
 		$this->hologram->flagForDespawn();
+		$this->hologram->kill();
 
 		$this->createHologramEntity();
 	}

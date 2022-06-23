@@ -10,6 +10,7 @@ use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
 use pocketmine\item\Armor;
+use pocketmine\item\Durable;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
@@ -42,6 +43,10 @@ class KitFactory{
 			$tag = new CompoundTag();
 			$tag->setString("kit", $kit);
 			$kitItem->setCustomBlockData($tag);
+
+			if(!$kitItem instanceof Armor && $kitItem instanceof Durable) {
+				$kitItem->setUnbreakable();
+			}
 
 			array_push($kitItems, $kitItem);
 		}

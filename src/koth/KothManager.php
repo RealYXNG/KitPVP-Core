@@ -201,7 +201,6 @@ class KothManager{
 		$winner = self::getWinner();
 
 		$arena = KothManager::$koths[0];
-
 		$arena->resetHologramData();
 
 		$entryManager = $arena->getKothHologramData();
