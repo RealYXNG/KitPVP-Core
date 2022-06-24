@@ -25,6 +25,8 @@ class HologramEntry{
 
 	public function setValue(string $value) :void{
 		$this->hologram->__setEntry($this->position, $value);
+		
+		$this->value = $value;
 	}
 
 	public function getPosition() :int{
