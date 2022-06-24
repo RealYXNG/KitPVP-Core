@@ -139,7 +139,7 @@ class Main extends PluginBase {
 		self::$instance->getServer()->getCommandMap()->register("kit", new KitCommand());
 		self::$instance->getServer()->getCommandMap()->register("class", new ClassCommand());
 		self::$instance->getServer()->getCommandMap()->register("info", new InfoCommand());
-		self::$instance->getServer()->getCommandMap()->register("scoreboard", new ScoreboardCmd());
+		//self::$instance->getServer()->getCommandMap()->register("scoreboard", new ScoreboardCmd());
 
 		self::$instance->getServer()->getCommandMap()->register("koth", new KothCmd());
 

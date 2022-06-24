@@ -34,6 +34,10 @@ class PlayerClassListener implements Listener{
 		$player = $event->getPlayer();
 		$lastDamageCause = $player->getLastDamageCause();
 
+		if(Provider::getCustomPlayer($event->getPlayer()) == null) {
+			return;
+		}
+
 		if($lastDamageCause instanceof EntityDamageByEntityEvent) {
 
 			$damager = $lastDamageCause->getDamager();

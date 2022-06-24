@@ -4,6 +4,7 @@ namespace Crayder\Core\tasks;
 
 use Crayder\Core\classes\MedicClass;
 use Crayder\Core\Main;
+use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\Provider;
 use Crayder\Core\scoreboard\ScoreboardEntry;
 use Crayder\Core\util\TimeUtil;
@@ -17,11 +18,9 @@ class SBCooldownTask extends Task{
 			if(!SPlayerManager::isInStaffMode($player) && Provider::getCustomPlayer($player)->getScoreboard() != null){
 
 				if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) == 0){
-					$entry = new ScoreboardEntry(5, " §c[!] §7No Cooldown");
-
-					Provider::getCustomPlayer($player)->getEntryManager()->remove("nocooldown");
-					Provider::getCustomPlayer($player)->getEntryManager()->add("nocooldown", $entry);
-					Provider::getCustomPlayer($player)->getScoreboard()->addEntry($entry);
+					if(!SPlayerManager::isInStaffMode($player)){
+						ScoreboardManager::hide($player, false);
+					}
 				}
 
 				else{
@@ -32,6 +31,10 @@ class SBCooldownTask extends Task{
 							$sbCooldown = Provider::getCustomPlayer($player)->getSBCooldown();
 							if($sbCooldown->isSet($key)){
 								$remaining = $value - time();
+
+								if(!SPlayerManager::isInStaffMode($player)) {
+									ScoreboardManager::show($player);
+								}
 
 								if(Provider::getCustomPlayer($player)->getEntryManager()->get($key) != null){
 									$prefix = explode("» ", Provider::getCustomPlayer($player)->getEntryManager()->get($key)->getValue())[0];

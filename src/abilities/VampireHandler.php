@@ -5,6 +5,7 @@ namespace Crayder\Core\abilities;
 use Crayder\Core\configs\SkillsConfig;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
+use Crayder\Core\tasks\delayed\VampireTask;
 use Crayder\Core\util\ParticleUtil;
 use Crayder\StaffSys\SPlayerProvider;
 use pocketmine\event\entity\EntityTeleportEvent;
@@ -15,7 +16,6 @@ use pocketmine\math\Vector3;
 use Crayder\Core\configs\AbilitiesConfig;
 use Crayder\Core\managers\CooldownManager;
 use Crayder\Core\util\CooldownUtil;
-use Crayder\Core\tasks\repeating\VampireTask;
 use pocketmine\player\Player;
 use pocketmine\world\sound\GhastShootSound;
 
@@ -76,7 +76,8 @@ class VampireHandler implements Listener{
 					$motFlat = $player->getDirectionPlane()->normalize()->multiply(10 * 4.75 / 20);
 					$entity->setMotion(new Vector3($motFlat->getX(), 2.85, $motFlat->getY()));
 
-					Main::getInstance()->getScheduler()->scheduleRepeatingTask(new VampireTask($entity), 1);
+
+					Main::getInstance()->getScheduler()->scheduleDelayedTask(new VampireTask($entity), 10);
 					ParticleUtil::flame($entity->getLocation());
 
 					$entity->getWorld()->addSound($entity->getPosition(), new GhastShootSound());
@@ -102,7 +103,7 @@ class VampireHandler implements Listener{
 	public function onHitGround(PlayerMoveEvent $event){
 		$player = $event->getPlayer();
 
-		if(!$player->isOnGround() && isset(self::$players[$player->getUniqueId()->toString()])) {
+		if(!$player->isOnGround() && isset(self::$players[$player->getUniqueId()->toString()])){
 			ParticleUtil::flame($player->getLocation());
 		}
 
@@ -121,12 +122,12 @@ class VampireHandler implements Listener{
 		}
 	}
 
-	public function onPearlTeleport(EntityTeleportEvent $event) {
+	public function onPearlTeleport(EntityTeleportEvent $event){
 		$entity = $event->getEntity();
 
-		if($entity instanceof Player) {
+		if($entity instanceof Player){
 			// Assume the cause is ender pearl
-			if(isset(self::$players[$entity->getUniqueId()->toString()])) {
+			if(isset(self::$players[$entity->getUniqueId()->toString()])){
 				foreach(self::$players[$entity->getUniqueId()->toString()] as $batEntity){
 					$batEntity->despawnFromAll();
 					$batEntity->kill();

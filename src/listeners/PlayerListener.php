@@ -6,6 +6,7 @@ use Crayder\Core\classes\ParadoxClass;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\kits\KitFactory;
+use Crayder\Core\Main;
 use Crayder\Core\managers\CooldownManager;
 use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\util\CoreUtil;
@@ -28,6 +29,7 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use Crayder\Core\managers\EffectsManager;
 use pocketmine\player\Player;
 use Crayder\Core\configs\RulesConfig;
+use pocketmine\Server;
 
 class PlayerListener implements Listener{
 
@@ -38,7 +40,7 @@ class PlayerListener implements Listener{
 	public function onPlayerJoin(PlayerJoinEvent $event){
 		EffectsManager::giveKitEffects($event->getPlayer());
 
-		if(!Provider::getCustomPlayer($event->getPlayer())->hasReadRules()) {
+		if(!Provider::getCustomPlayer($event->getPlayer())->hasReadRules()){
 			$form = new MenuForm(
 				RulesConfig::$title,
 				implode("\n", RulesConfig::$content),
@@ -46,16 +48,16 @@ class PlayerListener implements Listener{
 					new MenuOption("§2Accept Rules!", new FormIcon("https://i.imgur.com/huelOyd.png", FormIcon::IMAGE_TYPE_URL)),
 					new MenuOption("§4Reject Rules!", new FormIcon("https://i.imgur.com/41gBLwE.png", FormIcon::IMAGE_TYPE_URL))
 				],
-				function(Player $submitter, int $selected) :void{
-					if($selected == 1) {
+				function(Player $submitter, int $selected) : void{
+					if($selected == 1){
 						$submitter->kick("§7[§c!§7] §c§lSTCRAFT §f§lNETWORK §r§7[§c!§7]\n§cYou have been kicked from the STCraft KitPVP Server!\nReason: §eRules Denied!");
 					}
 
-					if($selected == 0) {
+					if($selected == 0){
 						Provider::getCustomPlayer($submitter)->setReadRules(1);
 					}
 				},
-				function(Player $submitter) :void{
+				function(Player $submitter) : void{
 					$submitter->kick("§7[§c!§7] §c§lSTCRAFT §f§lNETWORK §r§7[§c!§7]\n§cYou have been kicked from the STCraft KitPVP Server!\nReason: §eRules Denied!");
 				}
 			);
@@ -64,6 +66,17 @@ class PlayerListener implements Listener{
 		}
 
 		ScoreboardManager::add($event->getPlayer());
+
+		if($event->getPlayer()->hasPlayedBefore()){
+			$event->setJoinMessage("");
+		}
+
+		if(!$event->getPlayer()->hasPlayedBefore()){
+			$path = Server::getInstance()->getDataPath() . "players/";
+			$playerNumber = count(glob($path . "/*")) + 1;
+
+			$event->setJoinMessage("§c" . $event->getPlayer()->getName() . " §6has Joined for the First Time! §c(§e#" . $playerNumber . "§c)");
+		}
 	}
 
 	public function onPlayerQuit(PlayerQuitEvent $event){
@@ -76,12 +89,14 @@ class PlayerListener implements Listener{
 
 			CooldownUtil::remove($player);
 		}
+
+		$event->setQuitMessage("");
 	}
 
 	public function onPlayerDeath(PlayerDeathEvent $event){
 		$player = $event->getPlayer();
 
-		if(Provider::getCustomPlayer($player) == null) {
+		if(Provider::getCustomPlayer($player) == null){
 			return;
 		}
 
@@ -101,7 +116,7 @@ class PlayerListener implements Listener{
 		}
 
 		$class = Provider::getCustomPlayer($player)->getClass();
-		if($class instanceof ParadoxClass) {
+		if($class instanceof ParadoxClass){
 			$player->getInventory()->setItem(8, $class::$ender_pearls);
 		}
 	}
@@ -118,15 +133,15 @@ class PlayerListener implements Listener{
 
 	public function onGappleEat(PlayerItemConsumeEvent $event){
 		if($event->getItem()->getId() == 322){
-			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::REGENERATION(), 100/20, 2);
-			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::ABSORPTION(), 2400/20, 1);
+			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::REGENERATION(), 100 / 20, 2);
+			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::ABSORPTION(), 2400 / 20, 1);
 		}
 
 		if($event->getItem()->getId() == 466){
-			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::REGENERATION(), 600/20, 5);
-			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::ABSORPTION(), 2400/20, 4);
-			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::RESISTANCE(), 6000/20, 1);
-			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::FIRE_RESISTANCE(), 6000/20, 1);
+			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::REGENERATION(), 600 / 20, 5);
+			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::ABSORPTION(), 2400 / 20, 4);
+			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::RESISTANCE(), 6000 / 20, 1);
+			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::FIRE_RESISTANCE(), 6000 / 20, 1);
 		}
 	}
 
@@ -191,7 +206,7 @@ class PlayerListener implements Listener{
 		}
 	}
 
-	public function onPlayerChangeHeldItem(PlayerItemHeldEvent $event) {
+	public function onPlayerChangeHeldItem(PlayerItemHeldEvent $event){
 		$item = $event->getItem();
 		$player = $event->getPlayer();
 
@@ -200,7 +215,7 @@ class PlayerListener implements Listener{
 		 */
 		$keys = ["ghost", "egged", "ninja", "trickster", "vampire"];
 
-		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)) {
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)){
 			$value = $item->getCustomBlockData()->getString("ability-item");
 
 			if(CooldownUtil::check($player) && (CooldownUtil::getExpiry($player) != Provider::getCustomPlayer($player)->checkCooldown($value))){
@@ -212,7 +227,7 @@ class PlayerListener implements Listener{
 				CooldownManager::showCooldown($value, $event->getPlayer());
 			}
 
-			if(!CooldownUtil::check($player)) {
+			if(!CooldownUtil::check($player)){
 				CooldownManager::showCooldown($value, $event->getPlayer());
 			}
 		}
@@ -222,7 +237,7 @@ class PlayerListener implements Listener{
 		 */
 		$keys = ["ironingot", "netherstar"];
 
-		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)) {
+		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)){
 			$value = $item->getCustomBlockData()->getString("class-ability");
 
 			if(CooldownUtil::check($player) && (CooldownUtil::getExpiry($player) != Provider::getCustomPlayer($player)->checkCooldown($value))){
@@ -236,10 +251,10 @@ class PlayerListener implements Listener{
 		}
 	}
 
-	public function onFallDamage(EntityDamageEvent $event) {
+	public function onFallDamage(EntityDamageEvent $event){
 		$entity = $event->getEntity();
 
-		if($event->getCause() == 4 && $entity instanceof Player) {
+		if($event->getCause() == 4 && $entity instanceof Player){
 			$event->cancel();
 		}
 	}

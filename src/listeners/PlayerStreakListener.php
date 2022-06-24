@@ -39,6 +39,10 @@ class PlayerStreakListener implements Listener{
 	}
 
 	public function onDeath(PlayerDeathEvent $event) {
+		if(Provider::getCustomPlayer($event->getPlayer()) == null) {
+			return;
+		}
+
 		Provider::getCustomPlayer($event->getPlayer())->resetKillStreak();
 	}
 

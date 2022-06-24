@@ -368,9 +368,6 @@ final class CustomPlayer{
 
 		if(count($this->getSBCooldown()->getCooldowns()) != 0){
 			$entry3->clear();
-		}
-
-		if($this->isScoreboardToggled()){
 			$scoreboard->addViewer($this->getPlayer());
 		}
 

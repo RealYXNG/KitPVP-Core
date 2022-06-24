@@ -1,10 +1,9 @@
 <?php
 
-namespace Crayder\Core\tasks\repeating;
+namespace Crayder\Core\tasks\delayed;
 
 use Crayder\Core\abilities\VampireHandler;
 use Crayder\Core\entities\BatEntity;
-use Crayder\Core\Main;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
@@ -14,7 +13,7 @@ class VampireTask extends Task{
 
 	private array $batEntities;
 
-	public function __construct(Player $player, $batEntities = null) {
+	public function __construct(Player $player, $batEntities = null){
 		$this->player = $player;
 
 		if($batEntities == null){
@@ -41,10 +40,7 @@ class VampireTask extends Task{
 	}
 
 	public function onRun() : void{
-		if(!$this->player->isOnGround()){
-			VampireHandler::$players[$this->player->getUniqueId()->toString()] = $this->batEntities;
-			$this->getHandler()->cancel();
-		}
+		VampireHandler::$players[$this->player->getUniqueId()->toString()] = $this->batEntities;
 	}
 
 }
