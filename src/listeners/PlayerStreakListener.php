@@ -1,13 +1,15 @@
 <?php
 
-namespace Crayder\Core\listeners;
+namespace LxtfDev\Core\listeners;
 
-use Crayder\Core\Provider;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\ParticleUtil;
+use LxtfDev\Core\util\SoundUtil;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\player\Player;
-use Crayder\Core\configs\KSConfig;
+use LxtfDev\Core\configs\KSConfig;
 
 class PlayerStreakListener implements Listener{
 
@@ -33,6 +35,9 @@ class PlayerStreakListener implements Listener{
 					}
 
 					$damager->sendTitle($data["title"], $data["subtitle"], 5, 40, 5);
+
+					SoundUtil::xp($damager->getLocation());
+					ParticleUtil::angryvillager($damager->getLocation());
 				}
 			}
 		}

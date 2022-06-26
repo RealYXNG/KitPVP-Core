@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core\scoreboard;
+namespace LxtfDev\Core\scoreboard;
 
 use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetDisplayObjectivePacket;

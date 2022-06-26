@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core\util;
+namespace LxtfDev\Core\util;
 
 use pocketmine\entity\Location;
 use pocketmine\math\Vector3;

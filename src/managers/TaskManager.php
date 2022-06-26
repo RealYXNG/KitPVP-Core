@@ -1,12 +1,12 @@
 <?php
 
-namespace Crayder\Core\managers;
+namespace LxtfDev\Core\managers;
 
-use Crayder\Core\Main;
-use Crayder\Core\tasks\CooldownTask;
-use Crayder\Core\tasks\KothTask;
-use Crayder\Core\tasks\SBCooldownTask;
-use Crayder\Core\tasks\KothHologramTask;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\tasks\CooldownTask;
+use LxtfDev\Core\tasks\KothTask;
+use LxtfDev\Core\tasks\SBCooldownTask;
+use LxtfDev\Core\tasks\KothHologramTask;
 
 class TaskManager{
 

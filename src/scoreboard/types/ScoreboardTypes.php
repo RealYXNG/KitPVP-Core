@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\scoreboard\types;
+namespace LxtfDev\Core\scoreboard\types;
 
-use Crayder\Core\scoreboard\Scoreboard;
-use Crayder\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\scoreboard\Scoreboard;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
 
 class ScoreboardTypes{
 

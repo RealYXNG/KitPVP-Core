@@ -1,11 +1,11 @@
 <?php
 
-namespace Crayder\Core\abilities;
+namespace LxtfDev\Core\abilities;
 
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
-use Crayder\StaffSys\SPlayerProvider;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
+use LxtfDev\StaffSys\SPlayerProvider;
 use pocketmine\entity\projectile\Arrow;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -13,8 +13,8 @@ use pocketmine\event\entity\EntityShootBowEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\player\Player;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\tasks\delayed\ArcherTask;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\tasks\delayed\ArcherTask;
 
 class ArcherHandler implements Listener{
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core\tasks\delayed;
+namespace LxtfDev\Core\tasks\delayed;
 
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;

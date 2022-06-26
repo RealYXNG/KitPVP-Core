@@ -1,18 +1,18 @@
 <?php
 
-namespace Crayder\Core\managers;
+namespace LxtfDev\Core\managers;
 
-use Crayder\Core\classes\MedicClass;
-use Crayder\Core\classes\ParadoxClass;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\Main;
-use Crayder\Core\abilities\ArcherHandler;
-use Crayder\Core\abilities\EggedHandler;
-use Crayder\Core\abilities\GhostHandler;
-use Crayder\Core\abilities\NinjaHandler;
-use Crayder\Core\abilities\TricksterHandler;
-use Crayder\Core\abilities\VampireHandler;
-use Crayder\Core\Provider;
+use LxtfDev\Core\classes\MedicClass;
+use LxtfDev\Core\classes\ParadoxClass;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\abilities\ArcherHandler;
+use LxtfDev\Core\abilities\EggedHandler;
+use LxtfDev\Core\abilities\GhostHandler;
+use LxtfDev\Core\abilities\NinjaHandler;
+use LxtfDev\Core\abilities\TricksterHandler;
+use LxtfDev\Core\abilities\VampireHandler;
+use LxtfDev\Core\Provider;
 use pocketmine\player\Player;
 
 class AbilityManager{

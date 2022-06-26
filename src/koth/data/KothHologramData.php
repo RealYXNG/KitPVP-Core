@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\koth\data;
+namespace LxtfDev\Core\koth\data;
 
-use Crayder\Core\holograms\HologramEntry;
+use LxtfDev\Core\holograms\HologramEntry;
 
 class KothHologramData{
 

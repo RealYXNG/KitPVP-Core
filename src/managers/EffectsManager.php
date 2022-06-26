@@ -1,10 +1,10 @@
 <?php
 
-namespace Crayder\Core\managers;
+namespace LxtfDev\Core\managers;
 
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\Provider;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\Provider;
 use pocketmine\entity\effect\Effect;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;

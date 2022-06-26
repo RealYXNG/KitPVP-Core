@@ -1,12 +1,12 @@
 <?php
 
-namespace Crayder\Core\listeners;
+namespace LxtfDev\Core\listeners;
 
-use Crayder\Core\classes\TankClass;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\events\CooldownExpireEvent;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\classes\TankClass;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\events\CooldownExpireEvent;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CooldownUtil;
 use iRainDrop\Clans\Main;
 use pocketmine\entity\Attribute;
 use pocketmine\entity\effect\VanillaEffects;
@@ -16,12 +16,12 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\player\Player;
-use Crayder\Core\classes\AssassinClass;
-use Crayder\Core\classes\MedicClass;
-use Crayder\Core\classes\ParadoxClass;
+use LxtfDev\Core\classes\AssassinClass;
+use LxtfDev\Core\classes\MedicClass;
+use LxtfDev\Core\classes\ParadoxClass;
 use iRainDrop\Clans\events\ClanLeaveEvent;
-use Crayder\Core\util\ClassUtil;
-use Crayder\Core\managers\EffectsManager;
+use LxtfDev\Core\util\ClassUtil;
+use LxtfDev\Core\managers\EffectsManager;
 
 class PlayerClassListener implements Listener{
 

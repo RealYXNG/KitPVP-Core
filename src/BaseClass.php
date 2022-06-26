@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core;
+namespace LxtfDev\Core;
 
 abstract class BaseClass{
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace Crayder\Core\classes\handlers;
+namespace LxtfDev\Core\classes\handlers;
 
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\managers\CooldownManager;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\managers\CooldownManager;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CooldownUtil;
 use iRainDrop\Clans\Main;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\player\Player;
-use Crayder\Core\managers\EffectsManager;
+use LxtfDev\Core\managers\EffectsManager;
 
 class MedicHandler implements Listener{
 

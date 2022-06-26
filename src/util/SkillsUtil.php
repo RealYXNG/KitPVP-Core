@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\util;
+namespace LxtfDev\Core\util;
 
 
-use Crayder\Core\configs\SkillsConfig;
+use LxtfDev\Core\configs\SkillsConfig;
 
 class SkillsUtil{
 

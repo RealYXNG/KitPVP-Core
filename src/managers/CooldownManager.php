@@ -1,10 +1,10 @@
 <?php
 
-namespace Crayder\Core\managers;
+namespace LxtfDev\Core\managers;
 
-use Crayder\Core\Provider;
+use LxtfDev\Core\Provider;
 use pocketmine\player\Player;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\util\CooldownUtil;
 
 class CooldownManager{
 

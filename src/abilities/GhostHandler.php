@@ -1,21 +1,21 @@
 <?php
 
-namespace Crayder\Core\abilities;
+namespace LxtfDev\Core\abilities;
 
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\events\CooldownExpireEvent;
-use Crayder\Core\kits\KitFactory;
-use Crayder\Core\Provider;
-use Crayder\StaffSys\SPlayerProvider;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\events\CooldownExpireEvent;
+use LxtfDev\Core\kits\KitFactory;
+use LxtfDev\Core\Provider;
+use LxtfDev\StaffSys\SPlayerProvider;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\event\Listener;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\managers\CooldownManager;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\managers\CooldownManager;
 use pocketmine\event\player\PlayerItemUseEvent;
-use Crayder\Core\util\CooldownUtil;
-use Crayder\Core\managers\EffectsManager;
+use LxtfDev\Core\util\CooldownUtil;
+use LxtfDev\Core\managers\EffectsManager;
 
 class GhostHandler implements Listener{
 

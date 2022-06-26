@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\managers;
+namespace LxtfDev\Core\managers;
 
-use Crayder\Core\Provider;
-use Crayder\Core\scoreboard\Scoreboard;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\scoreboard\Scoreboard;
 use pocketmine\player\Player;
 
 class ScoreboardManager{

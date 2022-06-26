@@ -1,17 +1,17 @@
 <?php
 
-namespace Crayder\Core\abilities;
+namespace LxtfDev\Core\abilities;
 
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\managers\CooldownManager;
-use Crayder\Core\Provider;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\managers\CooldownManager;
+use LxtfDev\Core\Provider;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\util\CooldownUtil;
-use Crayder\Core\managers\EffectsManager;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\util\CooldownUtil;
+use LxtfDev\Core\managers\EffectsManager;
 
 class NinjaHandler implements Listener{
 

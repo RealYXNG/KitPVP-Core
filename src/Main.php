@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Crayder\Core;
+namespace LxtfDev\Core;
 
-use Crayder\Core\abilities\ArcherHandler;
-use Crayder\Core\abilities\EggedHandler;
-use Crayder\Core\commands\InfoCommand;
-use Crayder\Core\commands\scoreboard\ScoreboardCmd;
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\entities\BatEntity;
-use Crayder\Core\holograms\Hologram;
-use Crayder\Core\listeners\PlayerClassListener;
-use Crayder\Core\classes\TankClass;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\listeners\PlayerKitListener;
-use Crayder\Core\listeners\PlayerSkillsListener;
+use LxtfDev\Core\abilities\ArcherHandler;
+use LxtfDev\Core\abilities\EggedHandler;
+use LxtfDev\Core\commands\InfoCommand;
+use LxtfDev\Core\commands\scoreboard\ScoreboardCmd;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\entities\BatEntity;
+use LxtfDev\Core\holograms\Hologram;
+use LxtfDev\Core\listeners\PlayerClassListener;
+use LxtfDev\Core\classes\TankClass;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\listeners\PlayerKitListener;
+use LxtfDev\Core\listeners\PlayerSkillsListener;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\block\BlockFactory;
 use pocketmine\data\bedrock\EntityLegacyIds;
@@ -23,36 +23,36 @@ use pocketmine\entity\EntityDataHelper as Helper;
 use pocketmine\entity\EntityFactory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
-use Crayder\Core\commands\SayCommand;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\ClassConfig;
-use Crayder\Core\configs\KitsConfig;
-use Crayder\Core\listeners\PlayerListener;
-use Crayder\Core\managers\AbilityManager;
-use Crayder\Core\managers\TaskManager;
-use Crayder\Core\sql\PlayerDAO;
-use Crayder\Core\commands\ClassCommand;
-use Crayder\Core\commands\KitCommand;
-use Crayder\Core\classes\AssassinClass;
-use Crayder\Core\classes\MedicClass;
-use Crayder\Core\classes\ParadoxClass;
-use Crayder\Core\util\CooldownUtil;
-use Crayder\Core\classes\handlers\MedicHandler;
-use Crayder\Core\classes\handlers\ParadoxHandler;
-use Crayder\Core\util\customitem\CustomItemUtil;
-use Crayder\Core\configs\RulesConfig;
-use Crayder\Core\configs\KSConfig;
-use Crayder\Core\listeners\PlayerStreakListener;
-use Crayder\Core\commands\koth\KothCmd;
-use Crayder\Core\configs\KothConfig;
-use Crayder\Core\koth\KothManager;
-use Crayder\Core\listeners\koth\KothListener;
-use Crayder\Core\listeners\koth\KothSetupListener;
-use Crayder\Core\sql\KothDAO;
-use Crayder\Core\commands\skills\SkillsCmd;
-use Crayder\Core\commands\tokens\MyTokensCmd;
-use Crayder\Core\commands\tokens\TokensCmd;
-use Crayder\Core\util\SkillsUtil;
+use LxtfDev\Core\commands\SayCommand;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\ClassConfig;
+use LxtfDev\Core\configs\KitsConfig;
+use LxtfDev\Core\listeners\PlayerListener;
+use LxtfDev\Core\managers\AbilityManager;
+use LxtfDev\Core\managers\TaskManager;
+use LxtfDev\Core\sql\PlayerDAO;
+use LxtfDev\Core\commands\ClassCommand;
+use LxtfDev\Core\commands\KitCommand;
+use LxtfDev\Core\classes\AssassinClass;
+use LxtfDev\Core\classes\MedicClass;
+use LxtfDev\Core\classes\ParadoxClass;
+use LxtfDev\Core\util\CooldownUtil;
+use LxtfDev\Core\classes\handlers\MedicHandler;
+use LxtfDev\Core\classes\handlers\ParadoxHandler;
+use LxtfDev\Core\util\customitem\CustomItemUtil;
+use LxtfDev\Core\configs\RulesConfig;
+use LxtfDev\Core\configs\KSConfig;
+use LxtfDev\Core\listeners\PlayerStreakListener;
+use LxtfDev\Core\commands\koth\KothCmd;
+use LxtfDev\Core\configs\KothConfig;
+use LxtfDev\Core\koth\KothManager;
+use LxtfDev\Core\listeners\koth\KothListener;
+use LxtfDev\Core\listeners\koth\KothSetupListener;
+use LxtfDev\Core\sql\KothDAO;
+use LxtfDev\Core\commands\skills\SkillsCmd;
+use LxtfDev\Core\commands\tokens\MyTokensCmd;
+use LxtfDev\Core\commands\tokens\TokensCmd;
+use LxtfDev\Core\util\SkillsUtil;
 use pocketmine\plugins\Core\src\sql\DBConnection;
 use pocketmine\world\World;
 use poggit\libasynql\libasynql;
@@ -70,7 +70,7 @@ class Main extends PluginBase {
 
 		// Register Commands
 		$this->registerCommands();
-		// Register Listeners
+		// Register Handlers
 		$this->registerListeners();
 		// Load Tasks
 		new TaskManager();
@@ -206,7 +206,7 @@ class Main extends PluginBase {
 	}
 
 	public function onDisable() : void{
-		// Unload Player Data on Crash / Shutdown
+		// Unload Player Players on Crash / Shutdown
 		foreach(self::$instance->getServer()->getOnlinePlayers() as $player) {
 			Provider::unload($player);
 

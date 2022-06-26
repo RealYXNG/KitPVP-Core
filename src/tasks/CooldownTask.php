@@ -1,11 +1,11 @@
 <?php
 
-namespace Crayder\Core\tasks;
+namespace LxtfDev\Core\tasks;
 
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
-use Crayder\Core\events\CooldownExpireEvent;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\events\CooldownExpireEvent;
+use LxtfDev\Core\util\CooldownUtil;
 use pocketmine\scheduler\Task;
 
 class CooldownTask extends Task{

@@ -1,14 +1,14 @@
 <?php
 
-namespace Crayder\Core\classes\handlers;
+namespace LxtfDev\Core\classes\handlers;
 
-use Crayder\Core\classes\ParadoxClass;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\events\CooldownExpireEvent;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CooldownUtil;
-use Crayder\StaffSys\SPlayerProvider;
+use LxtfDev\Core\classes\ParadoxClass;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\events\CooldownExpireEvent;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CooldownUtil;
+use LxtfDev\StaffSys\SPlayerProvider;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\ProjectileLaunchEvent;
 use pocketmine\event\Listener;

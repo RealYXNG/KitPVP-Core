@@ -1,21 +1,21 @@
 <?php
 
-namespace Crayder\Core\abilities;
+namespace LxtfDev\Core\abilities;
 
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
-use Crayder\Core\tasks\delayed\VampireTask;
-use Crayder\Core\util\ParticleUtil;
-use Crayder\StaffSys\SPlayerProvider;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\tasks\delayed\VampireTask;
+use LxtfDev\Core\util\ParticleUtil;
+use LxtfDev\StaffSys\SPlayerProvider;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\math\Vector3;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\managers\CooldownManager;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\managers\CooldownManager;
+use LxtfDev\Core\util\CooldownUtil;
 use pocketmine\player\Player;
 use pocketmine\world\sound\GhastShootSound;
 

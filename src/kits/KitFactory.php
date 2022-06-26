@@ -1,11 +1,11 @@
 <?php
 
-namespace Crayder\Core\kits;
+namespace LxtfDev\Core\kits;
 
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\managers\AbilityManager;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CoreUtil;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\managers\AbilityManager;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CoreUtil;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
@@ -17,14 +17,14 @@ use pocketmine\item\ItemFactory;
 use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
-use Crayder\Core\configs\KitsConfig;
-use Crayder\Core\managers\EffectsManager;
-use Crayder\Core\util\inventory\InventoryUtil;
+use LxtfDev\Core\configs\KitsConfig;
+use LxtfDev\Core\managers\EffectsManager;
+use LxtfDev\Core\util\inventory\InventoryUtil;
 
 class KitFactory{
 
 	/*
-	 * Custom Data provides the name of the Kit from each item
+	 * Custom Players provides the name of the Kit from each item
 	 */
 	private static function getKit(string $kit) : array{
 		$kitItems = [];

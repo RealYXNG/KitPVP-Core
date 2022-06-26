@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\sql;
+namespace LxtfDev\Core\sql;
 
-use Crayder\Core\Main;
+use LxtfDev\Core\Main;
 use pocketmine\player\Player;
 
 class PlayerDAO {

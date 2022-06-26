@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core;
+namespace LxtfDev\Core;
 
 use pocketmine\player\Player;
-use Crayder\Core\CustomPlayer;
+use LxtfDev\Core\CustomPlayer;
 
 class Provider{
 

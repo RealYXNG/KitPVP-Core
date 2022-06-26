@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\util\world;
+namespace LxtfDev\Core\util\world;
 
-use Crayder\Core\Main;
+use LxtfDev\Core\Main;
 
 class WorldUtil
 {

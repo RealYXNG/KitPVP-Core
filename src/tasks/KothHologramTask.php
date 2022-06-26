@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\tasks;
+namespace LxtfDev\Core\tasks;
 
-use Crayder\Core\koth\KothManager;
-use Crayder\Core\util\TimeUtil;
+use LxtfDev\Core\koth\KothManager;
+use LxtfDev\Core\util\TimeUtil;
 use pocketmine\scheduler\Task;
 
 class KothHologramTask extends Task{

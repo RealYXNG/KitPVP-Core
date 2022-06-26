@@ -1,23 +1,23 @@
 <?php
 
-namespace Crayder\Core\koth;
+namespace LxtfDev\Core\koth;
 
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\holograms\HologramEntry;
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
-use Crayder\Core\scoreboard\ScoreboardEntry;
-use Crayder\Core\util\ChanceUtil;
-use Crayder\Core\util\TimeUtil;
-use Crayder\StaffSys\managers\SPlayerManager;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\holograms\HologramEntry;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\util\ChanceUtil;
+use LxtfDev\Core\util\TimeUtil;
+use LxtfDev\StaffSys\managers\SPlayerManager;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
-use Crayder\Core\configs\KothConfig;
-use Crayder\Core\util\ParticleUtil;
-use Crayder\Core\util\SoundUtil;
-use Crayder\Core\tasks\KothHologramTask;
+use LxtfDev\Core\configs\KothConfig;
+use LxtfDev\Core\util\ParticleUtil;
+use LxtfDev\Core\util\SoundUtil;
+use LxtfDev\Core\tasks\KothHologramTask;
 use pocketmine\world\Position;
 
 class KothManager{

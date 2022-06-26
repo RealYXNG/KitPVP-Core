@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\cooldown;
+namespace LxtfDev\Core\cooldown;
 
-use Crayder\Core\Main;
-use Crayder\Core\scoreboard\entry\EntryManager;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\scoreboard\entry\EntryManager;
 
 class SBCooldown
 {

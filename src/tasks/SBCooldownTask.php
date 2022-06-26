@@ -1,14 +1,14 @@
 <?php
 
-namespace Crayder\Core\tasks;
+namespace LxtfDev\Core\tasks;
 
-use Crayder\Core\classes\MedicClass;
-use Crayder\Core\Main;
-use Crayder\Core\managers\ScoreboardManager;
-use Crayder\Core\Provider;
-use Crayder\Core\scoreboard\ScoreboardEntry;
-use Crayder\Core\util\TimeUtil;
-use Crayder\StaffSys\managers\SPlayerManager;
+use LxtfDev\Core\classes\MedicClass;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\managers\ScoreboardManager;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\util\TimeUtil;
+use LxtfDev\StaffSys\managers\SPlayerManager;
 use pocketmine\scheduler\Task;
 
 class SBCooldownTask extends Task{

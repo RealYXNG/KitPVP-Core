@@ -1,13 +1,13 @@
 <?php
 
-namespace Crayder\Core\tasks;
+namespace LxtfDev\Core\tasks;
 
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
-use Crayder\Core\scoreboard\ScoreboardEntry;
-use Crayder\Core\util\TimeUtil;
-use Crayder\Core\koth\KothManager;
-use Crayder\StaffSys\managers\SPlayerManager;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\util\TimeUtil;
+use LxtfDev\Core\koth\KothManager;
+use LxtfDev\StaffSys\managers\SPlayerManager;
 use pocketmine\scheduler\Task;
 
 class KothTask extends Task{

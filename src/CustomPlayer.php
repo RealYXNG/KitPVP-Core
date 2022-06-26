@@ -1,24 +1,24 @@
 <?php
 
-namespace Crayder\Core;
+namespace LxtfDev\Core;
 
-use Crayder\Core\classes\TankClass;
-use Crayder\Core\scoreboard\entry\EntryManager;
-use Crayder\Core\scoreboard\Scoreboard;
-use Crayder\Core\scoreboard\ScoreboardEntry;
-use Crayder\Core\util\TimeUtil;
+use LxtfDev\Core\classes\TankClass;
+use LxtfDev\Core\scoreboard\entry\EntryManager;
+use LxtfDev\Core\scoreboard\Scoreboard;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\util\TimeUtil;
 use phpDocumentor\Reflection\Types\Boolean;
 use pocketmine\entity\Attribute;
 use pocketmine\player\Player;
-use Crayder\Core\sql\PlayerDAO;
-use Crayder\Core\util\CoreUtil;
-use Crayder\Core\classes\MedicClass;
-use Crayder\Core\classes\ParadoxClass;
-use Crayder\Core\scoreboard\types\ScoreboardTypes;
-use Crayder\Core\koth\data\KothData;
-use Crayder\Core\koth\KothManager;
-use Crayder\Core\cooldown\SBCooldown;
-use Crayder\Core\skills\data\SkillsManager;
+use LxtfDev\Core\sql\PlayerDAO;
+use LxtfDev\Core\util\CoreUtil;
+use LxtfDev\Core\classes\MedicClass;
+use LxtfDev\Core\classes\ParadoxClass;
+use LxtfDev\Core\scoreboard\types\ScoreboardTypes;
+use LxtfDev\Core\koth\data\KothData;
+use LxtfDev\Core\koth\KothManager;
+use LxtfDev\Core\cooldown\SBCooldown;
+use LxtfDev\Core\skills\data\SkillsManager;
 
 final class CustomPlayer{
 
@@ -106,7 +106,7 @@ final class CustomPlayer{
 		$this->player = $player;
 
 		/*
-		 * Load Player Data
+		 * Load Player Players
 		 */
 		$this->loadData();
 
@@ -128,7 +128,7 @@ final class CustomPlayer{
 	}
 
 	/*
-	 * Load Data
+	 * Load Players
 	 */
 	private function loadData() : void{
 		$this->killStreaks = 0;
@@ -184,7 +184,7 @@ final class CustomPlayer{
 	}
 
 	/*
-	 * Save Data
+	 * Save Players
 	 */
 	public function save() : void{
 		if($this->class == null){

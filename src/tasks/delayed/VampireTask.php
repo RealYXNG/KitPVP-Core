@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\tasks\delayed;
+namespace LxtfDev\Core\tasks\delayed;
 
-use Crayder\Core\abilities\VampireHandler;
-use Crayder\Core\entities\BatEntity;
+use LxtfDev\Core\abilities\VampireHandler;
+use LxtfDev\Core\entities\BatEntity;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
@@ -19,9 +19,9 @@ class VampireTask extends Task{
 		if($batEntities == null){
 			$batEntities = [];
 
-			$vec1 = $player->getLocation()->subtract(0.5, 0, 0);
-			$vec2 = $player->getLocation()->subtract(0.5, 0, 0.5);
-			$vec3 = $player->getLocation()->subtract(-0.5, 0, 0);
+			$vec1 = $player->getLocation()->subtract(0.5, -0.5, 0);
+			$vec2 = $player->getLocation()->subtract(0.5, -0.5, 0.5);
+			$vec3 = $player->getLocation()->subtract(-0.5, -0.5, 0);
 
 			$batEntity1 = new BatEntity($player, $vec1);
 			$batEntity2 = new BatEntity($player, $vec2);

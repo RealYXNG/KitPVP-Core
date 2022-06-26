@@ -1,16 +1,16 @@
 <?php
 
-namespace Crayder\Core\abilities;
+namespace LxtfDev\Core\abilities;
 
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\Main;
-use Crayder\Core\managers\AbilityManager;
-use Crayder\Core\managers\CooldownManager;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CoreUtil;
-use Crayder\StaffSys\SPlayerProvider;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\managers\AbilityManager;
+use LxtfDev\Core\managers\CooldownManager;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CoreUtil;
+use LxtfDev\StaffSys\SPlayerProvider;
 use pocketmine\block\BlockFactory;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\Listener;
@@ -19,11 +19,11 @@ use pocketmine\item\Egg;
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
-use Crayder\Core\events\CooldownExpireEvent;
-use Crayder\Core\util\CooldownUtil;
-use Crayder\Core\managers\EffectsManager;
-use Crayder\Core\util\world\WorldUtil;
-use Crayder\Core\tasks\delayed\CobwebTask;
+use LxtfDev\Core\events\CooldownExpireEvent;
+use LxtfDev\Core\util\CooldownUtil;
+use LxtfDev\Core\managers\EffectsManager;
+use LxtfDev\Core\util\world\WorldUtil;
+use LxtfDev\Core\tasks\delayed\CobwebTask;
 
 class EggedHandler implements Listener{
 

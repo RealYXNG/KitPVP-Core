@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\commands\scoreboard;
+namespace LxtfDev\Core\commands\scoreboard;
 
-use Crayder\Core\managers\ScoreboardManager;
+use LxtfDev\Core\managers\ScoreboardManager;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;

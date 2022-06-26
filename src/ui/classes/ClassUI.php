@@ -1,19 +1,19 @@
 <?php
 
-namespace Crayder\Core\ui\classes;
+namespace LxtfDev\Core\ui\classes;
 
-use Crayder\Core\classes\TankClass;
-use Crayder\Core\configs\ClassConfig;
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
+use LxtfDev\Core\classes\TankClass;
+use LxtfDev\Core\configs\ClassConfig;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\entity\Attribute;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
-use Crayder\Core\classes\AssassinClass;
-use Crayder\Core\classes\MedicClass;
-use Crayder\Core\classes\ParadoxClass;
+use LxtfDev\Core\classes\AssassinClass;
+use LxtfDev\Core\classes\MedicClass;
+use LxtfDev\Core\classes\ParadoxClass;
 
 class ClassUI{
 

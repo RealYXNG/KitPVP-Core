@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core\entities;
+namespace LxtfDev\Core\entities;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntitySizeInfo;

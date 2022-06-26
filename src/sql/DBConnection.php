@@ -2,7 +2,7 @@
 
 namespace pocketmine\plugins\Core\src\sql;
 
-use Crayder\Core\Main;
+use LxtfDev\Core\Main;
 
 class DBConnection extends \SQLite3{
 

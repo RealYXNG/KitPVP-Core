@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\configs;
+namespace LxtfDev\Core\configs;
 
-use Crayder\Core\Main;
+use LxtfDev\Core\Main;
 use pocketmine\utils\Config;
 
 class KothConfig{

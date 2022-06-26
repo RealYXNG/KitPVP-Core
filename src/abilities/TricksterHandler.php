@@ -1,18 +1,18 @@
 <?php
 
-namespace Crayder\Core\abilities;
+namespace LxtfDev\Core\abilities;
 
-use Crayder\Core\configs\SkillsConfig;
-use Crayder\Core\managers\CooldownManager;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\configs\SkillsConfig;
+use LxtfDev\Core\managers\CooldownManager;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CooldownUtil;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
-use Crayder\Core\configs\AbilitiesConfig;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\managers\EffectsManager;
-use Crayder\Core\util\ChanceUtil;
+use LxtfDev\Core\configs\AbilitiesConfig;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\managers\EffectsManager;
+use LxtfDev\Core\util\ChanceUtil;
 
 class TricksterHandler implements Listener{
 

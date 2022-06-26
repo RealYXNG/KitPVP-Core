@@ -1,18 +1,18 @@
 <?php
 
-namespace Crayder\Core\commands\koth;
+namespace LxtfDev\Core\commands\koth;
 
-use Crayder\Core\Main;
-use Crayder\Core\Provider;
-use Crayder\Core\scoreboard\ScoreboardEntry;
-use Crayder\Core\util\TimeUtil;
-use Crayder\StaffSys\managers\SPlayerManager;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\util\TimeUtil;
+use LxtfDev\StaffSys\managers\SPlayerManager;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
-use Crayder\Core\koth\KothManager;
-use Crayder\Core\listeners\koth\KothSetupListener;
+use LxtfDev\Core\koth\KothManager;
+use LxtfDev\Core\listeners\koth\KothSetupListener;
 
 class KothCmd extends Command{
 

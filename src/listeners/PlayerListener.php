@@ -1,15 +1,15 @@
 <?php
 
-namespace Crayder\Core\listeners;
+namespace LxtfDev\Core\listeners;
 
-use Crayder\Core\classes\ParadoxClass;
-use Crayder\Core\configs\ConfigVars;
-use Crayder\Core\events\CooldownExpireEvent;
-use Crayder\Core\kits\KitFactory;
-use Crayder\Core\Main;
-use Crayder\Core\managers\CooldownManager;
-use Crayder\Core\managers\ScoreboardManager;
-use Crayder\Core\util\CoreUtil;
+use LxtfDev\Core\classes\ParadoxClass;
+use LxtfDev\Core\configs\ConfigVars;
+use LxtfDev\Core\events\CooldownExpireEvent;
+use LxtfDev\Core\kits\KitFactory;
+use LxtfDev\Core\Main;
+use LxtfDev\Core\managers\CooldownManager;
+use LxtfDev\Core\managers\ScoreboardManager;
+use LxtfDev\Core\util\CoreUtil;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
@@ -23,12 +23,12 @@ use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use Crayder\Core\Provider;
-use Crayder\Core\util\CooldownUtil;
+use LxtfDev\Core\Provider;
+use LxtfDev\Core\util\CooldownUtil;
 use pocketmine\event\player\PlayerRespawnEvent;
-use Crayder\Core\managers\EffectsManager;
+use LxtfDev\Core\managers\EffectsManager;
 use pocketmine\player\Player;
-use Crayder\Core\configs\RulesConfig;
+use LxtfDev\Core\configs\RulesConfig;
 use pocketmine\Server;
 
 class PlayerListener implements Listener{

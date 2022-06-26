@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\classes;
+namespace LxtfDev\Core\classes;
 
-use Crayder\Core\BaseClass;
-use Crayder\Core\configs\ClassConfig;
+use LxtfDev\Core\BaseClass;
+use LxtfDev\Core\configs\ClassConfig;
 
 class AssassinClass extends BaseClass{
 

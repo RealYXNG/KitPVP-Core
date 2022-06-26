@@ -1,6 +1,6 @@
 <?php
 
-namespace Crayder\Core\util\inventory;
+namespace LxtfDev\Core\util\inventory;
 
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;

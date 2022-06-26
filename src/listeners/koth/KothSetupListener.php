@@ -1,9 +1,9 @@
 <?php
 
-namespace Crayder\Core\listeners\koth;
+namespace LxtfDev\Core\listeners\koth;
 
-use Crayder\Core\holograms\Hologram;
-use Crayder\Core\holograms\HologramManager;
+use LxtfDev\Core\holograms\Hologram;
+use LxtfDev\Core\holograms\HologramManager;
 use pocketmine\block\BlockFactory;
 use pocketmine\entity\Location;
 use pocketmine\event\block\BlockBreakEvent;
@@ -12,10 +12,10 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
-use Crayder\Core\configs\KothConfig;
-use Crayder\Core\koth\KothArena;
-use Crayder\Core\koth\KothManager;
-use Crayder\Core\util\world\WorldUtil;
+use LxtfDev\Core\configs\KothConfig;
+use LxtfDev\Core\koth\KothArena;
+use LxtfDev\Core\koth\KothManager;
+use LxtfDev\Core\util\world\WorldUtil;
 use pocketmine\world\Position;
 
 class KothSetupListener implements Listener{

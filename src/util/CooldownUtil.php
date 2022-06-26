@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\util;
+namespace LxtfDev\Core\util;
 
-use Crayder\Core\Provider;
+use LxtfDev\Core\Provider;
 use pocketmine\player\Player;
 
 class CooldownUtil{

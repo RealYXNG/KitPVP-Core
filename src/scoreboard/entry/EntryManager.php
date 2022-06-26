@@ -1,8 +1,8 @@
 <?php
 
-namespace Crayder\Core\scoreboard\entry;
+namespace LxtfDev\Core\scoreboard\entry;
 
-use Crayder\Core\scoreboard\ScoreboardEntry;
+use LxtfDev\Core\scoreboard\ScoreboardEntry;
 
 class EntryManager{
 
