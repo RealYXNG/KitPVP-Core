@@ -30,7 +30,7 @@ class EntryManager{
 	/*
 	 * Get Scoreboard Entry
 	 */
-	public function get(string $identifier) {
+	public function get(string $identifier) : ScoreboardEntry|null{
 		if(isset($this->scoreboardEntries[$identifier])) {
 			return $this->scoreboardEntries[$identifier];
 		}
@@ -42,10 +42,7 @@ class EntryManager{
 	 * Remove All Entries
 	 */
 	public function removeAll() :void{
-		$entry = $this->scoreboardEntries["nocooldown"];
 		$this->scoreboardEntries = [];
-
-		$this->scoreboardEntries["nocooldown"] = $entry;
 	}
 
 }

@@ -143,9 +143,15 @@ class KothManager{
 				$scoreboard->addEntry($entry1);
 				$scoreboard->addEntry($entry2);
 
-				$entry4 = new ScoreboardEntry(5, "    ");
-				Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
-				$scoreboard->addEntry($entry4);
+				if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) != 0){
+					$entry4 = new ScoreboardEntry(5, "    ");
+					Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
+					$scoreboard->addEntry($entry4);
+				}
+
+				if(!ScoreboardManager::isVisible($player)) {
+					ScoreboardManager::show($player);
+				}
 			}
 		}
 	}

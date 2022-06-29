@@ -44,7 +44,7 @@ EOF;
 			$z2= $koth->getZ2();
 			$centreY = $koth->getCentreY();
 
-			$sql = "INSERT INTO KOTHS(x1, z1, x2, z2, centreY) VALUES(:x1, :z2, :x2, :z2, :centreY);";
+			$sql = "INSERT INTO KOTHS(x1, z1, x2, z2, centreY) VALUES(:x1, :z1, :x2, :z2, :centreY);";
 
 			$stmt = Main::$db->prepare($sql);
 			$stmt->bindValue(":x1", $x1);

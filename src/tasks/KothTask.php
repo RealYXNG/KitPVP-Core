@@ -3,6 +3,7 @@
 namespace Crayder\Core\tasks;
 
 use Crayder\Core\Main;
+use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\Provider;
 use Crayder\Core\scoreboard\ScoreboardEntry;
 use Crayder\Core\util\TimeUtil;
@@ -37,9 +38,15 @@ class KothTask extends Task{
 							$entryManager->add("koth", $entry);
 							$entryManager->add("koth_starts", $entry1);
 
-							$entry4 = new ScoreboardEntry(5, "    ");
-							Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
-							$scoreboard->addEntry($entry4);
+							if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) != 0){
+								$entry4 = new ScoreboardEntry(5, "    ");
+								Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
+								$scoreboard->addEntry($entry4);
+							}
+
+							if(!ScoreboardManager::isVisible($player)) {
+								ScoreboardManager::show($player);
+							}
 						}
 					}
 				}

@@ -3,6 +3,7 @@
 namespace Crayder\Core\tasks\cooldown;
 
 use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\koth\KothManager;
 use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\Provider;
 use Crayder\StaffSys\managers\SPlayerManager;
@@ -39,7 +40,13 @@ class CooldownTask extends Task{
 				CooldownUtil::removeCooldown($this->player, $this->type);
 
 				if(count(Provider::getCustomPlayer($this->player)->getSBCooldown()->getCooldowns()) == 0 && !SPlayerManager::isInStaffMode($this->player)){
-					ScoreboardManager::hide($this->player);
+					if(!KothManager::isKothGoingOn()){
+						ScoreboardManager::hide($this->player);
+					} else {
+						if(Provider::getCustomPlayer($this->player)->getEntryManager()->get("kothspacing") != null){
+							Provider::getCustomPlayer($this->player)->getEntryManager()->get("kothspacing")->clear();
+						}
+					}
 				}
 
 				$event = new CooldownExpireEvent($this->player, $this->type, $this->expiry);

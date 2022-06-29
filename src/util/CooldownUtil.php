@@ -2,9 +2,11 @@
 
 namespace Crayder\Core\util;
 
+use Crayder\Core\koth\KothManager;
 use Crayder\Core\Main;
 use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\Provider;
+use Crayder\Core\scoreboard\ScoreboardEntry;
 use pocketmine\player\Player;
 use Crayder\Core\tasks\cooldown\CooldownTask;
 
@@ -19,8 +21,16 @@ class CooldownUtil{
 		$expiry = time() + $duration;
 		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new CooldownTask($player, $type, $expiry), 20);
 
-		if(ScoreboardManager::isVisible($player)) {
+		if(!ScoreboardManager::isVisible($player)){
 			ScoreboardManager::show($player);
+		}
+
+		if(KothManager::isKothGoingOn()){
+			Provider::getCustomPlayer($player)->getEntryManager()->remove("kothspacing");
+
+			$entry = new ScoreboardEntry(5, "    ");
+			Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry);
+			Provider::getCustomPlayer($player)->getScoreboard()->addEntry($entry);
 		}
 
 		if($timers){

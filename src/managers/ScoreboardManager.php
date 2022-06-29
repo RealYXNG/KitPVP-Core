@@ -17,6 +17,11 @@ class ScoreboardManager{
 	}
 
 	public static function show(Player $player) : void{
+		if(Provider::getCustomPlayer($player)->getScoreboard() == null) {
+			self::add($player);
+			return;
+		}
+
 		Provider::getCustomPlayer($player)->getScoreboard()->addViewer($player);
 		Provider::getCustomPlayer($player)->setScoreboardVisible(true);
 	}
@@ -31,6 +36,10 @@ class ScoreboardManager{
 	}
 
 	public static function isVisible(Player $player) : bool{
+		if(Provider::getCustomPlayer($player)->getScoreboard() == null) {
+			return false;
+		}
+
 		return Provider::getCustomPlayer($player)->isScoreboardVisible();
 	}
 

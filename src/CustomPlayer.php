@@ -355,9 +355,11 @@ final class CustomPlayer{
 			$entryManager->add("koth_ends", $entry1);
 			$entryManager->add("koth_points", $entry2);
 
-			$entry4 = new ScoreboardEntry(5, "    ");
-			$this->entryManager->add("kothspacing", $entry4);
-			$scoreboard->addEntry($entry4);
+			if(count(Provider::getCustomPlayer($this->player)->getSBCooldown()->getCooldowns()) != 0){
+				$entry4 = new ScoreboardEntry(5, "    ");
+				Provider::getCustomPlayer($this->player)->getEntryManager()->add("kothspacing", $entry4);
+				$scoreboard->addEntry($entry4);
+			}
 
 			$scoreboard->addViewer($this->getPlayer());
 
