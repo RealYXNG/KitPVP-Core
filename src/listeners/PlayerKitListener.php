@@ -58,16 +58,4 @@ class PlayerKitListener implements Listener{
 		}
 	}
 
-	public function onInventoryClick(InventoryTransactionEvent $event){
-		foreach($event->getTransaction()->getActions() as $action){
-			if($action->getSourceItem()->hasCustomBlockData() && $action->getSourceItem()->getCustomBlockData()->getTag("ability-item") != null){
-				$event->cancel();
-			}
-
-			if($action->getTargetItem()->hasCustomBlockData() && $action->getTargetItem()->getCustomBlockData()->getTag("ability-item") != null){
-				$event->cancel();
-			}
-		}
-	}
-
 }

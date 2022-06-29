@@ -362,6 +362,7 @@ final class CustomPlayer{
 			}
 
 			$scoreboard->addViewer($this->getPlayer());
+			$this->setScoreboardVisible(true);
 
 			$this->setScoreboard($scoreboard);
 			return;
@@ -369,6 +370,9 @@ final class CustomPlayer{
 
 		if(count($this->getSBCooldown()->getCooldowns()) != 0){
 			$scoreboard->addViewer($this->getPlayer());
+			$this->setScoreboardVisible(true);
+		} else {
+			$this->setScoreboardVisible(false);
 		}
 
 		$this->setScoreboard($scoreboard);

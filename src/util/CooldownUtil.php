@@ -26,8 +26,6 @@ class CooldownUtil{
 		}
 
 		if(KothManager::isKothGoingOn()){
-			Provider::getCustomPlayer($player)->getEntryManager()->remove("kothspacing");
-
 			$entry = new ScoreboardEntry(5, "    ");
 			Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry);
 			Provider::getCustomPlayer($player)->getScoreboard()->addEntry($entry);
@@ -73,7 +71,7 @@ class CooldownUtil{
 		$customPlayer = Provider::getCustomPlayer($player);
 
 		if(self::checkCooldown($type, $player)){
-			$player->sendActionBarMessage("§cThis Ability is currently on Cool-Down!");
+			$player->sendActionBarMessage("§cThis Item is currently on Cool-Down!");
 
 			$expiry = $customPlayer->getAllCooldowns()[$type];
 			$duration = $expiry - time();

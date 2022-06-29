@@ -6,10 +6,10 @@ use Crayder\Core\classes\TankClass;
 use Crayder\Core\configs\ClassConfig;
 use Crayder\Core\Main;
 use Crayder\Core\Provider;
+use Crayder\Core\util\ClassUtil;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\entity\Attribute;
-use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
 use Crayder\Core\classes\AssassinClass;
 use Crayder\Core\classes\MedicClass;
@@ -41,6 +41,12 @@ class ClassUI{
 							$player->sendMessage(Main::$prefix . "You have successfully §cselected §rthe §6Tank §rclass!");
 							$player->sendTitle("§6§lTank", "§cClass successfully selected!", 5, 40, 5);
 
+							foreach($player->getInventory()->getContents() as $item){
+								if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null){
+									$player->getInventory()->remove($item);
+								}
+							}
+
 							$sneaking = $player->isSneaking();
 							$sprinting = $player->isSprinting();
 
@@ -51,22 +57,6 @@ class ClassUI{
 
 							$player->setSneaking($sneaking);
 							$player->setSprinting($sprinting);
-							
-							if($oldClass instanceof ParadoxClass){
-								$item = $player->getInventory()->getItem(7);
-
-								$player->getInventory()->setItem(8, $item);
-								$player->getInventory()->setItem(7, ItemFactory::air());
-							}
-
-							if($oldClass instanceof MedicClass){
-								$item = $player->getInventory()->getItem(6);
-
-								$player->getInventory()->setItem(8, $item);
-								$player->getInventory()->setItem(7, ItemFactory::air());
-								$player->getInventory()->setItem(6, ItemFactory::air());
-							}
-
 						}
 					}
 				);
@@ -95,6 +85,12 @@ class ClassUI{
 							$player->sendMessage(Main::$prefix . "You have successfully §cselected §rthe §3Paradox §rclass!");
 							$player->sendTitle("§3§lParadox", "§cClass successfully selected!", 5, 40, 5);
 
+							foreach($player->getInventory()->getContents() as $item){
+								if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null){
+									$player->getInventory()->remove($item);
+								}
+							}
+
 							$sneaking = $player->isSneaking();
 							$sprinting = $player->isSprinting();
 
@@ -106,29 +102,7 @@ class ClassUI{
 							$player->setSneaking($sneaking);
 							$player->setSprinting($sprinting);
 
-							$kit = Provider::getCustomPlayer($player)->getKit();
-
-							if($oldClass instanceof MedicClass){
-								if($kit != -1 && $kit != 0){
-									$item = $player->getInventory()->getItem(6);
-
-									$player->getInventory()->setItem(7, $item);
-									$player->getInventory()->setItem(8, $class::$ender_pearls);
-
-									$player->getInventory()->setItem(6, ItemFactory::air());
-								}else{
-									$player->getInventory()->setItem(7, ItemFactory::air());
-									$player->getInventory()->setItem(8, $class::$ender_pearls);
-								}
-							}else{
-								$item = $player->getInventory()->getItem(8);
-								$item2 = $player->getInventory()->getItem(7);
-
-								$player->getInventory()->setItem(7, $item);
-								$player->getInventory()->setItem(8, $class::$ender_pearls);
-
-								$player->getInventory()->addItem($item2);
-							}
+							ClassUtil::giveClassAbilityItem($player);
 						}
 					}
 				);
@@ -163,6 +137,12 @@ class ClassUI{
 							$player->sendMessage(Main::$prefix . "You have successfully §cselected §rthe §5Medic §rclass!");
 							$player->sendTitle("§5§lMedic", "§cClass successfully selected!", 5, 40, 5);
 
+							foreach($player->getInventory()->getContents() as $item){
+								if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null){
+									$player->getInventory()->remove($item);
+								}
+							}
+
 							$sneaking = $player->isSneaking();
 							$sprinting = $player->isSprinting();
 
@@ -174,38 +154,7 @@ class ClassUI{
 							$player->setSneaking($sneaking);
 							$player->setSprinting($sprinting);
 
-							$kit = Provider::getCustomPlayer($player)->getKit();
-
-							if($oldClass instanceof ParadoxClass){
-								if($kit != -1 && $kit != 0){
-									$item = $player->getInventory()->getItem(7);
-									$item2 = $player->getInventory()->getItem(6);
-
-									$player->getInventory()->setItem(6, $item);
-									$player->getInventory()->setItem(7, $class::$ironIngot);
-									$player->getInventory()->setItem(8, $class::$netherStar);
-
-									$player->getInventory()->addItem($item2);
-								}else{
-									$item = $player->getInventory()->getItem(7);
-
-									$player->getInventory()->setItem(7, $class::$ironIngot);
-									$player->getInventory()->setItem(8, $class::$netherStar);
-
-									$player->getInventory()->addItem($item);
-								}
-							}else{
-								$item = $player->getInventory()->getItem(8);
-								$item2 = $player->getInventory()->getItem(7);
-								$item3 = $player->getInventory()->getItem(6);
-
-								$player->getInventory()->setItem(6, $item);
-								$player->getInventory()->setItem(7, $class::$ironIngot);
-								$player->getInventory()->setItem(8, $class::$netherStar);
-
-								$player->getInventory()->addItem($item2);
-								$player->getInventory()->addItem($item3);
-							}
+							ClassUtil::giveClassAbilityItem($player);
 						}
 					}
 				);
@@ -233,6 +182,12 @@ class ClassUI{
 							$player->sendMessage(Main::$prefix . "You have successfully §cselected §rthe §cAssassin §rclass!");
 							$player->sendTitle("§c§lAssassin", "§cClass successfully selected!", 5, 40, 5);
 
+							foreach($player->getInventory()->getContents() as $item){
+								if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null){
+									$player->getInventory()->remove($item);
+								}
+							}
+
 							$sneaking = $player->isSneaking();
 							$sprinting = $player->isSprinting();
 
@@ -243,21 +198,6 @@ class ClassUI{
 
 							$player->setSneaking($sneaking);
 							$player->setSprinting($sprinting);
-
-							if($oldClass instanceof ParadoxClass){
-								$item = $player->getInventory()->getItem(7);
-
-								$player->getInventory()->setItem(8, $item);
-								$player->getInventory()->setItem(7, ItemFactory::air());
-							}
-
-							if($oldClass instanceof MedicClass){
-								$item = $player->getInventory()->getItem(6);
-
-								$player->getInventory()->setItem(8, $item);
-								$player->getInventory()->setItem(7, ItemFactory::air());
-								$player->getInventory()->setItem(6, ItemFactory::air());
-							}
 						}
 					}
 				);

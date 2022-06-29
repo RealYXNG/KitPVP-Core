@@ -97,17 +97,11 @@ class ParadoxHandler implements Listener{
 					$class = Provider::getCustomPlayer($owningEntity)->getClass();
 
 					if($class instanceof ParadoxClass){
-						$pearl = $owningEntity->getInventory()->getItem(8);
 
-						if($pearl->getId() == 0){
-							$pearlNew = $class::$ender_pearls;
-							$pearlNew->setCount(1);
+						$pearl = $class::$ender_pearls;
+						$pearl->setCount(1);
 
-							$owningEntity->getInventory()->setItem(8, $pearlNew);
-						}else{
-							$pearl->setCount($pearl->getCount() + 1);
-							$owningEntity->getInventory()->setItem(8, $pearl);
-						}
+						$owningEntity->getInventory()->addItem($pearl);
 
 						$owningEntity->sendActionBarMessage("§2Ender Pearl Restored!");
 
@@ -155,17 +149,10 @@ class ParadoxHandler implements Listener{
 				}
 			}
 
-			$ePearl = $event->getPlayer()->getInventory()->getItem(8);
+			$pearl = $class::$ender_pearls;
+			$pearl->setCount(1);
 
-			if($ePearl->getId() == 0){
-				$pearlNew = $class::$ender_pearls;
-				$pearlNew->setCount(1);
-
-				$event->getPlayer()->getInventory()->setItem(8, $pearlNew);
-			}else{
-				$ePearl->setCount($ePearl->getCount() + 1);
-				$event->getPlayer()->getInventory()->setItem(8, $ePearl);
-			}
+			$event->getPlayer()->getInventory()->addItem($pearl);
 
 			$event->getPlayer()->sendActionBarMessage("§2Ender Pearl Restored!");
 		}

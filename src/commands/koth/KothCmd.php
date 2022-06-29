@@ -133,8 +133,7 @@ class KothCmd extends Command{
 						}
 
 						if(Provider::getCustomPlayer($player)->getEntryManager()->get("kothspacing") != null){
-							Provider::getCustomPlayer($player)->getScoreboard()->removeEntry(Provider::getCustomPlayer($player)->getEntryManager()->get("kothspacing"));
-							Provider::getCustomPlayer($player)->getEntryManager()->remove("kothspacing");
+							Provider::getCustomPlayer($player)->getEntryManager()->get("kothspacing")->clear();
 						}
 					}
 					return;

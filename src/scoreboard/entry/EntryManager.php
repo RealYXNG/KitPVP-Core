@@ -15,6 +15,10 @@ class EntryManager{
 	 * Add Scoreboard Entry
 	 */
 	public function add(string $identifier, ScoreboardEntry $entry) :void{
+		if($this->get($identifier) != null) {
+			$this->get($identifier)->clear();
+		}
+
 		$this->scoreboardEntries[$identifier] = $entry;
 	}
 

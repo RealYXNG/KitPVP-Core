@@ -41,7 +41,7 @@ class ExpCooldownTask extends Task{
 
 			$xpManager = $this->player->getXpManager();
 
-			if($remaining > 0 && $duration > 0 && (($this->player->getXpManager()->getXpProgress() - (1 / $duration)) >= 0)){
+			if($remaining != 0 && $duration != 0 && (($xpManager->getXpProgress() - (1 / $duration)) >= 0)){
 				$xpManager->setXpLevel($remaining);
 				$xpManager->setXpProgress($xpManager->getXpProgress() - (1 / $duration));
 			}

@@ -2,6 +2,8 @@
 
 namespace Crayder\Core\util\inventory;
 
+use Crayder\Core\managers\AbilityManager;
+use Crayder\Core\Provider;
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;

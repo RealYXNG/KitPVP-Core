@@ -53,14 +53,49 @@ class ClassUtil{
 		}
 	}
 
-	public static function giveAbilityItem(Player $player, $class){
-		if($class != null){
-			if($class instanceof ParadoxClass){
-				$player->getInventory()->setItem(8, ParadoxClass::$ender_pearls);
+	public static function giveClassAbilityItem(Player $player) :void{
+		$slots = [6, 7, 8];
+		$items = [];
+
+		foreach($slots as $slot) {
+			$item = $player->getInventory()->getItem($slot);
+
+			if($item->hasCustomBlockData()){
+				if($item->getCustomBlockData()->getTag("kit-ability") != null){
+					$items["kit-ability"] = $item;
+				}
 			}
-			if($class instanceof MedicClass){
-				$player->getInventory()->setItem(7, MedicClass::$ironIngot);
-				$player->getInventory()->setItem(8, MedicClass::$netherStar);
+
+			$items[] = $item;
+			$player->getInventory()->remove($item);
+		}
+
+		$class = Provider::getCustomPlayer($player)->getClass();
+
+		if($class instanceof ParadoxClass) {
+			$player->getInventory()->setItem(8, $class::$ender_pearls);
+		}
+
+		if($class instanceof MedicClass) {
+			$player->getInventory()->setItem(7, $class::$ironIngot);
+			$player->getInventory()->setItem(8, $class::$netherStar);
+		}
+
+		if(in_array("kit-ability", array_keys($items))) {
+			$item = $items["kit-ability"];
+
+			if($class instanceof ParadoxClass) {
+				$player->getInventory()->setItem(7, $item);
+			}
+
+			if($class instanceof MedicClass) {
+				$player->getInventory()->setItem(6, $item);
+			}
+		}
+
+		foreach($items as $key => $item) {
+			if($key != "kit-ability"){
+				$player->getInventory()->addItem($item);
 			}
 		}
 	}

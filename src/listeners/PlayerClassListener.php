@@ -159,18 +159,6 @@ class PlayerClassListener implements Listener{
 		}
 	}
 
-	public function onInventoryClick(InventoryTransactionEvent $event) {
-		foreach($event->getTransaction()->getActions() as $action) {
-			if($action->getSourceItem()->hasCustomBlockData() && $action->getSourceItem()->getCustomBlockData()->getTag("class-ability") != null) {
-				$event->cancel();
-			}
-
-			if($action->getTargetItem()->hasCustomBlockData() && $action->getTargetItem()->getCustomBlockData()->getTag("class-ability") != null) {
-				$event->cancel();
-			}
-		}
-	}
-
 	public function onClanLeave(ClanLeaveEvent $event) {
 		if(Provider::getCustomPlayer($event->getPlayer())->getClass() instanceof MedicClass) {
 			Provider::getCustomPlayer($event->getPlayer())->setClass(null);

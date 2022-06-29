@@ -2,12 +2,14 @@
 
 namespace Crayder\Core\listeners;
 
-use Crayder\Core\classes\ParadoxClass;
 use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\entities\BatEntity;
 use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\holograms\Hologram;
 use Crayder\Core\kits\KitFactory;
 use Crayder\Core\koth\KothManager;
 use Crayder\Core\managers\ScoreboardManager;
+use Crayder\Core\util\ClassUtil;
 use Crayder\Core\util\CooldownUtil;
 use Crayder\Core\util\CoreUtil;
 use Crayder\StaffSys\managers\SPlayerManager;
@@ -116,10 +118,13 @@ class PlayerListener implements Listener{
 			}
 		}
 
-		$class = Provider::getCustomPlayer($player)->getClass();
-		if($class instanceof ParadoxClass){
-			$player->getInventory()->setItem(8, $class::$ender_pearls);
+		foreach($player->getInventory()->getContents() as $item){
+			if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null){
+				$player->getInventory()->remove($item);
+			}
 		}
+
+		ClassUtil::giveClassAbilityItem($player);
 
 		if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) == 0 && !SPlayerManager::isInStaffMode($player) && !KothManager::isKothGoingOn()){
 			ScoreboardManager::hide($player);
@@ -147,6 +152,12 @@ class PlayerListener implements Listener{
 			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::ABSORPTION(), 2400 / 20, 4);
 			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::RESISTANCE(), 6000 / 20, 1);
 			EffectsManager::giveEffect($event->getPlayer(), VanillaEffects::FIRE_RESISTANCE(), 6000 / 20, 1);
+		}
+	}
+
+	public function onEntityDamage(EntityDamageEvent $event){
+		if($event->getEntity() instanceof Hologram || $event->getEntity() instanceof BatEntity){
+			$event->cancel();
 		}
 	}
 
@@ -216,14 +227,16 @@ class PlayerListener implements Listener{
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)){
 			$value = $item->getCustomBlockData()->getString("ability-item");
 
+			$hasCooldown = Provider::getCustomPlayer($player)->checkCooldown($value) != null;
+
 			$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
 
-			if($expCooldown->check() && !in_array($expCooldown->getType(), $keys)){
-				$expCooldown->remove();
+			if(!$expCooldown->check() && $hasCooldown){
 				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 
-			if(!$expCooldown->check()){
+			if($expCooldown->check() && $expCooldown->getType() != $value && $hasCooldown){
+				$expCooldown->remove();
 				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 		}
@@ -236,14 +249,16 @@ class PlayerListener implements Listener{
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)){
 			$value = $item->getCustomBlockData()->getString("class-ability");
 
+			$hasCooldown = Provider::getCustomPlayer($player)->checkCooldown($value) != null;
+
 			$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
 
-			if($expCooldown->check() && !in_array($expCooldown->getType(), $keys)){
-				$expCooldown->remove();
+			if(!$expCooldown->check() && $hasCooldown){
 				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 
-			if(!$expCooldown->check()){
+			if($expCooldown->check() && $expCooldown->getType() != $value && $hasCooldown){
+				$expCooldown->remove();
 				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 		}
