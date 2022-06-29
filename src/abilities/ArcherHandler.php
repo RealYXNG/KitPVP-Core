@@ -101,6 +101,8 @@ class ArcherHandler implements Listener{
 			$taskHandler = self::$players[$event->getPlayer()->getUniqueId()->toString()];
 			$taskHandler->cancel();
 
+			$event->getPlayer()->setNameTag($event->getPlayer()->getName());
+
 			unset(self::$players[$event->getPlayer()->getUniqueId()->toString()]);
 		}
 	}

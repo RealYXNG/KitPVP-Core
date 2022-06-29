@@ -2,6 +2,7 @@
 
 namespace Crayder\Core\tasks\delayed;
 
+use Crayder\Core\abilities\ArcherHandler;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 
@@ -15,6 +16,7 @@ class ArcherTask extends Task{
 
 	public function onRun() : void{
 		$this->player->setNameTag($this->player->getName());
+		unset(ArcherHandler::$players[$this->player->getUniqueId()->toString()]);
 	}
 
 }
