@@ -1,9 +1,9 @@
 <?php
 
-namespace LxtfDev\Core\commands\tokens;
+namespace Crayder\Core\commands\tokens;
 
-use LxtfDev\Core\Provider;
-use LxtfDev\StaffSys\Main;
+use Crayder\Core\Provider;
+use Crayder\StaffSys\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
@@ -40,7 +40,7 @@ class TokensCmd extends Command{
 			$name = strtolower($args[1]);
 			$amount = $args[2];
 
-			$player = \LxtfDev\Core\Main::getInstance()->getServer()->getPlayerByPrefix($name);
+			$player = \Crayder\Core\Main::getInstance()->getServer()->getPlayerByPrefix($name);
 
 			if($player == null){
 				Main::getDatabase()->executeSelect("players.isregistered", ["name" => $name], function(array $rows) use ($amount, $args, $sender) : void{
@@ -49,8 +49,8 @@ class TokensCmd extends Command{
 						return;
 					}
 
-					\LxtfDev\Core\Main::getDatabase()->executeSelect("players.isregistered", ["uuid" => $rows[0]["uuid"]], function(array $rows2) use ($amount, $rows) : void{
-						\LxtfDev\Core\Main::getDatabase()->executeInsert("players.update_tokens", ["uuid" => $rows[0]["uuid"], "tokens" => ($rows2[0]["tokens"] + $amount)]);
+					\Crayder\Core\Main::getDatabase()->executeSelect("players.isregistered", ["uuid" => $rows[0]["uuid"]], function(array $rows2) use ($amount, $rows) : void{
+						\Crayder\Core\Main::getDatabase()->executeInsert("players.update_tokens", ["uuid" => $rows[0]["uuid"], "tokens" => ($rows2[0]["tokens"] + $amount)]);
 					});
 
 					$sender->sendMessage("§7[§a!§7] §aYou have added " . $amount . " Token(s) to " . $rows[0]["name"] . "'s Account");
@@ -83,7 +83,7 @@ class TokensCmd extends Command{
 			$name = strtolower($args[1]);
 			$amount = $args[2];
 
-			$player = \LxtfDev\Core\Main::getInstance()->getServer()->getPlayerByPrefix($name);
+			$player = \Crayder\Core\Main::getInstance()->getServer()->getPlayerByPrefix($name);
 
 			if($player == null){
 				Main::getDatabase()->executeSelect("players.isregistered", ["name" => $name], function(array $rows) use ($amount, $args, $sender) : void{
@@ -92,13 +92,13 @@ class TokensCmd extends Command{
 						return;
 					}
 
-					\LxtfDev\Core\Main::getDatabase()->executeSelect("players.isregistered", ["uuid" => $rows[0]["uuid"]], function(array $rows2) use ($sender, $amount, $rows) : void{
+					\Crayder\Core\Main::getDatabase()->executeSelect("players.isregistered", ["uuid" => $rows[0]["uuid"]], function(array $rows2) use ($sender, $amount, $rows) : void{
 						if($amount > $rows2[0]["tokens"]) {
 							$sender->sendMessage("§7[§6!§7] §6The player " . $rows[0]["name"] . " has Insufficient balance.");
 							return;
 						}
 
-						\LxtfDev\Core\Main::getDatabase()->executeInsert("players.update_tokens", ["uuid" => $rows[0]["uuid"], "tokens" => ($rows2[0]["tokens"] - $amount)]);
+						\Crayder\Core\Main::getDatabase()->executeInsert("players.update_tokens", ["uuid" => $rows[0]["uuid"], "tokens" => ($rows2[0]["tokens"] - $amount)]);
 					});
 
 					$sender->sendMessage("§7[§a!§7] §aYou have removed " . $amount . " Token(s) from " . $rows[0]["name"] . "'s Account");

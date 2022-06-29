@@ -1,21 +1,25 @@
 <?php
 
-namespace LxtfDev\Core\cooldown;
+namespace Crayder\Core\cooldown;
 
-use LxtfDev\Core\Main;
-use LxtfDev\Core\scoreboard\entry\EntryManager;
+use Crayder\Core\Main;
+use Crayder\Core\Provider;
+use Crayder\Core\scoreboard\entry\EntryManager;
+use Crayder\Core\tasks\cooldown\SBCooldownTask;
+use pocketmine\player\Player;
 
 class SBCooldown
 {
 
+	private Player $player;
+
 	private array $cooldowns = [];
-	private EntryManager $entryManager;
 
 	private array $pearls = [];
 
-	public function __construct(EntryManager $entryManager)
+	public function __construct(Player $player)
 	{
-		$this->entryManager = $entryManager;
+		$this->player = $player;
 	}
 
 	public function setCooldown(string $cooldown, int $expiry): void
@@ -25,6 +29,9 @@ class SBCooldown
 		if (str_starts_with($cooldown, "pearl-")) {
 			$this->pearls[$cooldown] = $this->getNextPosition($cooldown);
 		}
+
+		// Set a Repeating Task to start the Scoreboard Cooldown Timer
+		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new SBCooldownTask($this->player, $cooldown, $expiry), 20);
 	}
 
 	public function getPearlNum(string $pearlID): int
@@ -44,9 +51,11 @@ class SBCooldown
 		if ($this->isSet($cooldown)) {
 			unset($this->cooldowns[$cooldown]);
 
-			if ($this->entryManager->get($cooldown) != null) {
-				$this->entryManager->get($cooldown)->clear();
-				$this->entryManager->remove($cooldown);
+			$entryManager = Provider::getCustomPlayer($this->player)->getEntryManager();
+
+			if ($entryManager->get($cooldown) != null) {
+				$entryManager->get($cooldown)->clear();
+				$entryManager->remove($cooldown);
 			}
 		}
 

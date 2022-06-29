@@ -1,9 +1,9 @@
 <?php
 
-namespace LxtfDev\Core\managers;
+namespace Crayder\Core\managers;
 
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\scoreboard\Scoreboard;
+use Crayder\Core\Provider;
+use Crayder\Core\scoreboard\Scoreboard;
 use pocketmine\player\Player;
 
 class ScoreboardManager{
@@ -18,29 +18,24 @@ class ScoreboardManager{
 
 	public static function show(Player $player) : void{
 		Provider::getCustomPlayer($player)->getScoreboard()->addViewer($player);
-		Provider::getCustomPlayer($player)->setScoreboardToggled(true);
+		Provider::getCustomPlayer($player)->setScoreboardVisible(true);
 	}
 
-	public static function hide(Player $player, bool $changeToggle) : void{
+	public static function hide(Player $player) : void{
 		$customPlayer = Provider::getCustomPlayer($player);
 
 		if($customPlayer->getScoreboard() != null){
-			if(isset($customPlayer->getScoreboard()->getViewers()[spl_object_hash($player)])){
-				$customPlayer->getScoreboard()->removeViewer($player);
-			}
-		}
-
-		if($changeToggle){
-			$customPlayer->setScoreboardToggled(false);
+			$customPlayer->getScoreboard()->removeViewer($player);
+			$customPlayer->setScoreboardVisible(false);
 		}
 	}
 
 	public static function isVisible(Player $player) : bool{
-		return Provider::getCustomPlayer($player)->isScoreboardToggled();
+		return Provider::getCustomPlayer($player)->isScoreboardVisible();
 	}
 
 	public static function remove(Player $player) : void{
-		self::hide($player, false);
+		self::hide($player);
 
 		Provider::getCustomPlayer($player)->getEntryManager()->removeAll();
 		Provider::getCustomPlayer($player)->setScoreboard(null);

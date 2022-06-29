@@ -1,8 +1,8 @@
 <?php
 
-namespace LxtfDev\Core\tasks\delayed;
+namespace Crayder\Core\tasks\delayed;
 
-use LxtfDev\Core\managers\EffectsManager;
+use Crayder\Core\managers\EffectsManager;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 

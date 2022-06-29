@@ -1,16 +1,16 @@
 <?php
 
-namespace LxtfDev\Core\ui\skills;
+namespace Crayder\Core\ui\skills;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\Main;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\ParticleUtil;
-use LxtfDev\Core\util\SoundUtil;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Main;
+use Crayder\Core\Provider;
+use Crayder\Core\util\ParticleUtil;
+use Crayder\Core\util\SoundUtil;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\player\Player;
-use LxtfDev\Core\util\SkillsUtil;
+use Crayder\Core\util\SkillsUtil;
 
 class SkillsUI{
 

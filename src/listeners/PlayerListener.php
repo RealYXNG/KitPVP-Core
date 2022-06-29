@@ -1,15 +1,16 @@
 <?php
 
-namespace LxtfDev\Core\listeners;
+namespace Crayder\Core\listeners;
 
-use LxtfDev\Core\classes\ParadoxClass;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\events\CooldownExpireEvent;
-use LxtfDev\Core\kits\KitFactory;
-use LxtfDev\Core\Main;
-use LxtfDev\Core\managers\CooldownManager;
-use LxtfDev\Core\managers\ScoreboardManager;
-use LxtfDev\Core\util\CoreUtil;
+use Crayder\Core\classes\ParadoxClass;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\kits\KitFactory;
+use Crayder\Core\koth\KothManager;
+use Crayder\Core\managers\ScoreboardManager;
+use Crayder\Core\util\CooldownUtil;
+use Crayder\Core\util\CoreUtil;
+use Crayder\StaffSys\managers\SPlayerManager;
 use dktapps\pmforms\FormIcon;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
@@ -23,12 +24,11 @@ use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CooldownUtil;
+use Crayder\Core\Provider;
 use pocketmine\event\player\PlayerRespawnEvent;
-use LxtfDev\Core\managers\EffectsManager;
+use Crayder\Core\managers\EffectsManager;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\RulesConfig;
+use Crayder\Core\configs\RulesConfig;
 use pocketmine\Server;
 
 class PlayerListener implements Listener{
@@ -80,17 +80,16 @@ class PlayerListener implements Listener{
 	}
 
 	public function onPlayerQuit(PlayerQuitEvent $event){
-		Provider::unload($event->getPlayer());
-
 		$player = $event->getPlayer();
-		if(CooldownUtil::check($player)){
-			$player->getXpManager()->setXpProgress(0);
-			$player->getXpManager()->setXpLevel(0);
+		$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
 
-			CooldownUtil::remove($player);
+		if($expCooldown->check()){
+			$expCooldown->remove();
 		}
 
 		$event->setQuitMessage("");
+
+		Provider::unload($event->getPlayer());
 	}
 
 	public function onPlayerDeath(PlayerDeathEvent $event){
@@ -100,8 +99,10 @@ class PlayerListener implements Listener{
 			return;
 		}
 
-		if(CooldownUtil::check($player)){
-			CooldownUtil::remove($player);
+		$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
+
+		if($expCooldown->check()){
+			$expCooldown->remove();
 		}
 
 		$event->setXpDropAmount(0);
@@ -118,6 +119,10 @@ class PlayerListener implements Listener{
 		$class = Provider::getCustomPlayer($player)->getClass();
 		if($class instanceof ParadoxClass){
 			$player->getInventory()->setItem(8, $class::$ender_pearls);
+		}
+
+		if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) == 0 && !SPlayerManager::isInStaffMode($player) && !KothManager::isKothGoingOn()){
+			ScoreboardManager::hide($player);
 		}
 	}
 
@@ -148,15 +153,8 @@ class PlayerListener implements Listener{
 	public function onCooldownEnd(CooldownExpireEvent $event){
 		$player = $event->getPlayer();
 
-		if(CooldownUtil::check($player)){
-			if(CooldownUtil::getExpiry($player) == $event->getExpiry()){
-				$player->sendActionBarMessage("§aAbility Cooldown Expired!");
-
-				$player->getXpManager()->setXpProgress(0);
-				$player->getXpManager()->setXpLevel(0);
-
-				CooldownUtil::remove($player);
-			}
+		if(in_array($event->getType(), ["ghost", "egged", "vampire", "ninja", "trickster", "ironingot", "netherstar"]) || str_starts_with($event->getType(), "pearl-")){
+			$player->sendActionBarMessage("§aAbility Cooldown Expired!");
 		}
 
 		$kit = Provider::getCustomPlayer($player)->getKit();
@@ -218,17 +216,15 @@ class PlayerListener implements Listener{
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && in_array($item->getCustomBlockData()->getString("ability-item"), $keys)){
 			$value = $item->getCustomBlockData()->getString("ability-item");
 
-			if(CooldownUtil::check($player) && (CooldownUtil::getExpiry($player) != Provider::getCustomPlayer($player)->checkCooldown($value))){
-				$player->getXpManager()->setXpProgress(0);
-				$player->getXpManager()->setXpLevel(0);
+			$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
 
-				CooldownUtil::remove($player);
-
-				CooldownManager::showCooldown($value, $event->getPlayer());
+			if($expCooldown->check() && !in_array($expCooldown->getType(), $keys)){
+				$expCooldown->remove();
+				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 
-			if(!CooldownUtil::check($player)){
-				CooldownManager::showCooldown($value, $event->getPlayer());
+			if(!$expCooldown->check()){
+				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 		}
 
@@ -240,13 +236,15 @@ class PlayerListener implements Listener{
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && in_array($item->getCustomBlockData()->getString("class-ability"), $keys)){
 			$value = $item->getCustomBlockData()->getString("class-ability");
 
-			if(CooldownUtil::check($player) && (CooldownUtil::getExpiry($player) != Provider::getCustomPlayer($player)->checkCooldown($value))){
-				$player->getXpManager()->setXpProgress(0);
-				$player->getXpManager()->setXpLevel(0);
+			$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
 
-				CooldownUtil::remove($player);
+			if($expCooldown->check() && !in_array($expCooldown->getType(), $keys)){
+				$expCooldown->remove();
+				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
+			}
 
-				CooldownManager::showCooldown($value, $event->getPlayer());
+			if(!$expCooldown->check()){
+				CooldownUtil::showExpBarCooldown($value, $event->getPlayer());
 			}
 		}
 	}

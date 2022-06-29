@@ -1,9 +1,9 @@
 <?php
 
-namespace LxtfDev\Core\scoreboard\types;
+namespace Crayder\Core\scoreboard\types;
 
-use LxtfDev\Core\scoreboard\Scoreboard;
-use LxtfDev\Core\scoreboard\ScoreboardEntry;
+use Crayder\Core\scoreboard\Scoreboard;
+use Crayder\Core\scoreboard\ScoreboardEntry;
 
 class ScoreboardTypes{
 
@@ -11,9 +11,8 @@ class ScoreboardTypes{
 		$scoreboard = new Scoreboard("§6§lKITPVP §r§c(Beta)");
 
 		$scoreboard->addEntry(new ScoreboardEntry(0, " "));
-
-		$scoreboard->addEntry(new ScoreboardEntry(10, "  "));
-		$scoreboard->addEntry(new ScoreboardEntry(11, " » STCraftNet.com  "));
+		$scoreboard->addEntry(new ScoreboardEntry(9, "  "));
+		$scoreboard->addEntry(new ScoreboardEntry(10, " » STCraftNet.com  "));
 
 		return $scoreboard;
 	}

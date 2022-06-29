@@ -1,21 +1,20 @@
 <?php
 
-namespace LxtfDev\Core\abilities;
+namespace Crayder\Core\abilities;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\events\CooldownExpireEvent;
-use LxtfDev\Core\kits\KitFactory;
-use LxtfDev\Core\Provider;
-use LxtfDev\StaffSys\SPlayerProvider;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\kits\KitFactory;
+use Crayder\Core\Provider;
+use Crayder\StaffSys\SPlayerProvider;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\event\Listener;
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\managers\CooldownManager;
+use Crayder\Core\configs\AbilitiesConfig;
+use Crayder\Core\configs\ConfigVars;
 use pocketmine\event\player\PlayerItemUseEvent;
-use LxtfDev\Core\util\CooldownUtil;
-use LxtfDev\Core\managers\EffectsManager;
+use Crayder\Core\managers\EffectsManager;
+use Crayder\Core\util\CooldownUtil;
 
 class GhostHandler implements Listener{
 
@@ -31,7 +30,7 @@ class GhostHandler implements Listener{
 
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && $item->getCustomBlockData()->getString("ability-item") == "ghost"){
 
-			if(CooldownManager::checkCooldown("ghost", $player)){
+			if(CooldownUtil::checkCooldown("ghost", $player)){
 				return;
 			}
 
@@ -77,9 +76,9 @@ class GhostHandler implements Listener{
 				$multiplier = 1;
 			}
 
-			CooldownUtil::setCooldown($player, "ghost", AbilitiesConfig::$invis_cooldown * $multiplier);
+			CooldownUtil::setCooldown($player, "ghost", AbilitiesConfig::$invis_cooldown * $multiplier, true);
 
-			Provider::getCustomPlayer($player)->setCooldown("ghost-ability", AbilitiesConfig::$invis_time);
+			CooldownUtil::setCooldown($player, "ghost-ability", AbilitiesConfig::$invis_time, false);
 
 			if($multiplier != 1) {
 				$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");

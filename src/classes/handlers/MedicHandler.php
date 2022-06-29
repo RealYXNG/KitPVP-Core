@@ -1,17 +1,16 @@
 <?php
 
-namespace LxtfDev\Core\classes\handlers;
+namespace Crayder\Core\classes\handlers;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\managers\CooldownManager;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CooldownUtil;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CooldownUtil;
 use iRainDrop\Clans\Main;
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\player\Player;
-use LxtfDev\Core\managers\EffectsManager;
+use Crayder\Core\managers\EffectsManager;
 
 class MedicHandler implements Listener{
 
@@ -21,7 +20,7 @@ class MedicHandler implements Listener{
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "ironingot") {
 			$player = $event->getPlayer();
 
-			if(CooldownManager::checkCooldown("ironingot", $player) != null) {
+			if(CooldownUtil::checkCooldown("ironingot", $player) != null) {
 				return;
 			}
 
@@ -54,7 +53,7 @@ class MedicHandler implements Listener{
 				$multiplier = 1;
 			}
 
-			CooldownUtil::setCooldown($player, "ironingot", 60 * $multiplier);
+			CooldownUtil::setCooldown($player, "ironingot", 60 * $multiplier, true);
 
 			if($multiplier != 1) {
 				$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
@@ -69,7 +68,7 @@ class MedicHandler implements Listener{
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("class-ability") != null && $item->getCustomBlockData()->getString("class-ability") == "netherstar") {
 			$player = $event->getPlayer();
 
-			if(CooldownManager::checkCooldown("netherstar", $player) != null) {
+			if(CooldownUtil::checkCooldown("netherstar", $player) != null) {
 				return;
 			}
 
@@ -96,7 +95,7 @@ class MedicHandler implements Listener{
 				$multiplier = 1;
 			}
 
-			CooldownUtil::setCooldown($player, "netherstar", 60 * $multiplier);
+			CooldownUtil::setCooldown($player, "netherstar", 60 * $multiplier, true);
 
 			if($multiplier != 1) {
 				$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");

@@ -1,11 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\ui;
+namespace Crayder\Core\ui;
 
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\player\Player;
-use LxtfDev\Core\ui\classes\ClassUI;
+use Crayder\Core\ui\classes\ClassUI;
 
 class ClassSelection{
 

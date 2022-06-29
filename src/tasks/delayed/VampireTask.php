@@ -1,9 +1,9 @@
 <?php
 
-namespace LxtfDev\Core\tasks\delayed;
+namespace Crayder\Core\tasks\delayed;
 
-use LxtfDev\Core\abilities\VampireHandler;
-use LxtfDev\Core\entities\BatEntity;
+use Crayder\Core\abilities\VampireHandler;
+use Crayder\Core\entities\BatEntity;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 

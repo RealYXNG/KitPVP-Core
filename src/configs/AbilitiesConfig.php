@@ -1,8 +1,8 @@
 <?php
 
-namespace LxtfDev\Core\configs;
+namespace Crayder\Core\configs;
 
-use LxtfDev\Core\Main;
+use Crayder\Core\Main;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 use pocketmine\nbt\tag\CompoundTag;

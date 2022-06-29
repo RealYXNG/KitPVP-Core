@@ -1,8 +1,8 @@
 <?php
 
-namespace pocketmine\plugins\Core\src\sql;
+namespace Crayder\Core\sql;
 
-use LxtfDev\Core\Main;
+use Crayder\Core\Main;
 
 class DBConnection extends \SQLite3{
 

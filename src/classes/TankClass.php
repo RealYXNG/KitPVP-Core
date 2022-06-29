@@ -1,9 +1,9 @@
 <?php
 
-namespace LxtfDev\Core\classes;
+namespace Crayder\Core\classes;
 
-use LxtfDev\Core\BaseClass;
-use LxtfDev\Core\configs\ClassConfig;
+use Crayder\Core\BaseClass;
+use Crayder\Core\configs\ClassConfig;
 
 class TankClass extends BaseClass {
 

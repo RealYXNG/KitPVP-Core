@@ -1,18 +1,17 @@
 <?php
 
-namespace LxtfDev\Core\abilities;
+namespace Crayder\Core\abilities;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\managers\CooldownManager;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CooldownUtil;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CooldownUtil;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\managers\EffectsManager;
-use LxtfDev\Core\util\ChanceUtil;
+use Crayder\Core\configs\AbilitiesConfig;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\managers\EffectsManager;
+use Crayder\Core\util\ChanceUtil;
 
 class TricksterHandler implements Listener{
 
@@ -27,7 +26,7 @@ class TricksterHandler implements Listener{
 			$item = $damager->getInventory()->getItemInHand();
 			if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && $item->getCustomBlockData()->getString("ability-item") == "trickster"){
 
-				if(CooldownManager::checkCooldown("trickster", $damager)){
+				if(CooldownUtil::checkCooldown("trickster", $damager)){
 					return;
 				}
 
@@ -110,7 +109,7 @@ class TricksterHandler implements Listener{
 					$multiplier = 1;
 				}
 
-				CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier);
+				CooldownUtil::setCooldown($damager, "trickster", 120 * $multiplier, true);
 
 				if($multiplier != 1){
 					$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");

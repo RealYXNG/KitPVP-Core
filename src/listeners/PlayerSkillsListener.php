@@ -1,9 +1,9 @@
 <?php
 
-namespace LxtfDev\Core\listeners;
+namespace Crayder\Core\listeners;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\Provider;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Provider;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;

@@ -1,53 +1,87 @@
 <?php
 
-namespace LxtfDev\Core\util;
+namespace Crayder\Core\util;
 
-use LxtfDev\Core\Provider;
+use Crayder\Core\Main;
+use Crayder\Core\managers\ScoreboardManager;
+use Crayder\Core\Provider;
 use pocketmine\player\Player;
+use Crayder\Core\tasks\cooldown\CooldownTask;
 
 class CooldownUtil{
 
-	public static array $cooldowns;
-
-	public function __construct() {
-		self::$cooldowns = [];
-	}
-
-	public static function add(Player $player, int $cooldown, int $duration) {
-		self::$cooldowns[(String) $player->getUniqueId()] = [$duration, $cooldown];
-	}
-
-	public static function check(Player $player) :bool{
-		return isset(self::$cooldowns[(String) $player->getUniqueId()]);
-	}
-
-	public static function remove(Player $player) {
-		unset(self::$cooldowns[(String) $player->getUniqueId()]);
-
-		$player->getXpManager()->setXpProgress(0);
-		$player->getXpManager()->setXpLevel(0);
-	}
-
-	public static function getDuration(Player $player) {
-		return self::$cooldowns[(String) $player->getUniqueId()][0];
-	}
-
-	public static function getExpiry(Player $player) {
-		return self::$cooldowns[(String) $player->getUniqueId()][1];
-	}
-
-	public static function setCooldown(Player $player, string $type, int $duration) {
+	/*
+	 * Sets a Cooldown
+	 */
+	public static function setCooldown(Player $player, string $type, int $duration, bool $timers) : void{
 		Provider::getCustomPlayer($player)->setCooldown($type, $duration);
 
-		$player->sendActionBarMessage("§6Ability Cool-Down Started!");
-
-		$player->getXpManager()->setXpProgress(1.0);
-		$player->getXpManager()->setXpLevel($duration);
-
 		$expiry = time() + $duration;
-		self::add($player, $expiry, $duration);
+		Main::getInstance()->getScheduler()->scheduleRepeatingTask(new CooldownTask($player, $type, $expiry), 20);
 
-		Provider::getCustomPlayer($player)->getSBCooldown()->setCooldown($type, $expiry);
+		if(ScoreboardManager::isVisible($player)) {
+			ScoreboardManager::show($player);
+		}
+
+		if($timers){
+			$player->sendActionBarMessage("§6Cool-Down Started!");
+
+			$player->getXpManager()->setXpProgress(1.0);
+			$player->getXpManager()->setXpLevel($duration);
+
+			Provider::getCustomPlayer($player)->setCooldown($type, $duration);
+			Provider::getCustomPlayer($player)->getSBCooldown()->setCooldown($type, $expiry);
+			Provider::getCustomPlayer($player)->getExpCooldown()->add($type, $duration, $expiry);
+
+			// Create a Repeating Task to check for Cooldown Expiry
+			Main::getInstance()->getScheduler()->scheduleRepeatingTask(new CooldownTask($player, $type, $expiry), 20);
+		}
+	}
+
+	/*
+	 * Removes a Cooldown
+	 */
+	public static function removeCooldown(Player $player, string $type) : void{
+		$customPlayer = Provider::getCustomPlayer($player);
+
+		$customPlayer->removeCooldown($type);
+		$customPlayer->getSBCooldown()->removeCooldown($type);
+
+		if(!$customPlayer->getExpCooldown()->check()){
+			return;
+		}
+
+		if($customPlayer->getExpCooldown()->getType() == $type){
+			$customPlayer->getExpCooldown()->remove();
+		}
+	}
+
+	/*
+	 * Show Experience Bar Cooldown
+	 */
+	public static function showExpBarCooldown(string $type, Player $player) : void{
+		$customPlayer = Provider::getCustomPlayer($player);
+
+		if(self::checkCooldown($type, $player)){
+			$player->sendActionBarMessage("§cThis Ability is currently on Cool-Down!");
+
+			$expiry = $customPlayer->getAllCooldowns()[$type];
+			$duration = $expiry - time();
+
+			$player->getXpManager()->setXpProgress(1.0);
+			$player->getXpManager()->setXpLevel($duration);
+
+			Provider::getCustomPlayer($player)->getExpCooldown()->add($type, $duration, $expiry);
+		}
+	}
+
+	/*
+	 * Check Cooldown
+	 */
+	public static function checkCooldown(string $type, Player $player) : bool{
+		$customPlayer = Provider::getCustomPlayer($player);
+
+		return ($customPlayer->checkCooldown($type) != null);
 	}
 
 }

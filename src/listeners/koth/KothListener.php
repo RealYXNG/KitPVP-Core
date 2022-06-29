@@ -1,15 +1,15 @@
 <?php
 
-namespace LxtfDev\Core\listeners\koth;
+namespace Crayder\Core\listeners\koth;
 
-use LxtfDev\Core\Provider;
-use LxtfDev\StaffSys\managers\SPlayerManager;
+use Crayder\Core\Provider;
+use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use LxtfDev\Core\koth\KothManager;
+use Crayder\Core\koth\KothManager;
 
 class KothListener implements Listener{
 

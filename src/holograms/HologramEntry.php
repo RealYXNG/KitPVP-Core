@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\holograms;
+namespace Crayder\Core\holograms;
 
 class HologramEntry{
 

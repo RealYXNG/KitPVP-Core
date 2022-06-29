@@ -1,8 +1,8 @@
 <?php
 
-namespace LxtfDev\Core\commands\tokens;
+namespace Crayder\Core\commands\tokens;
 
-use LxtfDev\Core\Provider;
+use Crayder\Core\Provider;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;

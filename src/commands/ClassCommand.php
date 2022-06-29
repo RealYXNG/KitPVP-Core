@@ -1,10 +1,10 @@
 <?php
 
-namespace LxtfDev\Core\commands;
+namespace Crayder\Core\commands;
 
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\ui\ClassSelection;
-use LxtfDev\StaffSys\managers\SPlayerManager;
+use Crayder\Core\Provider;
+use Crayder\Core\ui\ClassSelection;
+use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;

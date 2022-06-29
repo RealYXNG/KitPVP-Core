@@ -1,13 +1,13 @@
 <?php
 
-namespace LxtfDev\Core\commands;
+namespace Crayder\Core\commands;
 
-use LxtfDev\Core\Main;
-use LxtfDev\Core\Provider;
+use Crayder\Core\Main;
+use Crayder\Core\Provider;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use LxtfDev\Core\util\TimeUtil;
+use Crayder\Core\util\TimeUtil;
 
 class InfoCommand extends Command{
 
@@ -60,7 +60,7 @@ class InfoCommand extends Command{
 			$sender->sendMessage("§6Online Time: §r" . TimeUtil::formatTime(Provider::getCustomPlayer($target)->getOnlineTime(), "§c", "§e"));
 		} else {
 			$name = strtolower($target);
-			\LxtfDev\StaffSys\Main::getDatabase()->executeSelect("players.isregistered", ["name" => $name], function(array $rows) use ($sender, $target) : void{
+			\Crayder\StaffSys\Main::getDatabase()->executeSelect("players.isregistered", ["name" => $name], function(array $rows) use ($sender, $target) : void{
 				if(count($rows) == 0){
 					$sender->sendMessage("§7[§c!§7] §cNo such player called §e" . $target . " §chas connected before!");
 					return;

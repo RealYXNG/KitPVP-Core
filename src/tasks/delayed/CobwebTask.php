@@ -1,8 +1,8 @@
 <?php
 
-namespace LxtfDev\Core\tasks\delayed;
+namespace Crayder\Core\tasks\delayed;
 
-use LxtfDev\Core\Main;
+use Crayder\Core\Main;
 use pocketmine\block\BlockFactory;
 use pocketmine\scheduler\Task;
 

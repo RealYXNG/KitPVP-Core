@@ -1,12 +1,12 @@
 <?php
 
-namespace LxtfDev\Core\util;
+namespace Crayder\Core\util;
 
-use LxtfDev\Core\classes\AssassinClass;
-use LxtfDev\Core\classes\MedicClass;
-use LxtfDev\Core\classes\ParadoxClass;
-use LxtfDev\Core\classes\TankClass;
-use LxtfDev\Core\Provider;
+use Crayder\Core\classes\AssassinClass;
+use Crayder\Core\classes\MedicClass;
+use Crayder\Core\classes\ParadoxClass;
+use Crayder\Core\classes\TankClass;
+use Crayder\Core\Provider;
 use pocketmine\entity\Attribute;
 use pocketmine\player\Player;
 

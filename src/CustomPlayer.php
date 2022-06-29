@@ -1,24 +1,25 @@
 <?php
 
-namespace LxtfDev\Core;
+namespace Crayder\Core;
 
-use LxtfDev\Core\classes\TankClass;
-use LxtfDev\Core\scoreboard\entry\EntryManager;
-use LxtfDev\Core\scoreboard\Scoreboard;
-use LxtfDev\Core\scoreboard\ScoreboardEntry;
-use LxtfDev\Core\util\TimeUtil;
-use phpDocumentor\Reflection\Types\Boolean;
+use Crayder\Core\classes\TankClass;
+use Crayder\Core\cooldown\ExpCooldown;
+use Crayder\Core\scoreboard\entry\EntryManager;
+use Crayder\Core\scoreboard\Scoreboard;
+use Crayder\Core\scoreboard\ScoreboardEntry;
+use Crayder\Core\tasks\cooldown\CooldownTask;
+use Crayder\Core\util\TimeUtil;
 use pocketmine\entity\Attribute;
 use pocketmine\player\Player;
-use LxtfDev\Core\sql\PlayerDAO;
-use LxtfDev\Core\util\CoreUtil;
-use LxtfDev\Core\classes\MedicClass;
-use LxtfDev\Core\classes\ParadoxClass;
-use LxtfDev\Core\scoreboard\types\ScoreboardTypes;
-use LxtfDev\Core\koth\data\KothData;
-use LxtfDev\Core\koth\KothManager;
-use LxtfDev\Core\cooldown\SBCooldown;
-use LxtfDev\Core\skills\data\SkillsManager;
+use Crayder\Core\sql\PlayerDAO;
+use Crayder\Core\util\CoreUtil;
+use Crayder\Core\classes\MedicClass;
+use Crayder\Core\classes\ParadoxClass;
+use Crayder\Core\scoreboard\types\ScoreboardTypes;
+use Crayder\Core\koth\data\KothData;
+use Crayder\Core\koth\KothManager;
+use Crayder\Core\cooldown\SBCooldown;
+use Crayder\Core\skills\data\SkillsManager;
 
 final class CustomPlayer{
 
@@ -56,6 +57,11 @@ final class CustomPlayer{
 	private SBCooldown $SBCooldown;
 
 	/*
+	 * Experience Bar Cooldown Manager
+	 */
+	private ExpCooldown $expCooldown;
+
+	/*
 	 * Online Time in seconds
 	 */
 	private int $onlineTime;
@@ -90,7 +96,7 @@ final class CustomPlayer{
 	/*
 	 * Scoreboard Toggle
 	 */
-	private bool $scoreboardToggle;
+	private bool $scoreboardVisible;
 
 	/*
 	 * KothData
@@ -120,11 +126,13 @@ final class CustomPlayer{
 		 */
 		$this->lastJoined = time();
 
-		$this->scoreboardToggle = true;
+		$this->scoreboardVisible = true;
 
 		$this->kothData = new KothData();
 
-		$this->SBCooldown = new SBCooldown($this->entryManager);
+		$this->SBCooldown = new SBCooldown($this->player);
+
+		$this->expCooldown = new ExpCooldown($this->player);
 	}
 
 	/*
@@ -146,10 +154,15 @@ final class CustomPlayer{
 				foreach($this->cooldowns as $key => $value){
 					if(in_array($key, ["effect-resistance", "effect-speed", "effect-regeneration", "effect-slowness", "effect-strength"])){
 						$this->cooldowns[$key] = time() + $value + 4;
-					}else if(!in_array($key, ["kick", "ban"])){
+					}else if(!in_array($key, ["kick", "ban", "assassin-cooldown", "assassin-duration", "tank-movement"])){
 						$this->cooldowns[$key] = time() + $value;
 						$this->getSBCooldown()->setCooldown($key, time() + $value);
+					} else {
+						$this->cooldowns[$key] = time() + $value;
 					}
+
+					$expiry = time() + $value;
+					Main::getInstance()->getScheduler()->scheduleRepeatingTask(new CooldownTask($this->player, $key, $expiry), 20);
 				}
 
 				if($this->class instanceof TankClass || $this->class instanceof MedicClass || $this->class instanceof ParadoxClass){
@@ -158,7 +171,7 @@ final class CustomPlayer{
 
 					$this->player->setSneaking(false);
 					$this->player->setSprinting(false);
-					
+
 					$this->player->getAttributeMap()->get(Attribute::MOVEMENT_SPEED)->setValue($this->player->getAttributeMap()->get(Attribute::MOVEMENT_SPEED)->getDefaultValue() * $this->class::$movement_multiplier);
 
 					$this->player->setSneaking($sneaking);
@@ -216,14 +229,14 @@ final class CustomPlayer{
 	/*
 	 * Get Class
 	 */
-	public function getClass(){
+	public function getClass() : BaseClass|null{
 		return $this->class;
 	}
 
 	/*
 	 * Set Class
 	 */
-	public function setClass($class){
+	public function setClass($class) : void{
 		$this->class = $class;
 	}
 
@@ -311,7 +324,7 @@ final class CustomPlayer{
 	/*
 	 * Get Scoreboard
 	 */
-	public function getScoreboard(){
+	public function getScoreboard() : Scoreboard|null{
 		return $this->scoreboard;
 	}
 
@@ -329,9 +342,9 @@ final class CustomPlayer{
 		$scoreboard = ScoreboardTypes::main();
 
 		if(KothManager::isKothGoingOn()){
-			$entry = new ScoreboardEntry(7, " §4KoTH Event §7(§2Running§7)");
-			$entry1 = new ScoreboardEntry(8, " §cEnds In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
-			$entry2 = new ScoreboardEntry(9, " §cKoTH Points: §e" . $this->getKothData()->getKothPoints());
+			$entry = new ScoreboardEntry(6, " §4KoTH Event §7(§2Running§7)");
+			$entry1 = new ScoreboardEntry(7, " §cEnds In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
+			$entry2 = new ScoreboardEntry(8, " §cKoTH Points: §e" . $this->getKothData()->getKothPoints());
 
 			$scoreboard->addEntry($entry);
 			$scoreboard->addEntry($entry1);
@@ -342,32 +355,17 @@ final class CustomPlayer{
 			$entryManager->add("koth_ends", $entry1);
 			$entryManager->add("koth_points", $entry2);
 
-			$entry3 = new ScoreboardEntry(5, " §c[!] §7No Cooldown");
-			$this->entryManager->add("nocooldown", $entry3);
-			$scoreboard->addEntry($entry3);
-
-			if(count($this->getSBCooldown()->getCooldowns()) != 0){
-				$entry3->clear();
-			}
-
-			$entry4 = new ScoreboardEntry(6, "    ");
+			$entry4 = new ScoreboardEntry(5, "    ");
 			$this->entryManager->add("kothspacing", $entry4);
 			$scoreboard->addEntry($entry4);
 
-			if($this->isScoreboardToggled()){
-				$scoreboard->addViewer($this->getPlayer());
-			}
+			$scoreboard->addViewer($this->getPlayer());
 
 			$this->setScoreboard($scoreboard);
 			return;
 		}
 
-		$entry3 = new ScoreboardEntry(5, " §c[!] §7No Cooldown");
-		$this->entryManager->add("nocooldown", $entry3);
-		$scoreboard->addEntry($entry3);
-
 		if(count($this->getSBCooldown()->getCooldowns()) != 0){
-			$entry3->clear();
 			$scoreboard->addViewer($this->getPlayer());
 		}
 
@@ -377,15 +375,15 @@ final class CustomPlayer{
 	/*
 	 * Is Toggled
 	 */
-	public function isScoreboardToggled() : bool{
-		return $this->scoreboardToggle;
+	public function isScoreboardVisible() : bool{
+		return $this->scoreboardVisible;
 	}
 
 	/*
 	 * Set Toggle Scoreboard
 	 */
-	public function setScoreboardToggled(bool $toggle) : void{
-		$this->scoreboardToggle = $toggle;
+	public function setScoreboardVisible(bool $visible) : void{
+		$this->scoreboardVisible = $visible;
 	}
 
 	/**
@@ -407,6 +405,13 @@ final class CustomPlayer{
 	 */
 	public function getSkillsManager() : SkillsManager{
 		return $this->skillsManager;
+	}
+
+	/**
+	 * @return ExpCooldown
+	 */
+	public function getExpCooldown() : ExpCooldown{
+		return $this->expCooldown;
 	}
 
 }

@@ -1,21 +1,20 @@
 <?php
 
-namespace LxtfDev\Core\abilities;
+namespace Crayder\Core\abilities;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\Main;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\tasks\delayed\VampireTask;
-use LxtfDev\Core\util\ParticleUtil;
-use LxtfDev\StaffSys\SPlayerProvider;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Main;
+use Crayder\Core\Provider;
+use Crayder\Core\tasks\delayed\VampireTask;
+use Crayder\Core\util\CooldownUtil;
+use Crayder\Core\util\ParticleUtil;
+use Crayder\StaffSys\SPlayerProvider;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerItemUseEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\math\Vector3;
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\managers\CooldownManager;
-use LxtfDev\Core\util\CooldownUtil;
+use Crayder\Core\configs\AbilitiesConfig;
 use pocketmine\player\Player;
 use pocketmine\world\sound\GhastShootSound;
 
@@ -34,7 +33,7 @@ class VampireHandler implements Listener{
 
 		if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && $item->getCustomBlockData()->getString("ability-item") == "vampire"){
 
-			if(CooldownManager::checkCooldown("vampire", $player)){
+			if(CooldownUtil::checkCooldown("vampire", $player)){
 				return;
 			}
 
@@ -92,7 +91,7 @@ class VampireHandler implements Listener{
 				$multiplier = 1;
 			}
 
-			CooldownUtil::setCooldown($player, "vampire", AbilitiesConfig::$bats_cooldown * $multiplier);
+			CooldownUtil::setCooldown($player, "vampire", AbilitiesConfig::$bats_cooldown * $multiplier, true);
 
 			if($multiplier != 1){
 				$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");

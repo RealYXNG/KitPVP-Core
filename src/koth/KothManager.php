@@ -1,23 +1,24 @@
 <?php
 
-namespace LxtfDev\Core\koth;
+namespace Crayder\Core\koth;
 
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\holograms\HologramEntry;
-use LxtfDev\Core\Main;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\scoreboard\ScoreboardEntry;
-use LxtfDev\Core\util\ChanceUtil;
-use LxtfDev\Core\util\TimeUtil;
-use LxtfDev\StaffSys\managers\SPlayerManager;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\holograms\HologramEntry;
+use Crayder\Core\Main;
+use Crayder\Core\managers\ScoreboardManager;
+use Crayder\Core\Provider;
+use Crayder\Core\scoreboard\ScoreboardEntry;
+use Crayder\Core\util\ChanceUtil;
+use Crayder\Core\util\TimeUtil;
+use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\item\enchantment\EnchantmentInstance;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\KothConfig;
-use LxtfDev\Core\util\ParticleUtil;
-use LxtfDev\Core\util\SoundUtil;
-use LxtfDev\Core\tasks\KothHologramTask;
+use Crayder\Core\configs\KothConfig;
+use Crayder\Core\util\ParticleUtil;
+use Crayder\Core\util\SoundUtil;
+use Crayder\Core\tasks\KothHologramTask;
 use pocketmine\world\Position;
 
 class KothManager{
@@ -118,9 +119,9 @@ class KothManager{
 			if(!SPlayerManager::isInStaffMode($player)){
 				$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();
 
-				$entry = new ScoreboardEntry(7, " §4KoTH Event §7(§2Running§7)");
-				$entry1 = new ScoreboardEntry(8, " §cEnds In: §e" . TimeUtil::formatMS(self::$kothDetails[1] - time()));
-				$entry2 = new ScoreboardEntry(9, " §cKoTH Points: §e0");
+				$entry = new ScoreboardEntry(6, " §4KoTH Event §7(§2Running§7)");
+				$entry1 = new ScoreboardEntry(7, " §cEnds In: §e" . TimeUtil::formatMS(self::$kothDetails[1] - time()));
+				$entry2 = new ScoreboardEntry(8, " §cKoTH Points: §e0");
 
 				$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
 
@@ -142,7 +143,7 @@ class KothManager{
 				$scoreboard->addEntry($entry1);
 				$scoreboard->addEntry($entry2);
 
-				$entry4 = new ScoreboardEntry(6, "    ");
+				$entry4 = new ScoreboardEntry(5, "    ");
 				Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
 				$scoreboard->addEntry($entry4);
 			}
@@ -219,6 +220,10 @@ class KothManager{
 				$entryManager->get("koth")->clear();
 				$entryManager->get("koth_ends")->clear();
 				$entryManager->get("koth_points")->clear();
+
+				if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) == 0){
+					ScoreboardManager::hide($player);
+				}
 			}
 
 			if(Provider::getCustomPlayer($player)->getEntryManager()->get("kothspacing") != null){

@@ -1,8 +1,8 @@
 <?php
 
-namespace LxtfDev\Core\commands;
+namespace Crayder\Core\commands;
 
-use LxtfDev\Core\Main;
+use Crayder\Core\Main;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;

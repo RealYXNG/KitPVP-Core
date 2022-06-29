@@ -1,10 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\managers;
+namespace Crayder\Core\managers;
 
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\Provider;
+use Crayder\Core\configs\AbilitiesConfig;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CooldownUtil;
 use pocketmine\entity\effect\Effect;
 use pocketmine\entity\effect\EffectInstance;
 use pocketmine\entity\effect\VanillaEffects;
@@ -32,23 +33,23 @@ class EffectsManager{
 					if(ConfigVars::$effects[$effect["id"]]->getName() == $effectInstance->getType()->getName()){
 
 						if($effectInstance->getType()->getName() == VanillaEffects::SPEED()->getName()){
-							Provider::getCustomPlayer($player)->setCooldown("effect-speed", $duration + 1);
+							CooldownUtil::setCooldown($player, "effect-speed", $duration + 1, false);
 						}
 
 						if($effectInstance->getType()->getName() == VanillaEffects::STRENGTH()->getName()){
-							Provider::getCustomPlayer($player)->setCooldown("effect-strength", $duration + 1);
+							CooldownUtil::setCooldown($player, "effect-strength", $duration + 1, false);
 						}
 
 						if($effectInstance->getType()->getName() == VanillaEffects::RESISTANCE()->getName()){
-							Provider::getCustomPlayer($player)->setCooldown("effect-resistance", $duration + 1);
+							CooldownUtil::setCooldown($player, "effect-resistance", $duration + 1, false);
 						}
 
 						if($effectInstance->getType()->getName() == VanillaEffects::REGENERATION()->getName()){
-							Provider::getCustomPlayer($player)->setCooldown("effect-regeneration", $duration + 1);
+							CooldownUtil::setCooldown($player, "effect-regeneration", $duration + 1, false);
 						}
 
 						if($effectInstance->getType()->getName() == VanillaEffects::SLOWNESS()->getName()){
-							Provider::getCustomPlayer($player)->setCooldown("effect-slowness", $duration + 1);
+							CooldownUtil::setCooldown($player, "effect-slowness", $duration + 1, false);
 						}
 
 					}

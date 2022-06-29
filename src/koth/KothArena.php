@@ -1,11 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\koth;
+namespace Crayder\Core\koth;
 
-use LxtfDev\Core\holograms\Hologram;
-use LxtfDev\Core\Main;
+use Crayder\Core\holograms\Hologram;
+use Crayder\Core\Main;
 use pocketmine\entity\Location;
-use LxtfDev\Core\koth\data\KothHologramData;
+use Crayder\Core\koth\data\KothHologramData;
 
 class KothArena{
 

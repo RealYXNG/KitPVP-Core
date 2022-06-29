@@ -1,16 +1,15 @@
 <?php
 
-namespace LxtfDev\Core\abilities;
+namespace Crayder\Core\abilities;
 
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\Main;
-use LxtfDev\Core\managers\AbilityManager;
-use LxtfDev\Core\managers\CooldownManager;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CoreUtil;
-use LxtfDev\StaffSys\SPlayerProvider;
+use Crayder\Core\configs\AbilitiesConfig;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Main;
+use Crayder\Core\managers\AbilityManager;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CoreUtil;
+use Crayder\StaffSys\SPlayerProvider;
 use pocketmine\block\BlockFactory;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\Listener;
@@ -19,11 +18,11 @@ use pocketmine\item\Egg;
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
-use LxtfDev\Core\events\CooldownExpireEvent;
-use LxtfDev\Core\util\CooldownUtil;
-use LxtfDev\Core\managers\EffectsManager;
-use LxtfDev\Core\util\world\WorldUtil;
-use LxtfDev\Core\tasks\delayed\CobwebTask;
+use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\managers\EffectsManager;
+use Crayder\Core\util\world\WorldUtil;
+use Crayder\Core\tasks\delayed\CobwebTask;
+use Crayder\Core\util\CooldownUtil;
 
 class EggedHandler implements Listener{
 
@@ -41,7 +40,7 @@ class EggedHandler implements Listener{
 
 			if($item->hasCustomBlockData() && $item->getCustomBlockData()->getTag("ability-item") != null && $item->getCustomBlockData()->getString("ability-item") == "egged"){
 
-				if(CooldownManager::checkCooldown("egged", $event->getPlayer())) {
+				if(CooldownUtil::checkCooldown("egged", $event->getPlayer())) {
 					$event->cancel();
 					return;
 				}
@@ -62,7 +61,7 @@ class EggedHandler implements Listener{
 					$multiplier = 1;
 				}
 
-				CooldownUtil::setCooldown($event->getPlayer(), "egged", 20 * $multiplier);
+				CooldownUtil::setCooldown($event->getPlayer(), "egged", 20 * $multiplier, true);
 
 				if($multiplier != 1) {
 					$event->getPlayer()->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");

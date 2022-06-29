@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\events;
+namespace Crayder\Core\events;
 
 use pocketmine\event\Event;
 use pocketmine\player\Player;

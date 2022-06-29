@@ -1,11 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\commands\skills;
+namespace Crayder\Core\commands\skills;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use LxtfDev\Core\ui\skills\SkillsUI;
+use Crayder\Core\ui\skills\SkillsUI;
 
 class SkillsCmd extends Command{
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\scoreboard;
+namespace Crayder\Core\scoreboard;
 
 use pocketmine\network\mcpe\protocol\SetScorePacket;
 use pocketmine\network\mcpe\protocol\types\ScorePacketEntry;

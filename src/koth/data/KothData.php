@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\koth\data;
+namespace Crayder\Core\koth\data;
 
 class KothData{
 

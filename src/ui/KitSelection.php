@@ -1,11 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\ui;
+namespace Crayder\Core\ui;
 
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\player\Player;
-use LxtfDev\Core\ui\kits\KitUI;
+use Crayder\Core\ui\kits\KitUI;
 
 class KitSelection {
 

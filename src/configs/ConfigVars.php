@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\configs;
+namespace Crayder\Core\configs;
 
 use pocketmine\entity\effect\VanillaEffects;
 use pocketmine\item\enchantment\VanillaEnchantments;

@@ -1,15 +1,15 @@
 <?php
 
-namespace LxtfDev\Core\ui\kits;
+namespace Crayder\Core\ui\kits;
 
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CoreUtil;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CoreUtil;
 use dktapps\pmforms\MenuForm;
 use dktapps\pmforms\MenuOption;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\KitsConfig;
-use LxtfDev\Core\kits\KitFactory;
-use LxtfDev\Core\ui\KitSelection;
+use Crayder\Core\configs\KitsConfig;
+use Crayder\Core\kits\KitFactory;
+use Crayder\Core\ui\KitSelection;
 
 class KitUI{
 

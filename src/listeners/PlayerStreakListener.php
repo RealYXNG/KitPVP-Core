@@ -1,15 +1,15 @@
 <?php
 
-namespace LxtfDev\Core\listeners;
+namespace Crayder\Core\listeners;
 
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\ParticleUtil;
-use LxtfDev\Core\util\SoundUtil;
+use Crayder\Core\Provider;
+use Crayder\Core\util\ParticleUtil;
+use Crayder\Core\util\SoundUtil;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\KSConfig;
+use Crayder\Core\configs\KSConfig;
 
 class PlayerStreakListener implements Listener{
 

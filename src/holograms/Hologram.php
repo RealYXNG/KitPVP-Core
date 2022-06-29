@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\holograms;
+namespace Crayder\Core\holograms;
 
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntitySizeInfo;

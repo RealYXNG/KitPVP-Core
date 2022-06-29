@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\skills\data;
+namespace Crayder\Core\skills\data;
 
 class SkillsManager{
 

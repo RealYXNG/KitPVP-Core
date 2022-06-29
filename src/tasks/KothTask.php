@@ -1,13 +1,13 @@
 <?php
 
-namespace LxtfDev\Core\tasks;
+namespace Crayder\Core\tasks;
 
-use LxtfDev\Core\Main;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\scoreboard\ScoreboardEntry;
-use LxtfDev\Core\util\TimeUtil;
-use LxtfDev\Core\koth\KothManager;
-use LxtfDev\StaffSys\managers\SPlayerManager;
+use Crayder\Core\Main;
+use Crayder\Core\Provider;
+use Crayder\Core\scoreboard\ScoreboardEntry;
+use Crayder\Core\util\TimeUtil;
+use Crayder\Core\koth\KothManager;
+use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\scheduler\Task;
 
 class KothTask extends Task{
@@ -27,8 +27,8 @@ class KothTask extends Task{
 						if(!SPlayerManager::isInStaffMode($player)){
 							$scoreboard = Provider::getCustomPlayer($player)->getScoreboard();
 
-							$entry = new ScoreboardEntry(7, " §4KoTH Event §7(§6Scheduled§7)");
-							$entry1 = new ScoreboardEntry(8, " §cStarts In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
+							$entry = new ScoreboardEntry(6, " §4KoTH Event §7(§6Scheduled§7)");
+							$entry1 = new ScoreboardEntry(7, " §cStarts In: §e" . TimeUtil::formatMS(KothManager::$kothDetails[1] - time()));
 
 							$scoreboard->addEntry($entry);
 							$scoreboard->addEntry($entry1);
@@ -37,7 +37,7 @@ class KothTask extends Task{
 							$entryManager->add("koth", $entry);
 							$entryManager->add("koth_starts", $entry1);
 
-							$entry4 = new ScoreboardEntry(6, "    ");
+							$entry4 = new ScoreboardEntry(5, "    ");
 							Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry4);
 							$scoreboard->addEntry($entry4);
 						}

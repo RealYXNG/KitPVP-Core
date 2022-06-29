@@ -1,6 +1,6 @@
 <?php
 
-namespace LxtfDev\Core\util\customitem;
+namespace Crayder\Core\util\customitem;
 
 use pocketmine\item\GoldenAppleEnchanted;
 

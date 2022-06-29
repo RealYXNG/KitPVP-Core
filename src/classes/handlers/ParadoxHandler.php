@@ -1,14 +1,13 @@
 <?php
 
-namespace LxtfDev\Core\classes\handlers;
+namespace Crayder\Core\classes\handlers;
 
-use LxtfDev\Core\classes\ParadoxClass;
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\events\CooldownExpireEvent;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CooldownUtil;
-use LxtfDev\StaffSys\SPlayerProvider;
+use Crayder\Core\classes\ParadoxClass;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CooldownUtil;
+use Crayder\StaffSys\SPlayerProvider;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\ProjectileLaunchEvent;
 use pocketmine\event\Listener;
@@ -77,7 +76,7 @@ class ParadoxHandler implements Listener{
 						$multiplier = 1;
 					}
 
-					CooldownUtil::setCooldown($owningEntity, "pearl-" . $entity->getId(), 150 * $multiplier);
+					CooldownUtil::setCooldown($owningEntity, "pearl-" . $entity->getId(), 150 * $multiplier, true);
 
 					if($multiplier != 1) {
 						$owningEntity->sendMessage("§3INFO > Your Ender-Pearl Cool-Down has been reduced by " . (100 - ($multiplier * 100)) . "%");
@@ -115,15 +114,18 @@ class ParadoxHandler implements Listener{
 						$array = self::$pearls[(string) $owningEntity->getUniqueId()];
 						if(isset($array[$child->getId()])){
 
-							$expiry = $array[$child->getId()];
-							if(CooldownUtil::check($owningEntity)){
-								if(CooldownUtil::getExpiry($owningEntity) == $expiry){
-									CooldownUtil::remove($owningEntity);
+							$expCooldown = Provider::getCustomPlayer($owningEntity)->getExpCooldown();
+
+							$type = "pearl-" . $child->getId();
+
+							if($expCooldown->check()){
+								if($expCooldown->getType() == $type){
+									$expCooldown->remove();
 								}
 							}
 
-							Provider::getCustomPlayer($owningEntity)->removeCooldown("pearl-" . $child->getId());
-							Provider::getCustomPlayer($owningEntity)->getSBCooldown()->removeCooldown("pearl-" . $child->getId());
+							Provider::getCustomPlayer($owningEntity)->removeCooldown($type);
+							Provider::getCustomPlayer($owningEntity)->getSBCooldown()->removeCooldown($type);
 							unset($array[$child->getId()]);
 						}
 

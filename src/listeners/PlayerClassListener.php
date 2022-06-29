@@ -1,12 +1,12 @@
 <?php
 
-namespace LxtfDev\Core\listeners;
+namespace Crayder\Core\listeners;
 
-use LxtfDev\Core\classes\TankClass;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\events\CooldownExpireEvent;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CooldownUtil;
+use Crayder\Core\classes\TankClass;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\events\CooldownExpireEvent;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CooldownUtil;
 use iRainDrop\Clans\Main;
 use pocketmine\entity\Attribute;
 use pocketmine\entity\effect\VanillaEffects;
@@ -16,12 +16,12 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\player\Player;
-use LxtfDev\Core\classes\AssassinClass;
-use LxtfDev\Core\classes\MedicClass;
-use LxtfDev\Core\classes\ParadoxClass;
+use Crayder\Core\classes\AssassinClass;
+use Crayder\Core\classes\MedicClass;
+use Crayder\Core\classes\ParadoxClass;
 use iRainDrop\Clans\events\ClanLeaveEvent;
-use LxtfDev\Core\util\ClassUtil;
-use LxtfDev\Core\managers\EffectsManager;
+use Crayder\Core\util\ClassUtil;
+use Crayder\Core\managers\EffectsManager;
 
 class PlayerClassListener implements Listener{
 
@@ -49,7 +49,7 @@ class PlayerClassListener implements Listener{
 					if($class instanceof TankClass){
 						$damager->getAttributeMap()->get(Attribute::MOVEMENT_SPEED)->setValue($damager->getAttributeMap()->get(Attribute::MOVEMENT_SPEED)->getDefaultValue());
 
-						Provider::getCustomPlayer($damager)->setCooldown("tank-movement", 10);
+						CooldownUtil::setCooldown($damager, "tank-movement", 10, false);
 					}
 
 					if($class instanceof AssassinClass){
@@ -133,8 +133,8 @@ class PlayerClassListener implements Listener{
 					$event->setModifier($class::$damage_intake * $event->getFinalDamage(), 14);
 
 					$onHit = $class::$on_hit;
-					Provider::getCustomPlayer($entity)->setCooldown("assassin-cooldown", $onHit["cooldown"]);
-					Provider::getCustomPlayer($entity)->setCooldown("assassin-duration", $onHit["time"]);
+					CooldownUtil::setCooldown($entity, "assassin-cooldown", $onHit["cooldown"], false);
+					CooldownUtil::setCooldown($entity, "assassin-duration", $onHit["time"], false);
 
 					$sneaking = $entity->isSneaking();
 					$sprinting = $entity->isSprinting();
@@ -179,13 +179,15 @@ class PlayerClassListener implements Listener{
 			ClassUtil::resetClass($event->getPlayer());
 
 			$player = $event->getPlayer();
-			foreach(Provider::getCustomPlayer($player)->getAllCooldowns() as $key => $value) {
-				if($key == "ironingot" || $key == "netherstar") {
-					Provider::getCustomPlayer($player)->removeCooldown($key);
 
-					if(CooldownUtil::check($player)) {
-						if(CooldownUtil::getExpiry($player) == $value) {
-							CooldownUtil::remove($player);
+			foreach(["ironingot", "netherstar"] as $key) {
+				if(Provider::getCustomPlayer($player)->checkCooldown($key) != null) {
+					Provider::getCustomPlayer($player)->removeCooldown($key);
+					$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
+
+					if($expCooldown->check()) {
+						if($expCooldown->getType() == $key) {
+							$expCooldown->remove();
 						}
 					}
 

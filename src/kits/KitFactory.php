@@ -1,11 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\kits;
+namespace Crayder\Core\kits;
 
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\managers\AbilityManager;
-use LxtfDev\Core\Provider;
-use LxtfDev\Core\util\CoreUtil;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\managers\AbilityManager;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CoreUtil;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\InvMenuTransaction;
 use muqsit\invmenu\transaction\InvMenuTransactionResult;
@@ -17,9 +17,9 @@ use pocketmine\item\ItemFactory;
 use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\KitsConfig;
-use LxtfDev\Core\managers\EffectsManager;
-use LxtfDev\Core\util\inventory\InventoryUtil;
+use Crayder\Core\configs\KitsConfig;
+use Crayder\Core\managers\EffectsManager;
+use Crayder\Core\util\inventory\InventoryUtil;
 
 class KitFactory{
 

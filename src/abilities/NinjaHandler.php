@@ -1,17 +1,16 @@
 <?php
 
-namespace LxtfDev\Core\abilities;
+namespace Crayder\Core\abilities;
 
-use LxtfDev\Core\configs\SkillsConfig;
-use LxtfDev\Core\managers\CooldownManager;
-use LxtfDev\Core\Provider;
+use Crayder\Core\configs\SkillsConfig;
+use Crayder\Core\Provider;
+use Crayder\Core\util\CooldownUtil;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
 use pocketmine\player\Player;
-use LxtfDev\Core\configs\AbilitiesConfig;
-use LxtfDev\Core\configs\ConfigVars;
-use LxtfDev\Core\util\CooldownUtil;
-use LxtfDev\Core\managers\EffectsManager;
+use Crayder\Core\configs\AbilitiesConfig;
+use Crayder\Core\configs\ConfigVars;
+use Crayder\Core\managers\EffectsManager;
 
 class NinjaHandler implements Listener{
 
@@ -29,7 +28,7 @@ class NinjaHandler implements Listener{
 				if($entity->getDirectionVector()->dot($damager->getDirectionVector()) >= 0){
 					$event->setBaseDamage(AbilitiesConfig::$backstab_damage);
 
-					if(CooldownManager::checkCooldown("ninja", $damager)) {
+					if(CooldownUtil::checkCooldown("ninja", $damager)) {
 						return;
 					}
 
@@ -41,7 +40,7 @@ class NinjaHandler implements Listener{
 						$multiplier = 1;
 					}
 
-					CooldownUtil::setCooldown($damager, "ninja", AbilitiesConfig::$backstab_cooldown * $multiplier);
+					CooldownUtil::setCooldown($damager, "ninja", AbilitiesConfig::$backstab_cooldown * $multiplier, true);
 
 					if($multiplier != 1) {
 						$damager->sendMessage("§3INFO > Your Cool-Down has been reduced by " . (100 - ((100 - ($multiplier * 100)))) . "%");

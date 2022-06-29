@@ -1,11 +1,11 @@
 <?php
 
-namespace LxtfDev\Core\sql;
+namespace Crayder\Core\sql;
 
-use LxtfDev\Core\configs\KothConfig;
-use LxtfDev\Core\Main;
-use LxtfDev\Core\koth\KothArena;
-use LxtfDev\Core\koth\KothManager;
+use Crayder\Core\configs\KothConfig;
+use Crayder\Core\Main;
+use Crayder\Core\koth\KothArena;
+use Crayder\Core\koth\KothManager;
 
 class KothDAO{
 
