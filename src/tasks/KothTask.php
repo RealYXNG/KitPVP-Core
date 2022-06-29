@@ -57,19 +57,17 @@ class KothTask extends Task{
 		}
 
 		if(KothManager::isKothGoingOn()){
-			if(count(KothManager::$players) == 1){
-				foreach(KothManager::$players as $uuid => $time){
-					$player = Main::getInstance()->getServer()->getPlayerByUUID(unserialize($uuid));
+			if(KothManager::getPlayersInArena() == 1){
+				$player = KothManager::getPlayerCapturing();
 
-					$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
+				$entryManager = Provider::getCustomPlayer($player)->getEntryManager();
 
-					if($entryManager->get("koth_points") != null){
-						Provider::getCustomPlayer($player)->getKothData()->addKothPoints(1);
+				if($entryManager->get("koth_points") != null){
+					Provider::getCustomPlayer($player)->getKothData()->addKothPoints(1);
 
-						$entryManager->get("koth_points")->setValue(" §cKoTH Points: §e" . Provider::getCustomPlayer($player)->getKothData()->getKothPoints());
+					$entryManager->get("koth_points")->setValue(" §cKoTH Points: §e" . Provider::getCustomPlayer($player)->getKothData()->getKothPoints());
 
-						$player->sendActionBarMessage("§7[§4KoTH§7] §cYou have gained §6+1 KoTH Point");
-					}
+					$player->sendActionBarMessage("§7[§4KoTH§7] §cYou have gained §6+1 KoTH Point");
 				}
 			}
 		}
