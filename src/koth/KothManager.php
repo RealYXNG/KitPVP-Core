@@ -103,6 +103,12 @@ class KothManager{
 		return self::$kothDetails[0];
 	}
 
+	public static function isKothScheduledTimer() :bool{
+		$remaining = self::$kothDetails[1] - time();
+
+		return (!self::isKothGoingOn() && $remaining <= 20);
+	}
+
 	public static function startKoth() : void{
 		self::$kothDetails[0] = true;
 		self::$kothDetails[1] = time() + KothConfig::$duration * 60;

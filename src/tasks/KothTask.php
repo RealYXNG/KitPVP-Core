@@ -20,7 +20,9 @@ class KothTask extends Task{
 
 			if($arenaNotSetup){
 				KothManager::$kothDetails[1] = -1;
-			}else{
+			}
+
+			else{
 				if((KothManager::getTimestamp() - time()) == 20 && !KothManager::isKothGoingOn()){
 					KothManager::kothScheduledHologram();
 

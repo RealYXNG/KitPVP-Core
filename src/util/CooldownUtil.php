@@ -25,7 +25,7 @@ class CooldownUtil{
 			ScoreboardManager::show($player);
 		}
 
-		if(KothManager::isKothGoingOn()){
+		if(KothManager::isKothGoingOn() || KothManager::isKothScheduledTimer()){
 			$entry = new ScoreboardEntry(5, "    ");
 			Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry);
 			Provider::getCustomPlayer($player)->getScoreboard()->addEntry($entry);
