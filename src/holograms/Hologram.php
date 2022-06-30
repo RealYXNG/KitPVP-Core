@@ -26,6 +26,10 @@ class Hologram extends Entity{
 		$this->__setEntry($entry->getPosition(), $entry->getValue());
 	}
 
+	public function removeEntry(HologramEntry $entry) :void{
+		$this->__removeEntry($entry->getPosition());
+	}
+
 	public function addViewer(Player $player) :void{
 		$this->spawnTo($player);
 	}
