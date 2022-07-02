@@ -9,30 +9,14 @@ use pocketmine\entity\Location;
 class LeaderboardManager{
 
 	public static function createLeaderboard(string $leaderboardName, int $leaderboardType, Location $location) {
-		$leaderboard = new Leaderboard($location, null, $leaderboardName, $leaderboardType);
-
-		switch($leaderboardType) {
-			case 0:
-				$leaderboard->addHeading("§3§lTOP KILLS");
-				break;
-			case 1:
-				$leaderboard->addHeading( "§3§lTOP DEATHS");
-				break;
-			case 2:
-				$leaderboard->addHeading("§3§lTOP KDR");
-				break;
-			case 3:
-				$leaderboard->addHeading( "§3§lTOP XP");
-				break;
-			case 4:
-				$leaderboard->addHeading( "§3§lTOP LEVELS");
-				break;
-			case 5:
-				$leaderboard->addHeading( "§3§lTOP COINS");
-				break;
-		}
-
+		$leaderboard = new Leaderboard($location, true, null, $leaderboardName, $leaderboardType);
 		LeaderboardProvider::add($leaderboard);
+
+		$hookType = LBHookProvider::getHookTypeFromLBType($leaderboardType);
+		if(LBHookProvider::isRegistered($hookType)) {
+			$hook = LBHookProvider::getHook($hookType);
+			$hook->update();
+		}
 	}
 
 	public static function removeLeaderboard(string $leaderboardName) :void{
@@ -40,7 +24,7 @@ class LeaderboardManager{
 	}
 
 	public static function updateScores(Leaderboard $leaderboard, array $scores) :void{
-		rsort($scores);
+		arsort($scores);
 		$scores = array_slice($scores, 0, 10);
 
 		$leaderboard->reset();

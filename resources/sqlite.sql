@@ -82,3 +82,20 @@ INSERT INTO KOTHS(
 SELECT * FROM KOTHS;
 -- #    }
 -- #}
+-- #{ leaderboards
+-- #    { init
+CREATE TABLE IF NOT EXISTS LEADERBOARDS(NAME TEXT, TYPE INT, X FLOAT, Y FLOAT, Z FLOAT, WORLD TEXT);
+-- #    }
+-- #    { insert
+-- # 	  :name string
+-- # 	  :type int
+-- # 	  :x float
+-- # 	  :y float
+-- # 	  :z float
+-- # 	  :world string
+INSERT INTO LEADERBOARDS(NAME, TYPE, X, Y, Z, WORLD) VALUES(:name, :type, :x, :y, :z, :world);
+-- #    }
+-- #    { select
+SELECT * FROM LEADERBOARDS;
+-- #    }
+-- #}

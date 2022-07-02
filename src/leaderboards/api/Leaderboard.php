@@ -15,15 +15,19 @@ class Leaderboard extends Entity{
 
 	private int $leaderboardType;
 
-
-	public function __construct(Location $location, ?CompoundTag $nbt = null, string $name = "Top_Kills", int $leaderboardType = 0){
+	public function __construct(Location $location, bool $reset, ?CompoundTag $nbt = null, string $name = "Top_Kills", int $leaderboardType = 0){
 		parent::__construct($location, $nbt);
-
-		$this->setScale(0.00001);
-		$this->setNameTagAlwaysVisible();
 
 		$this->name = $name;
 		$this->leaderboardType = $leaderboardType;
+
+		if($reset){
+			$this->reset();
+		}
+
+		$this->setScale(0.00001);
+		$this->setNameTagAlwaysVisible();
+		$this->spawnToAll();
 	}
 
 	/**
@@ -140,6 +144,10 @@ class Leaderboard extends Entity{
 	}
 
 	public function __getEntries() :array{
+		if($this->getNameTag() == null) {
+			return [];
+		}
+
 		return explode("\n", $this->getNameTag());
 	}
 

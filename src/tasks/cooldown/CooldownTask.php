@@ -42,7 +42,9 @@ class CooldownTask extends Task{
 				if(count(Provider::getCustomPlayer($this->player)->getSBCooldown()->getCooldowns()) == 0 && !SPlayerManager::isInStaffMode($this->player)){
 					if(!KothManager::isKothGoingOn() && !KothManager::isKothScheduledTimer()){
 						ScoreboardManager::hide($this->player);
-					} else {
+					}
+
+					if(KothManager::isKothGoingOn() || KothManager::isKothScheduledTimer()) {
 						if(Provider::getCustomPlayer($this->player)->getEntryManager()->get("kothspacing") != null){
 							Provider::getCustomPlayer($this->player)->getEntryManager()->get("kothspacing")->clear();
 						}

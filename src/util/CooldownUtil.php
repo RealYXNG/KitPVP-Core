@@ -7,6 +7,7 @@ use Crayder\Core\Main;
 use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\Provider;
 use Crayder\Core\scoreboard\ScoreboardEntry;
+use Crayder\StaffSys\managers\SPlayerManager;
 use pocketmine\player\Player;
 use Crayder\Core\tasks\cooldown\CooldownTask;
 
@@ -25,10 +26,12 @@ class CooldownUtil{
 			ScoreboardManager::show($player);
 		}
 
-		if(KothManager::isKothGoingOn() || KothManager::isKothScheduledTimer()){
-			$entry = new ScoreboardEntry(5, "    ");
-			Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry);
-			Provider::getCustomPlayer($player)->getScoreboard()->addEntry($entry);
+		if(count(Provider::getCustomPlayer($player)->getSBCooldown()->getCooldowns()) == 0 && !SPlayerManager::isInStaffMode($player)){
+			if(KothManager::isKothGoingOn() || KothManager::isKothScheduledTimer()){
+				$entry = new ScoreboardEntry(5, "    ");
+				Provider::getCustomPlayer($player)->getEntryManager()->add("kothspacing", $entry);
+				Provider::getCustomPlayer($player)->getScoreboard()->addEntry($entry);
+			}
 		}
 
 		if($timers){

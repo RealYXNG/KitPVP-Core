@@ -2,7 +2,11 @@
 
 namespace Crayder\Core\leaderboards;
 
+use Crayder\AreaProtector\UI\AreaManagerUI;
 use Crayder\Core\leaderboards\api\Leaderboard;
+use Crayder\Core\Main;
+use Crayder\Core\sql\LeaderboardsDAO;
+use pocketmine\entity\Location;
 
 class LeaderboardProvider{
 
@@ -11,8 +15,22 @@ class LeaderboardProvider{
 	 */
 	public static array $leaderboards = [];
 
-	public function __construct(array $leaderboards = []){
-		self::$leaderboards = $leaderboards;
+	public static function init(){
+		LeaderboardsDAO::getLeaderboards(function(array $rows){
+			foreach($rows as $row){
+				$name = $row["NAME"];
+				$x = $row["X"];
+				$y = $row["Y"];
+				$z = $row["Z"];
+				$world = $row["WORLD"];
+				$leaderboardType = $row["TYPE"];
+
+				$location = new Location($x, $y, $z, AreaManagerUI::getWorldByName($world), 0, 0);
+				LeaderboardManager::createLeaderboard($name, $leaderboardType, $location);
+			}
+
+			Main::getInstance()->getLogger()->info(count(self::$leaderboards) . " Leaderboard(s) Loaded!");
+		});
 	}
 
 	/*
@@ -49,6 +67,9 @@ class LeaderboardProvider{
 	 */
 	public static function remove(string $name) : void{
 		if(self::exists($name)){
+			$leaderboard = self::$leaderboards[$name];
+
+			$leaderboard->kill();
 			unset(self::$leaderboards[$name]);
 		}
 	}

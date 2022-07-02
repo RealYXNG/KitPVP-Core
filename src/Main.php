@@ -7,7 +7,6 @@ namespace Crayder\Core;
 use Crayder\Core\abilities\ArcherHandler;
 use Crayder\Core\abilities\EggedHandler;
 use Crayder\Core\commands\InfoCommand;
-use Crayder\Core\commands\scoreboard\ScoreboardCmd;
 use Crayder\Core\configs\SkillsConfig;
 use Crayder\Core\entities\BatEntity;
 use Crayder\Core\holograms\Hologram;
@@ -17,8 +16,8 @@ use Crayder\Core\classes\TankClass;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\listeners\PlayerKitListener;
 use Crayder\Core\listeners\PlayerSkillsListener;
+use Crayder\Core\sql\LeaderboardsDAO;
 use muqsit\invmenu\InvMenuHandler;
-use pocketmine\block\BlockFactory;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\EntityDataHelper as Helper;
 use pocketmine\entity\EntityFactory;
@@ -55,6 +54,7 @@ use Crayder\Core\commands\tokens\TokensCmd;
 use Crayder\Core\util\SkillsUtil;
 use Crayder\Core\sql\DBConnection;
 use Crayder\Core\commands\leaderboards\LBCreateCmd;
+use Crayder\Core\commands\leaderboards\LBDeleteCmd;
 use pocketmine\world\World;
 use poggit\libasynql\libasynql;
 
@@ -110,13 +110,19 @@ class Main extends PluginBase{
 		}, ['Hologram', 'minecraft:hologram'], EntityLegacyIds::BAT);
 
 		EntityFactory::getInstance()->register(Leaderboard::class, function(World $world, CompoundTag $nbt) : Leaderboard{
-			return new Leaderboard(Helper::parseLocation($nbt, $world), $nbt);
+			return new Leaderboard(Helper::parseLocation($nbt, $world), false, $nbt);
 		}, ['Hologram', 'minecraft:leaderboard'], EntityLegacyIds::BAT);
 
 		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity){
-			$entity->flagForDespawn();
-			$entity->despawnFromAll();
-			$entity->kill();
+			if($entity instanceof BatEntity || $entity instanceof Hologram) {
+				$entity->flagForDespawn();
+				$entity->despawnFromAll();
+				$entity->kill();
+			}
+
+			if($entity instanceof Hologram) {
+				$entity->reset();
+			}
 		}
 
 		self::$db = new DBConnection();
@@ -146,6 +152,7 @@ class Main extends PluginBase{
 		self::$instance->getServer()->getCommandMap()->register("Core", new SkillsCmd());
 
 		self::$instance->getServer()->getCommandMap()->register("Core", new LBCreateCmd());
+		self::$instance->getServer()->getCommandMap()->register("Core", new LBDeleteCmd());
 	}
 
 	private function registerListeners() : void{
@@ -202,6 +209,7 @@ class Main extends PluginBase{
 
 		PlayerDAO::init();
 		KothDAO::load();
+		LeaderboardsDAO::init();
 	}
 
 	public function onDisable() : void{
@@ -222,6 +230,8 @@ class Main extends PluginBase{
 
 			Provider::unload($player);
 		}
+
+		LeaderboardsDAO::save();
 
 		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity){
 			if($entity instanceof BatEntity || $entity instanceof Hologram){

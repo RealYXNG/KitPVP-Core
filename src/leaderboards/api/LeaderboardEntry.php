@@ -17,7 +17,7 @@ class LeaderboardEntry {
 
 	public function __construct(int $position, array $entryData){
 		$this->position = $position;
-		$this->value = implode(" - ", $entryData);
+		$this->value = $entryData[0] . "  §8-  §b" . $entryData[1];
 
 		$this->entryData = $entryData;
 	}

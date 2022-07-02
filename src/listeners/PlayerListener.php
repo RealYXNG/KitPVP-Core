@@ -8,6 +8,7 @@ use Crayder\Core\events\CooldownExpireEvent;
 use Crayder\Core\holograms\Hologram;
 use Crayder\Core\kits\KitFactory;
 use Crayder\Core\koth\KothManager;
+use Crayder\Core\leaderboards\api\Leaderboard;
 use Crayder\Core\managers\ScoreboardManager;
 use Crayder\Core\util\ClassUtil;
 use Crayder\Core\util\CooldownUtil;
@@ -74,8 +75,8 @@ class PlayerListener implements Listener{
 		}
 
 		if(!$event->getPlayer()->hasPlayedBefore()){
-			$path = Server::getInstance()->getDataPath() . "players/";
-			$playerNumber = count(glob($path . "/*")) + 1;
+			$path = Server::getInstance()->getDataPath() . "/players/";
+			$playerNumber = count(glob($path . "/*.dat")) + 1;
 
 			$event->setJoinMessage("§c" . $event->getPlayer()->getName() . " §6has Joined for the First Time! §c(§e#" . $playerNumber . "§c)");
 		}
@@ -156,7 +157,7 @@ class PlayerListener implements Listener{
 	}
 
 	public function onEntityDamage(EntityDamageEvent $event){
-		if($event->getEntity() instanceof Hologram || $event->getEntity() instanceof BatEntity){
+		if($event->getEntity() instanceof Hologram || $event->getEntity() instanceof BatEntity || $event->getEntity() instanceof Leaderboard){
 			$event->cancel();
 		}
 	}
