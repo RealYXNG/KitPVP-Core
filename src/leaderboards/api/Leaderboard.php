@@ -68,7 +68,7 @@ class Leaderboard extends Hologram{
 	/*
 	 * Used to update the order of entries according to the Scores
 	 */
-	private function __reorderEntries() :void{
+	public function __reorderEntries() :void{
 		$entries = [];
 
 		foreach($this->entries as $entry) {
