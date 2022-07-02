@@ -4,7 +4,7 @@ namespace Crayder\Core\leaderboards;
 
 use Crayder\Core\leaderboards\api\Leaderboard;
 
-class LeaderboardProvider {
+class LeaderboardProvider{
 
 	/*
 	 * Leaderboards
@@ -18,27 +18,39 @@ class LeaderboardProvider {
 	/*
 	 * Add Leaderboard to the Provider
 	 */
-	public function add(Leaderboard $leaderboard) :void{
+	public static function add(Leaderboard $leaderboard) : void{
 		self::$leaderboards[$leaderboard->getName()] = $leaderboard;
 	}
 
 	/*
 	 * Check if Leaderboard exists in the Provider
 	 */
-	public function exists(string $name) :bool{
+	public static function exists(string $name) : bool{
 		return isset(self::$leaderboards[$name]);
 	}
 
 	/*
-	 * Get Leaderboard from the Provider
-	 * Returns null if no Leaderboard is registered.
+	 * Get Leaderboards of Specific Type
 	 */
-	public function get(string $name) :Leaderboard|null{
-		if($this->exists($name)) {
-			return self::$leaderboards[$name];
+	public static function getLeaderboards(int $leaderboardType) :array{
+		$result = [];
+
+		foreach(self::$leaderboards as $leaderboard){
+			if($leaderboard->getLeaderboardType() == $leaderboardType) {
+				$result[] = $leaderboard;
+			}
 		}
 
-		return null;
+		return $result;
+	}
+
+	/*
+	 * Remove Leaderboard
+	 */
+	public static function remove(string $name) : void{
+		if(self::exists($name)){
+			unset(self::$leaderboards[$name]);
+		}
 	}
 
 }
