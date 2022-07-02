@@ -5,35 +5,33 @@ namespace Crayder\Core\leaderboards;
 use Crayder\Core\leaderboards\api\Leaderboard;
 use Crayder\Core\leaderboards\api\LeaderboardEntry;
 use pocketmine\entity\Location;
-use Crayder\Core\leaderboards\api\LeaderboardHeader;
 
 class LeaderboardManager{
 
-	public static function createLeaderboard(int $leaderboardType, string $leaderboardName, Location $location) {
-		$leaderboard = new Leaderboard($leaderboardName, $leaderboardType, [$location, null, null]);
+	public static function createLeaderboard(string $leaderboardName, int $leaderboardType, Location $location) {
+		$leaderboard = new Leaderboard($location, null, $leaderboardName, $leaderboardType);
 
 		switch($leaderboardType) {
 			case 0:
-				$leaderboardEntry = new LeaderboardHeader(0, "§3§lTOP KILLS", $leaderboard);
+				$leaderboard->addHeading("§3§lTOP KILLS");
 				break;
 			case 1:
-				$leaderboardEntry = new LeaderboardHeader(0, "§3§lTOP DEATHS", $leaderboard);
+				$leaderboard->addHeading( "§3§lTOP DEATHS");
 				break;
 			case 2:
-				$leaderboardEntry = new LeaderboardHeader(0, "§3§lTOP KDR", $leaderboard);
+				$leaderboard->addHeading("§3§lTOP KDR");
 				break;
 			case 3:
-				$leaderboardEntry = new LeaderboardHeader(0, "§3§lTOP XP", $leaderboard);
+				$leaderboard->addHeading( "§3§lTOP XP");
 				break;
 			case 4:
-				$leaderboardEntry = new LeaderboardHeader(0, "§3§lTOP LEVELS", $leaderboard);
+				$leaderboard->addHeading( "§3§lTOP LEVELS");
 				break;
 			case 5:
-				$leaderboardEntry = new LeaderboardHeader(0, "§3§lTOP COINS", $leaderboard);
+				$leaderboard->addHeading( "§3§lTOP COINS");
 				break;
 		}
 
-		$leaderboard->addEntry($leaderboardEntry);
 		LeaderboardProvider::add($leaderboard);
 	}
 
@@ -45,10 +43,10 @@ class LeaderboardManager{
 		rsort($scores);
 		$scores = array_slice($scores, 0, 10);
 
-		$leaderboard->removeAllEntries();
+		$leaderboard->reset();
 
 		foreach($scores as $holder => $score) {
-			$entry = new LeaderboardEntry(0, [$holder, $score], $leaderboard);
+			$entry = new LeaderboardEntry($leaderboard->getNextPosition(), [$holder, $score]);
 			$leaderboard->addEntry($entry);
 		}
 	}

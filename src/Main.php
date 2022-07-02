@@ -11,6 +11,7 @@ use Crayder\Core\commands\scoreboard\ScoreboardCmd;
 use Crayder\Core\configs\SkillsConfig;
 use Crayder\Core\entities\BatEntity;
 use Crayder\Core\holograms\Hologram;
+use Crayder\Core\leaderboards\api\Leaderboard;
 use Crayder\Core\listeners\PlayerClassListener;
 use Crayder\Core\classes\TankClass;
 use Crayder\Core\configs\ConfigVars;
@@ -53,14 +54,15 @@ use Crayder\Core\commands\tokens\MyTokensCmd;
 use Crayder\Core\commands\tokens\TokensCmd;
 use Crayder\Core\util\SkillsUtil;
 use Crayder\Core\sql\DBConnection;
+use Crayder\Core\commands\leaderboards\LBCreateCmd;
 use pocketmine\world\World;
 use poggit\libasynql\libasynql;
 
-class Main extends PluginBase {
+class Main extends PluginBase{
 
 	private static Main $instance;
 	private static $database;
-	public static String $prefix;
+	public static string $prefix;
 
 	public static $db;
 
@@ -107,47 +109,46 @@ class Main extends PluginBase {
 			return new Hologram(Helper::parseLocation($nbt, $world), $nbt);
 		}, ['Hologram', 'minecraft:hologram'], EntityLegacyIds::BAT);
 
-		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity) {
-			if($entity instanceof BatEntity || $entity instanceof Hologram) {
-				$entity->flagForDespawn();
-				$entity->despawnFromAll();
-				$entity->kill();
-			}
+		EntityFactory::getInstance()->register(Leaderboard::class, function(World $world, CompoundTag $nbt) : Leaderboard{
+			return new Leaderboard(Helper::parseLocation($nbt, $world), $nbt);
+		}, ['Hologram', 'minecraft:leaderboard'], EntityLegacyIds::BAT);
 
-			if($entity instanceof Hologram) {
-				$entity->reset();
-			}
+		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity){
+			$entity->flagForDespawn();
+			$entity->despawnFromAll();
+			$entity->kill();
 		}
 
 		self::$db = new DBConnection();
 
-		if(!self::$db) {
+		if(!self::$db){
 			self::$db->lastErrorMsg();
-		} else{
+		}else{
 			$this->getLogger()->info("SQLITE Database Hooked");
 		}
 	}
 
-	private function registerCommands() :void{
+	private function registerCommands() : void{
 		// Unregister commands
 		self::$instance->getServer()->getCommandMap()->unregister(self::$instance->getServer()->getCommandMap()->getCommand("say"));
 
 		// Register commands
-		self::$instance->getServer()->getCommandMap()->register("say", new SayCommand());
-		self::$instance->getServer()->getCommandMap()->register("kit", new KitCommand());
-		self::$instance->getServer()->getCommandMap()->register("class", new ClassCommand());
-		self::$instance->getServer()->getCommandMap()->register("info", new InfoCommand());
-		//self::$instance->getServer()->getCommandMap()->register("scoreboard", new ScoreboardCmd());
+		self::$instance->getServer()->getCommandMap()->register("Core", new SayCommand());
+		self::$instance->getServer()->getCommandMap()->register("Core", new KitCommand());
+		self::$instance->getServer()->getCommandMap()->register("Core", new ClassCommand());
+		self::$instance->getServer()->getCommandMap()->register("Core", new InfoCommand());
 
-		self::$instance->getServer()->getCommandMap()->register("koth", new KothCmd());
+		self::$instance->getServer()->getCommandMap()->register("Core", new KothCmd());
 
-		self::$instance->getServer()->getCommandMap()->register("tokens", new TokensCmd());
-		self::$instance->getServer()->getCommandMap()->register("mytokens", new MyTokensCmd());
+		self::$instance->getServer()->getCommandMap()->register("Core", new TokensCmd());
+		self::$instance->getServer()->getCommandMap()->register("Core", new MyTokensCmd());
 
-		self::$instance->getServer()->getCommandMap()->register("skills", new SkillsCmd());
+		self::$instance->getServer()->getCommandMap()->register("Core", new SkillsCmd());
+
+		self::$instance->getServer()->getCommandMap()->register("Core", new LBCreateCmd());
 	}
 
-	private function registerListeners() :void{
+	private function registerListeners() : void{
 		self::$instance->getServer()->getPluginManager()->registerEvents(new PlayerListener(), $this);
 		self::$instance->getServer()->getPluginManager()->registerEvents(new PlayerKitListener(), $this);
 		self::$instance->getServer()->getPluginManager()->registerEvents(new PlayerClassListener(), $this);
@@ -163,11 +164,11 @@ class Main extends PluginBase {
 		self::$instance->getServer()->getPluginManager()->registerEvents(new PlayerSkillsListener(), $this);
 	}
 
-	private function loadConfigs() :void{
+	private function loadConfigs() : void{
 		// Config & SQL Database Init
 		@mkdir($this->getDataFolder());
 
-		$configs = array("config.yml", "class.yml", "kits.yml", "abilities.yml", "rules.yml", "killstreaks.yml", "koth.yml", "skills.yml");
+		$configs = ["config.yml", "class.yml", "kits.yml", "abilities.yml", "rules.yml", "killstreaks.yml", "koth.yml", "skills.yml"];
 
 		foreach($configs as $config){
 			if(!file_exists($this->getDataFolder() . $config)){
@@ -194,7 +195,7 @@ class Main extends PluginBase {
 		$this->saveResource("sqlite.sql");
 	}
 
-	private function loadSQL() :void{
+	private function loadSQL() : void{
 		self::$database = libasynql::create($this, $this->getConfig()->get("database"), [
 			"sqlite" => "sqlite.sql"
 		]);
@@ -205,14 +206,14 @@ class Main extends PluginBase {
 
 	public function onDisable() : void{
 		// Unload Player Players on Crash / Shutdown
-		foreach(self::$instance->getServer()->getOnlinePlayers() as $player) {
+		foreach(self::$instance->getServer()->getOnlinePlayers() as $player){
 			$expCooldown = Provider::getCustomPlayer($player)->getExpCooldown();
 
 			if($expCooldown->check()){
 				$expCooldown->remove();
 			}
 
-			if(isset(ArcherHandler::$players[$player->getUniqueId()->toString()])) {
+			if(isset(ArcherHandler::$players[$player->getUniqueId()->toString()])){
 				$taskHandler = ArcherHandler::$players[$player->getUniqueId()->toString()];
 				$taskHandler->cancel();
 
@@ -222,14 +223,14 @@ class Main extends PluginBase {
 			Provider::unload($player);
 		}
 
-		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity) {
-			if($entity instanceof BatEntity || $entity instanceof Hologram) {
+		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity){
+			if($entity instanceof BatEntity || $entity instanceof Hologram){
 				$entity->flagForDespawn();
 				$entity->despawnFromAll();
 				$entity->kill();
 			}
 
-			if($entity instanceof Hologram) {
+			if($entity instanceof Hologram){
 				$entity->reset();
 			}
 		}
@@ -244,11 +245,11 @@ class Main extends PluginBase {
 		if(isset(self::$database)) self::$database->close();
 	}
 
-	public static function getInstance() :Main {
+	public static function getInstance() : Main{
 		return self::$instance;
 	}
 
-	public static function getDatabase() {
+	public static function getDatabase(){
 		return self::$database;
 	}
 

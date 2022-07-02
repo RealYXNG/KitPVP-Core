@@ -2,9 +2,7 @@
 
 namespace Crayder\Core\leaderboards\api;
 
-use Crayder\Core\holograms\HologramEntry;
-
-class LeaderboardEntry extends HologramEntry{
+class LeaderboardEntry {
 
 	/*
 	 * Necessarily contains the following values in the array
@@ -13,19 +11,15 @@ class LeaderboardEntry extends HologramEntry{
 	 */
 	private array $entryData;
 
-	private Leaderboard $leaderboard;
+	private int $position;
 
-	public function __construct(int $position, array $entryData, Leaderboard $leaderboard){
-		$value = implode(" - ", $entryData);
+	private string $value;
+
+	public function __construct(int $position, array $entryData){
+		$this->position = $position;
+		$this->value = implode(" - ", $entryData);
+
 		$this->entryData = $entryData;
-		$this->leaderboard = $leaderboard;
-
-		parent::__construct($position, $value, $leaderboard);
-	}
-
-	public function setScore(int $score) :void{
-		$this->entryData[1] = $score;
-		$this->__updateScores();
 	}
 
 	public function getScore() :int{
@@ -36,14 +30,18 @@ class LeaderboardEntry extends HologramEntry{
 		return $this->entryData[0];
 	}
 
-	/*
-	 * Magic Functions
+	/**
+	 * @return int
 	 */
-	private function __updateScores() :void{
-		$value = implode(" - ", $this->entryData);
-		$this->setValue($value);
+	public function getPosition() : int{
+		return $this->position;
+	}
 
-		$this->leaderboard->__reorderEntries();
+	/**
+	 * @return string
+	 */
+	public function getValue() : string{
+		return $this->value;
 	}
 
 }
