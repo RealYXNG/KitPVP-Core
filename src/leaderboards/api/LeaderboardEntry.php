@@ -6,39 +6,36 @@ use Crayder\Core\holograms\HologramEntry;
 
 class LeaderboardEntry extends HologramEntry{
 
-	private array $tuples;
+	/*
+	 * Necessarily contains the following values in the array
+	 *  * - [0] has the name of the Player or the Holder
+	 *  * - [1] has the Score
+	 */
+	private array $entryData;
 
-	public function __construct(int $position, array $tuples, Leaderboard $leaderboard){
-		$value = implode(" - ", $tuples);
-		$this->tuples = $tuples;
+	public function __construct(int $position, array $entryData, Leaderboard $leaderboard){
+		$value = implode(" - ", $entryData);
+		$this->entryData = $entryData;
 
 		parent::__construct($position, $value, $leaderboard);
 	}
 
-	public function addTuple(int $position, string $tuple) :void{
-		$this->tuples[$position] = $tuple;
-		$this->updateTuples();
+	public function setScore(int $score) :void{
+		$this->entryData[1] = $score;
+		$this->updateScores();
 	}
 
-	public function tupleExists(int $position) :bool{
-		return isset($this->tuples[$position]);
+	public function getScore() :int{
+		return $this->entryData[1];
 	}
 
-	public function removeTuple(int $position) :void{
-		if($this->tupleExists($position)) {
-			unset($this->tuples[$position]);
-
-			$array = $this->tuples;
-			ksort($array, SORT_NUMERIC);
-			$this->tuples = array_values($array);
-
-			$this->updateTuples();
-		}
-	}
-
-	public function updateTuples() :void{
-		$value = implode(" - ", $this->tuples);
+	public function updateScores() :void{
+		$value = implode(" - ", $this->entryData);
 		$this->setValue($value);
+	}
+
+	public function getHolder() :string{
+		return $this->entryData[0];
 	}
 
 }

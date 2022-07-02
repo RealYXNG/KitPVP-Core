@@ -66,13 +66,24 @@ class Leaderboard extends Hologram{
 	 */
 
 	/*
-	 * Used to re-assign the array keys without any gaps
+	 * Used to update the order of entries according to the Scores
 	 */
 	private function __reorderEntries() :void{
-		$array = $this->entries;
-		ksort($array, SORT_NUMERIC);
+		$entries = [];
 
-		$this->entries = array_values($array);
+		foreach($this->entries as $entry) {
+			$entries[serialize($entry)] = $entry->getScore();
+		}
+
+		asort($entries);
+
+		$result = [];
+		foreach($entries as $entry => $score) {
+			$result[] = unserialize($entry);
+		}
+
+		$this->entries = $result;
+
 		$this->__updateEntryPositions();
 	}
 
