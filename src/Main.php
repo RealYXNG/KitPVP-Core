@@ -16,6 +16,7 @@ use Crayder\Core\classes\TankClass;
 use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\listeners\PlayerKitListener;
 use Crayder\Core\listeners\PlayerSkillsListener;
+use Crayder\Core\listeners\WorldListener;
 use Crayder\Core\sql\LeaderboardsDAO;
 use Crayder\Core\commands\KillAllEntitiesCmd;
 use muqsit\invmenu\InvMenuHandler;
@@ -162,6 +163,8 @@ class Main extends PluginBase{
 		self::$instance->getServer()->getPluginManager()->registerEvents(new KothListener(), $this);
 
 		self::$instance->getServer()->getPluginManager()->registerEvents(new PlayerSkillsListener(), $this);
+
+		self::$instance->getServer()->getPluginManager()->registerEvents(new WorldListener(), $this);
 	}
 
 	private function loadConfigs() : void{
@@ -234,9 +237,6 @@ class Main extends PluginBase{
 
 		// SQL De-Initialize
 		if(isset(self::$database)) self::$database->close();
-
-		Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), "killentities");
-		Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), "killentities");
 	}
 
 	public static function getInstance() : Main{
