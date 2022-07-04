@@ -31,6 +31,7 @@ class BatEntity extends Entity{
 		}
 
 		parent::__construct($location, $nbt);
+		$this->setCanSaveWithChunk(false);
 	}
 
 	protected function getInitialSizeInfo() : EntitySizeInfo{
