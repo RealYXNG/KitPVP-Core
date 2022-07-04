@@ -9,7 +9,7 @@ use pocketmine\entity\Location;
 class LeaderboardManager{
 
 	public static function createLeaderboard(string $leaderboardName, int $leaderboardType, Location $location) {
-		$leaderboard = new Leaderboard($location, true, null, $leaderboardName, $leaderboardType);
+		$leaderboard = new Leaderboard($location, null, $leaderboardName, $leaderboardType);
 		LeaderboardProvider::add($leaderboard);
 
 		$hookType = LBHookProvider::getHookTypeFromLBType($leaderboardType);

@@ -20,6 +20,7 @@ class Hologram extends Entity{
 
 		$this->setScale(0.00001);
 		$this->setNameTagAlwaysVisible();
+		$this->setCanSaveWithChunk(false);
 	}
 
 	public function addEntry(HologramEntry $entry) :void{

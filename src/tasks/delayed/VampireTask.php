@@ -27,13 +27,13 @@ class VampireTask extends Task{
 			$batEntity2 = new BatEntity($player, $vec2);
 			$batEntity3 = new BatEntity($player, $vec3);
 
-			array_push($batEntities, $batEntity1);
-			array_push($batEntities, $batEntity2);
-			array_push($batEntities, $batEntity3);
-
 			$batEntity1->startMotion();
 			$batEntity2->startMotion();
 			$batEntity3->startMotion();
+
+			$batEntities[] = $batEntity1;
+			$batEntities[] = $batEntity2;
+			$batEntities[] = $batEntity3;
 		}
 
 		$this->batEntities = $batEntities;

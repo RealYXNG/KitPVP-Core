@@ -75,7 +75,6 @@ class VampireHandler implements Listener{
 					$motFlat = $player->getDirectionPlane()->normalize()->multiply(10 * 4.75 / 20);
 					$entity->setMotion(new Vector3($motFlat->getX(), 2.85, $motFlat->getY()));
 
-
 					Main::getInstance()->getScheduler()->scheduleDelayedTask(new VampireTask($entity), 10);
 					ParticleUtil::flame($entity->getLocation());
 
@@ -128,7 +127,6 @@ class VampireHandler implements Listener{
 			// Assume the cause is ender pearl
 			if(isset(self::$players[$entity->getUniqueId()->toString()])){
 				foreach(self::$players[$entity->getUniqueId()->toString()] as $batEntity){
-					$batEntity->despawnFromAll();
 					$batEntity->kill();
 				}
 

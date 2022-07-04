@@ -110,20 +110,8 @@ class Main extends PluginBase{
 		}, ['Hologram', 'minecraft:hologram'], EntityLegacyIds::BAT);
 
 		EntityFactory::getInstance()->register(Leaderboard::class, function(World $world, CompoundTag $nbt) : Leaderboard{
-			return new Leaderboard(Helper::parseLocation($nbt, $world), false, $nbt);
+			return new Leaderboard(Helper::parseLocation($nbt, $world), $nbt);
 		}, ['Hologram', 'minecraft:leaderboard'], EntityLegacyIds::BAT);
-
-		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity){
-			if($entity instanceof BatEntity || $entity instanceof Hologram) {
-				$entity->flagForDespawn();
-				$entity->despawnFromAll();
-				$entity->kill();
-			}
-
-			if($entity instanceof Hologram) {
-				$entity->reset();
-			}
-		}
 
 		self::$db = new DBConnection();
 
@@ -232,18 +220,6 @@ class Main extends PluginBase{
 		}
 
 		LeaderboardsDAO::save();
-
-		foreach(Main::getInstance()->getServer()->getWorldManager()->getDefaultWorld()->getEntities() as $entity){
-			if($entity instanceof BatEntity || $entity instanceof Hologram){
-				$entity->flagForDespawn();
-				$entity->despawnFromAll();
-				$entity->kill();
-			}
-
-			if($entity instanceof Hologram){
-				$entity->reset();
-			}
-		}
 
 		foreach(EggedHandler::$cobwebs as $taskHandler){
 			$taskHandler->run();
