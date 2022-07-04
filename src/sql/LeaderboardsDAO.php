@@ -54,9 +54,6 @@ EOF;
 			$stmt->bindValue(":world", $world);
 
 			$stmt->execute();
-
-			$leaderboard->setNameTag(" ");
-			$leaderboard->kill();
 		}
 
 		Main::getInstance()->getLogger()->info("Saved " . count($leaderboards) . " Leaderboards!");

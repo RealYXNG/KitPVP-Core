@@ -17,7 +17,9 @@ use Crayder\Core\configs\ConfigVars;
 use Crayder\Core\listeners\PlayerKitListener;
 use Crayder\Core\listeners\PlayerSkillsListener;
 use Crayder\Core\sql\LeaderboardsDAO;
+use Crayder\Core\commands\KillAllEntitiesCmd;
 use muqsit\invmenu\InvMenuHandler;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\data\bedrock\EntityLegacyIds;
 use pocketmine\entity\EntityDataHelper as Helper;
 use pocketmine\entity\EntityFactory;
@@ -55,6 +57,7 @@ use Crayder\Core\util\SkillsUtil;
 use Crayder\Core\sql\DBConnection;
 use Crayder\Core\commands\leaderboards\LBCreateCmd;
 use Crayder\Core\commands\leaderboards\LBDeleteCmd;
+use pocketmine\Server;
 use pocketmine\world\World;
 use poggit\libasynql\libasynql;
 
@@ -141,6 +144,8 @@ class Main extends PluginBase{
 
 		self::$instance->getServer()->getCommandMap()->register("Core", new LBCreateCmd());
 		self::$instance->getServer()->getCommandMap()->register("Core", new LBDeleteCmd());
+
+		self::$instance->getServer()->getCommandMap()->register("Core", new KillAllEntitiesCmd());
 	}
 
 	private function registerListeners() : void{
@@ -229,6 +234,9 @@ class Main extends PluginBase{
 
 		// SQL De-Initialize
 		if(isset(self::$database)) self::$database->close();
+
+		Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), "killentities");
+		Server::getInstance()->dispatchCommand(new ConsoleCommandSender(Server::getInstance(), Server::getInstance()->getLanguage()), "killentities");
 	}
 
 	public static function getInstance() : Main{
